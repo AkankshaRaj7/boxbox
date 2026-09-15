@@ -14,10 +14,10 @@ pecking order and game are still fictional sample data, and the page says so.
 
 | Check | Result |
 |---|---|
-| `npm test` | 60 tests pass (adds schedule logic, calendar and last-winner parsing) |
+| `npm test` | 90 tests pass (adds circuit data coverage, laps and projection) |
 | `npm run typecheck` | Clean |
 | `npm run lint` | Clean |
-| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1 and Baku (last winner VER 2025); no overflow at 375px; `/design` renders |
+| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1 and Baku (real outline, 6.003 km, 51 laps, last winner VER 2025); no overflow at 375px; `/design` renders |
 
 ## What exists
 
@@ -92,13 +92,32 @@ pecking order and game are still fictional sample data, and the page says so.
     then the countdown moves on. A long red flag can outlast that.
   - The circuit card follows the first weekend whose race hasn't finished.
     Last winner comes from `/circuits/{id}/results/1/`; new venues show "—".
-  - Jolpica has no length, laps, DRS zones or layouts, so those fields were
-    dropped. `TrackOutline` is still the sample shape, marked illustrative
-    (visible caption + `illustrative` aria-label). Real outlines need another
-    source (e.g. FastF1 position data).
+  - Jolpica has no length, laps or layouts. See "Circuit layouts" below.
   - Race day is shown in UTC because server-rendered dates can't know the
     viewer's timezone; the countdown already shows local time.
   - Sample `NEXT_SESSION`/`CIRCUIT` stay for `/design` only.
+- **Circuit layouts (Phase 1):**
+  - Layouts and lengths come from [bacinger/f1-circuits](https://github.com/bacinger/f1-circuits)
+    (MIT). `npm run data:circuits` (`scripts/build-circuits.mjs`) downloads it
+    and writes `data/circuits.json` plus `data/circuits.LICENSE.md` (keep the
+    licence file; MIT requires the notice). Output is committed; the site makes
+    no request for it. Rerun when a new venue joins the calendar.
+  - Tracks are matched to Jolpica `circuitId` by nearest location (all 40 within
+    1.3 km). `lib/circuits.test.ts` fails if any 2026 calendar circuit is missing.
+  - `lib/circuits.ts` projects [lon, lat] to a north-up SVG path (equirectangular
+    around the mean latitude) and computes **scheduled** laps: fewest laps over
+    305 km, 260 km at Monaco. Matches real counts for Albert Park, Monaco, Baku,
+    Singapore and COTA. Jolpica's winner laps weren't used: shortened races
+    (e.g. Canada 2026 shows 68, not 70) would mislead.
+  - No start/finish marker on real layouts: the source doesn't say where the
+    line is (track first points are 100 m–1 km from its own location points).
+    `Outline.start` is optional; only the `/design` sample sets it.
+  - **DRS no longer exists** (2026 rules: active aero straight mode + overtake
+    mode), so DRS zones were removed everywhere, not replaced.
+  - Rejected sources: MultiViewer's circuit API (no published terms for public
+    sites; returned 2022 data for 2026) and OpenF1 `circuit_image`
+    (formula1.com assets).
+  - The card credits "f1-circuits (MIT)" with a link.
 - **Mobile overflow fix:** at 375px the home page's second grid row was 388px
   wide (pre-existing, not caused by the standings). The implicit grid track
   grew to the Pecking order column's min-content, because `PowerRankRow`'s
@@ -110,8 +129,8 @@ pecking order and game are still fictional sample data, and the page says so.
 ## Next steps — Phase 1 (MVP)
 
 1. ~~Real standings~~ — done.
-2. ~~Real calendar + next session countdown + circuit card~~ — done. Possible
-   follow-ups: a full calendar page, real circuit outlines.
+2. ~~Real calendar + next session countdown + circuit card~~ — done, including
+   real layouts, length and scheduled laps. Possible follow-up: a full calendar page.
 3. **News wire:** RSS ingest (headline, publisher description, source link),
    duplicate grouping and driver/team tagging, done in code — no paid AI.
 4. **Driver and team pages.**

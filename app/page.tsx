@@ -9,6 +9,7 @@ import { SectorChip } from "@/components/f1/SectorChip";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot } from "@/components/f1/TyreDot";
+import { circuitInfo } from "@/lib/circuits";
 import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
 import {
   BRIEFING,
@@ -47,11 +48,12 @@ async function loadSchedule() {
 
 type Schedule = Awaited<ReturnType<typeof loadSchedule>>;
 
-/** This weekend's circuit. The outline is illustrative until real layouts are ingested. */
+/** This weekend's circuit: layout and length from f1-circuits, the rest from Jolpica. */
 function CircuitCard({ schedule, className }: { schedule: Schedule; className: string }) {
   const weekend = schedule?.weekend;
   const lastWinner = schedule?.lastWinner;
   const race = weekend?.sessions.find((s) => s.kind === "race");
+  const circuit = weekend ? circuitInfo(weekend.circuitId) : null;
 
   return (
     <Panel className={`p-4 ${className}`} aria-labelledby="circuit-title">
@@ -62,12 +64,13 @@ function CircuitCard({ schedule, className }: { schedule: Schedule; className: s
           <p className="text-sm text-fg-dim">
             {weekend.locality}, {weekend.country}
           </p>
-          <TrackOutline name={weekend.circuitName} illustrative className="mt-2" />
-          <p className="text-xs text-fg-dim">Outline is illustrative, not the real layout.</p>
+          {circuit && <TrackOutline name={weekend.circuitName} outline={circuit.outline} className="mt-3" />}
           <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
             {[
               ["Round", `R${weekend.round}`],
               ["Format", weekend.sessions.some((s) => s.kind === "sprint") ? "Sprint" : "Standard"],
+              ["Length", circuit ? `${circuit.lengthKm.toFixed(3)} km` : "—"],
+              ["Laps", circuit ? String(circuit.laps) : "—"],
               ["Race (UTC)", race ? raceDay.format(Date.parse(race.startsAt)) : "TBC"],
               ["Last winner", lastWinner ? `${lastWinner.code} ${lastWinner.season}` : "—"],
             ].map(([label, value]) => (
@@ -77,6 +80,20 @@ function CircuitCard({ schedule, className }: { schedule: Schedule; className: s
               </div>
             ))}
           </dl>
+          {circuit && (
+            <p className="mt-3 text-xs text-fg-dim">
+              Layout and length:{" "}
+              <a
+                href="https://github.com/bacinger/f1-circuits"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-fg"
+              >
+                f1-circuits
+              </a>{" "}
+              (MIT).
+            </p>
+          )}
         </>
       ) : (
         <p className="text-sm text-fg-dim">

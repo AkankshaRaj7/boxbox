@@ -5,6 +5,7 @@
  * never be mistaken for real standings or real transfer news. Phase 1 replaces
  * this module with data ingested from Jolpica-F1, OpenF1 and RSS feeds.
  */
+import type { Outline } from "@/lib/circuits";
 import type { RumorStatus } from "@/lib/credibility";
 import type { StandingRow } from "@/lib/standings";
 import { nextSaturdayAt } from "@/lib/time";
@@ -62,12 +63,14 @@ export const NEXT_SESSION = {
   startsAt: nextSaturdayAt(new Date(), 15).toISOString(),
 };
 
-export const CIRCUIT = {
+/** A fictional circuit outline for the /design style guide. */
+export const CIRCUIT: { name: string; outline: Outline } = {
   name: "Sample Street Circuit",
-  lengthKm: 5.1,
-  laps: 58,
-  drsZones: 2,
-  lastWinner: "ALV",
+  outline: {
+    d: "M40 160 L250 160 Q300 160 300 115 L300 85 Q300 50 265 50 L205 50 Q180 50 168 72 L152 102 Q140 122 112 116 L72 106 Q40 100 40 132 Z",
+    viewBox: "20 30 300 150",
+    start: { x: 154, y: 160 },
+  },
 };
 
 export const BRIEFING = [

@@ -1,54 +1,48 @@
-/** Outline of the fictional sample circuit, until real layouts are ingested. */
-const TRACK =
-  "M40 160 L250 160 Q300 160 300 115 L300 85 Q300 50 265 50 L205 50 Q180 50 168 72 L152 102 Q140 122 112 116 L72 106 Q40 100 40 132 Z";
-
-/** DRS zones on the sample circuit: the main straight and the back straight. */
-const DRS_ZONES = ["M70 160 L240 160", "M300 112 L300 88"];
+import type { Outline } from "@/lib/circuits";
 
 /**
- * Circuit outline with DRS zones in green and a chequered start/finish line.
- * Pass `illustrative` when the sample layout stands in for a real circuit, so
- * it is never announced as that circuit's actual layout.
+ * Circuit outline, with a chequered start/finish marker when the outline knows
+ * where the line is. Real layouts come from `circuitInfo` in lib/circuits.ts.
+ * Strokes keep their on-screen width whatever the outline's scale.
  */
-export function TrackOutline({
-  name,
-  illustrative = false,
-  className = "",
-}: {
-  name: string;
-  illustrative?: boolean;
-  className?: string;
-}) {
+export function TrackOutline({ name, outline, className = "" }: { name: string; outline: Outline; className?: string }) {
+  const { d, viewBox, start } = outline;
+  const cell = Number(viewBox.split(" ")[2]) / 60;
+
   return (
-    <svg
-      viewBox="20 30 300 150"
-      className={`w-full ${className}`}
-      role="img"
-      aria-label={
-        illustrative
-          ? `Illustrative circuit outline, not the real ${name} layout`
-          : `${name} layout with DRS zones marked in green`
-      }
-    >
-      <path d={TRACK} fill="none" className="stroke-line" strokeWidth="12" strokeLinejoin="round" />
-      <path d={TRACK} fill="none" className="stroke-fg" strokeWidth="4" strokeLinejoin="round" />
-      {DRS_ZONES.map((d) => (
-        <path key={d} d={d} fill="none" className="stroke-flag-green" strokeWidth="4" strokeLinecap="round" />
-      ))}
-      <g transform="translate(150 152)">
-        {[0, 1, 2, 3].map((row) =>
-          [0, 1].map((col) => (
-            <rect
-              key={`${row}-${col}`}
-              x={col * 4}
-              y={row * 4}
-              width="4"
-              height="4"
-              className={(row + col) % 2 === 0 ? "fill-fg" : "fill-asphalt"}
-            />
-          )),
-        )}
-      </g>
+    <svg viewBox={viewBox} className={`w-full ${className}`} role="img" aria-label={`${name} layout`}>
+      <path
+        d={d}
+        fill="none"
+        className="stroke-line"
+        strokeWidth="12"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+      <path
+        d={d}
+        fill="none"
+        className="stroke-fg"
+        strokeWidth="4"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+      {start && (
+        <g transform={`translate(${start.x - cell} ${start.y - cell})`}>
+          {[0, 1].map((row) =>
+            [0, 1].map((col) => (
+              <rect
+                key={`${row}-${col}`}
+                x={col * cell}
+                y={row * cell}
+                width={cell}
+                height={cell}
+                className={(row + col) % 2 === 0 ? "fill-fg" : "fill-asphalt"}
+              />
+            )),
+          )}
+        </g>
+      )}
     </svg>
   );
 }

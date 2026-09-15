@@ -245,7 +245,7 @@ export default function DesignPage() {
           </Specimen>
           <Specimen label="TrackOutline">
             <Panel as="div" className="p-4">
-              <TrackOutline name={CIRCUIT.name} />
+              <TrackOutline name={CIRCUIT.name} outline={CIRCUIT.outline} />
             </Panel>
           </Specimen>
           <Specimen label="SectorChip · TyreDot">
