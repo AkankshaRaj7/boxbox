@@ -43,8 +43,8 @@ _Last updated: 2026-09-15 — end of Phase 0._
   numbers, labelled on the page, so the mockup can never pass as real standings or
   real transfer news. Phase 1 replaces `lib/sample-data.ts` piece by piece.
 - **Zero cost** — no paid APIs, no paid LLM, free tiers only. See CLAUDE.md.
-- **GitHub repo will be public** (unlimited free Actions minutes), on the user's
-  `AkankshaRaj7` account. Not created yet.
+- **GitHub repo is public** (unlimited free Actions minutes):
+  https://github.com/AkankshaRaj7/boxbox — `main` tracks `origin/main`.
 - **Git identity is repo-local:** `akanksharaj <akanksharajp@gmail.com>`.
 - **Port 4747**, isolated from the tutorAI project on the same machine.
 - **Deviations from plan.md:**
