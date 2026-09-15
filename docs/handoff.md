@@ -5,6 +5,26 @@ and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
 _Last updated: 2026-09-15 — Phase 1, steps 1–3 (standings, calendar + countdown, news wire) done; team colours tweaked and the lights-out intro rebuilt with sound._
 
+## Start here (next session)
+
+- `main` is clean and pushed; the last feature commit is `850c28d` (intro, car,
+  sound, team colours).
+- **Next task: step 4, driver and team pages** (see "Next steps"). Small
+  follow-ups are listed under step 3.
+- Before coding: start the dev server with the Browser pane's `boxbox` config
+  (port 4747), then confirm `npm test` (134), `npm run typecheck` and
+  `npm run lint` pass.
+- Working with the owner: finish and verify a change, then **ask before
+  committing and pushing**; for look/sound/feel decisions, offer options with a
+  recommendation. They hold the site to a real-F1 standard of quality.
+- Not in the repo: the original 40 s car recording
+  (`~/Downloads/freesound_community-f1-car-passing-66782.mp3`, needed only to
+  re-cut the sound). This session's scratch scripts (news similarity dry run,
+  component → PNG renders) were temporary; their recipes are described below.
+- This file is long; "Decisions made so far" is the reference for *why* things
+  are built the way they are. Skim it before changing standings, calendar,
+  circuits, news or the intro.
+
 ## Status
 
 **Phase 0 (setup + design system) is done. Phase 1 is under way:** the home
@@ -26,7 +46,8 @@ order and game are still fictional sample data, and the page says so.
   framer-motion · lucide-react · Vitest. Node 20 (`.nvmrc`).
 - **`app/globals.css`** — all design tokens (`@theme`) and shape utilities
   (`headline`, `slant`/`unslant`, `pit-board`, `carbon-weave`, `kerb-stripe`,
-  `chequered`, `live-pulse`), plus the CSS lights-out intro and page wipe.
+  `chequered`, `live-pulse`), plus the lights-out overlay, intro car and
+  tyre-mark styles, and the page wipe.
 - **`app/page.tsx`** — Paddock home: real standings (Drivers/Constructors tabs,
   season + round label), real next-session countdown, circuit card (real
   outline, length, scheduled laps, round, format, race day in UTC, last
@@ -41,7 +62,7 @@ order and game are still fictional sample data, and the page says so.
 - **`components/f1/`** — the F1 UI kit: `TimingTower`, `StandingsPanel`,
   `PitBoardCountdown`, `RadioCard`, `ShiftLightMeter`, `RumorCard`, `SectorChip`,
   `TyreDot`, `PowerRankRow`, `SeatBoard`, `TelemetryChart`, `PredictionSlip`,
-  `StreakFlame`/`EnamelPin`, `TrackOutline`, `LightsOut`, `Wordmark`, header,
+  `StreakFlame`/`EnamelPin`, `TrackOutline`, `LightsOut` (intro), `IntroCar`, `Wordmark`, header,
   footer (with the unofficial-site disclaimer) and mobile `BottomNav`.
 - **`lib/`** — `color.ts` (`teamStyle`, AA-readable team text), `credibility.ts`
   (rumor status → shift lights), `time.ts` (countdown), `use-clock.ts`,
@@ -49,7 +70,9 @@ order and game are still fictional sample data, and the page says so.
   kinds, typical lengths, `upcomingSessions`/`nextSession`/`currentWeekend`),
   `jolpica.ts` (fetch + pure parsers for standings, calendar and a circuit's
   last winner), `teams.ts` (2026 team codes, short names and colours keyed by
-  Jolpica `constructorId`) and `sample-data.ts`.
+  Jolpica `constructorId`), `circuits.ts` (layouts, length, scheduled laps),
+  `lights.ts` (intro timing, car pick, car-pass keyframes), `intro-audio.ts`
+  (beeps and the car recording) and `sample-data.ts`.
 - **`components/f1/NextSessionCountdown.tsx`** — client wrapper around
   `PitBoardCountdown` that picks the session on the viewer's clock, with
   "Season complete" / "No signal" states.
@@ -79,7 +102,8 @@ order and game are still fictional sample data, and the page says so.
   - Contrast is guarded by `lib/contrast.test.ts`, which reads the hex values
     from `globals.css`, instead of an axe scan.
   - The home page switches to 12 columns at `lg` (1024px); `md` was too cramped.
-  - Not built yet: light mode, the radio-beep sound toggle, number tickers.
+  - Not built yet: light mode and number tickers. The plan's radio-beep toggle
+    was replaced by the tap-to-start intro sound (see "Lights-out intro").
 - **Standings (Phase 1):**
   - Fetched server-side with `fetch(..., { next: { revalidate: 3600 } })`, at
     most two Jolpica calls an hour. No `cacheComponents`, so the previous caching
