@@ -6,6 +6,7 @@
  * this module with data ingested from Jolpica-F1, OpenF1 and RSS feeds.
  */
 import type { RumorStatus } from "@/lib/credibility";
+import type { StandingRow } from "@/lib/standings";
 import { nextSaturdayAt } from "@/lib/time";
 
 export type SampleTeam = { id: string; name: string; color: string };
@@ -41,16 +42,7 @@ export const DRIVERS: SampleDriver[] = [
   { code: "ORT", name: "Kai Ortega", team: "nimbus", points: 54 },
 ];
 
-/** A row in a standings table, already ordered. */
-export type StandingRow = {
-  id: string;
-  code: string;
-  name: string;
-  color: string;
-  points: number;
-};
-
-/** Driver standings, highest points first. */
+/** Driver standings for the /design style guide, highest points first. */
 export function driverStandings(drivers: SampleDriver[] = DRIVERS): StandingRow[] {
   return [...drivers]
     .sort((a, b) => b.points - a.points)
@@ -60,23 +52,6 @@ export function driverStandings(drivers: SampleDriver[] = DRIVERS): StandingRow[
       name: d.name,
       color: TEAMS[d.team].color,
       points: d.points,
-    }));
-}
-
-/** Constructor standings: each team's drivers' points summed, highest first. */
-export function constructorStandings(drivers: SampleDriver[] = DRIVERS): StandingRow[] {
-  const totals = new Map<SampleTeamId, number>();
-  for (const d of drivers) {
-    totals.set(d.team, (totals.get(d.team) ?? 0) + d.points);
-  }
-  return [...totals.entries()]
-    .sort(([, a], [, b]) => b - a)
-    .map(([id, points]) => ({
-      id,
-      code: TEAMS[id].name.slice(0, 3).toUpperCase(),
-      name: TEAMS[id].name,
-      color: TEAMS[id].color,
-      points,
     }));
 }
 

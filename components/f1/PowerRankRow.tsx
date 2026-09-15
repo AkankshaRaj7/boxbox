@@ -71,7 +71,7 @@ export function PowerRankRow({
     <div style={teamStyle(color)} className="flex min-h-11 items-center gap-3 px-3 py-2">
       <span className="headline w-6 text-xl">{rank}</span>
       <TeamColorBar color={color} className="h-6 self-center" />
-      <span className="flex-1 truncate text-sm font-semibold">{teamName}</span>
+      <span className="min-w-0 flex-1 truncate text-sm font-semibold">{teamName}</span>
       <Sparkline values={trend} />
       <span className="w-12 text-right font-mono text-xs tabular-nums text-fg-dim">
         {latest === 0 ? "P1" : `+${latest.toFixed(1)}%`}

@@ -9,6 +9,7 @@ import { SectorChip } from "@/components/f1/SectorChip";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot } from "@/components/f1/TyreDot";
+import { fetchStandings } from "@/lib/jolpica";
 import {
   BRIEFING,
   CIRCUIT,
@@ -20,19 +21,57 @@ import {
   SAMPLE_LAP,
   STORIES,
   TEAMS,
-  constructorStandings,
-  driverStandings,
 } from "@/lib/sample-data";
+import type { Standings } from "@/lib/standings";
+
+/** Re-render hourly, so a failed standings fetch is retried rather than cached. Matches STANDINGS_REVALIDATE. */
+export const revalidate = 3600;
+
+/** Real championship standings, with a message instead if Jolpica is down. */
+async function Championship() {
+  let standings: Standings | null = null;
+  try {
+    standings = await fetchStandings();
+  } catch (error) {
+    console.error("Standings unavailable:", error);
+  }
+
+  const roundLabel = standings && (standings.round ? `${standings.season} · R${standings.round}` : `${standings.season} · Pre-season`);
+
+  return (
+    <section aria-labelledby="standings-title" className="lg:col-span-4">
+      <SectionHeader
+        id="standings-title"
+        title="Championship"
+        kerb
+        action={roundLabel && <span className="font-mono text-xs uppercase text-fg-dim">{roundLabel}</span>}
+      />
+      <Panel as="div">
+        {standings && standings.drivers.length > 0 ? (
+          <StandingsPanel drivers={standings.drivers} constructors={standings.constructors} />
+        ) : (
+          <p className="p-4 text-sm text-fg-dim">
+            {standings
+              ? "No points on the board yet. Standings appear after the first race."
+              : "Standings are off the timing screens right now. Check back shortly."}
+          </p>
+        )}
+      </Panel>
+      <p className="mt-2 text-xs text-fg-dim">Data: Jolpica-F1, refreshed hourly.</p>
+    </section>
+  );
+}
 
 /**
- * The Paddock: the daily hub. Phase 0 renders it from fictional sample data to
- * sign off the design before any real data is ingested.
+ * The Paddock: the daily hub. Championship standings are real; the rest still
+ * renders from fictional sample data until Phase 1 replaces it.
  */
 export default function PaddockPage() {
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
       <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
-        Design preview: every team, driver, headline and number on this page is fictional sample data.
+        Championship standings are real. Everything else on this page (countdown, briefing, circuit, news, rumors,
+        pecking order and the game) is still fictional sample data.
       </p>
 
       <div className="grid gap-4 lg:grid-cols-12">
@@ -74,13 +113,8 @@ export default function PaddockPage() {
         </Panel>
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:gap-6">
-        <section aria-labelledby="standings-title" className="lg:col-span-4">
-          <SectionHeader id="standings-title" title="Championship" kerb />
-          <Panel as="div">
-            <StandingsPanel drivers={driverStandings()} constructors={constructorStandings()} />
-          </Panel>
-        </section>
+      <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
+        <Championship />
 
         <section id="news" aria-labelledby="news-title" className="scroll-mt-20 lg:col-span-5">
           <SectionHeader id="news-title" title="Radio feed" kerb />

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TimingTower } from "@/components/f1/TimingTower";
-import type { StandingRow } from "@/lib/sample-data";
+import type { StandingRow } from "@/lib/standings";
 
 type Mode = "drivers" | "constructors";
 
