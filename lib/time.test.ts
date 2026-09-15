@@ -1,5 +1,25 @@
 import { describe, expect, it } from "vitest";
-import { formatCountdown, nextSaturdayAt } from "./time";
+import { formatAgo, formatCountdown, formatUtcStamp, nextSaturdayAt } from "./time";
+
+describe("formatAgo", () => {
+  it("rounds down to the largest whole unit", () => {
+    expect(formatAgo(59_000)).toBe("just now");
+    expect(formatAgo(12 * 60_000 + 59_000)).toBe("12m ago");
+    expect(formatAgo(3 * 3600_000 + 1)).toBe("3h ago");
+    expect(formatAgo(2 * 86_400_000)).toBe("2d ago");
+  });
+
+  it("reads future times as just now", () => {
+    expect(formatAgo(-5_000)).toBe("just now");
+  });
+});
+
+describe("formatUtcStamp", () => {
+  it("formats in UTC regardless of the machine's timezone", () => {
+    expect(formatUtcStamp("2026-09-14T18:29:19.000Z")).toBe("14 Sep 18:29 UTC");
+    expect(formatUtcStamp("2026-01-02T03:04:00+05:30")).toBe("1 Jan 21:34 UTC");
+  });
+});
 
 describe("formatCountdown", () => {
   it("formats under a day as HH:MM:SS", () => {

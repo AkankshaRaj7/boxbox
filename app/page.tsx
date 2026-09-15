@@ -2,7 +2,7 @@ import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
 import { PredictionSlip } from "@/components/f1/PredictionSlip";
-import { RadioCard } from "@/components/f1/RadioCard";
+import { StoryCard } from "@/components/f1/StoryCard";
 import { EnamelPin, StreakFlame } from "@/components/f1/Rewards";
 import { RumorCard } from "@/components/f1/RumorCard";
 import { SectorChip } from "@/components/f1/SectorChip";
@@ -10,7 +10,9 @@ import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot } from "@/components/f1/TyreDot";
 import { circuitInfo } from "@/lib/circuits";
+import Link from "next/link";
 import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
+import { loadWire, topStories } from "@/lib/news";
 import {
   BRIEFING,
   HOT_RUMOR,
@@ -18,14 +20,16 @@ import {
   POWER_RANKING,
   PREDICTION_SLIP,
   SAMPLE_LAP,
-  STORIES,
   TEAMS,
 } from "@/lib/sample-data";
 import { currentWeekend, upcomingSessions } from "@/lib/schedule";
 import type { Standings } from "@/lib/standings";
 
-/** Re-render hourly, so a failed Jolpica fetch is retried rather than cached. Matches JOLPICA_REVALIDATE. */
-export const revalidate = 3600;
+/**
+ * Re-render every 15 minutes for fresh headlines (NEWS_REVALIDATE). Jolpica
+ * responses keep their own hourly cache, and a failed fetch is retried.
+ */
+export const revalidate = 900;
 
 /** Upcoming sessions sent to the countdown: two to three weekends' worth. */
 const SESSIONS_AHEAD = 12;
@@ -146,13 +150,14 @@ async function Championship() {
  * circuit card are real; the rest is fictional sample data until Phase 1 replaces it.
  */
 export default async function PaddockPage() {
-  const schedule = await loadSchedule();
+  const [schedule, wire] = await Promise.all([loadSchedule(), loadWire()]);
+  const headlines = topStories(wire.stories, wire.now);
 
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
       <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
-        Standings, the countdown and the circuit are real. The briefing, radio feed, rumors, pecking order and the
-        game are still fictional sample data.
+        Standings, the countdown, the circuit and the radio feed headlines are real. The briefing, fastest lap,
+        rumors, pecking order and the game are still fictional sample data.
       </p>
 
       <div className="grid gap-4 lg:grid-cols-12">
@@ -186,7 +191,16 @@ export default async function PaddockPage() {
         <Championship />
 
         <section id="news" aria-labelledby="news-title" className="scroll-mt-20 lg:col-span-5">
-          <SectionHeader id="news-title" title="Radio feed" kerb />
+          <SectionHeader
+            id="news-title"
+            title="Radio feed"
+            kerb
+            action={
+              <Link href="/news" className="text-xs font-bold uppercase text-fg-dim hover:text-fg">
+                Full wire →
+              </Link>
+            }
+          />
           <div className="space-y-3">
             <Panel as="div" className="flex flex-wrap items-center gap-3 p-4">
               <span className="text-xs font-bold uppercase text-fg-dim">Fastest lap · FP2</span>
@@ -199,9 +213,11 @@ export default async function PaddockPage() {
                 ))}
               </div>
             </Panel>
-            {STORIES.map((story) => (
-              <RadioCard key={story.id} {...story} />
-            ))}
+            {headlines.length > 0 ? (
+              headlines.map((story) => <StoryCard key={story.id} story={story} />)
+            ) : (
+              <p className="text-sm text-fg-dim">The radio is quiet: no headlines could be loaded. Check back shortly.</p>
+            )}
           </div>
         </section>
 

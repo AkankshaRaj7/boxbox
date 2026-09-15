@@ -7,6 +7,7 @@
  */
 import type { Outline } from "@/lib/circuits";
 import type { RumorStatus } from "@/lib/credibility";
+import type { Story } from "@/lib/news-model";
 import type { StandingRow } from "@/lib/standings";
 import { nextSaturdayAt } from "@/lib/time";
 
@@ -80,54 +81,57 @@ export const BRIEFING = [
   "Rain risk 40% for qualifying. Inters on standby.",
 ];
 
-export type SourceTier = "official" | "tier1" | "rumor";
-export type Flag = "green" | "yellow" | "red" | "blue";
+const minutesAgo = (m: number) => new Date(Date.now() - m * 60_000).toISOString();
 
-export type SampleStory = {
-  id: string;
-  headline: string;
-  summary: string;
-  source: string;
-  tier: SourceTier;
-  outlets: number;
-  flag: Flag;
-  tag: string;
-  minutesAgo: number;
-};
-
-export const STORIES: SampleStory[] = [
+/** Sample wire stories for the /design style guide. Links point at example.com. */
+export const STORIES: Story[] = [
   {
     id: "s1",
     headline: "Aurora confirm heavy upgrade package for the Sample GP",
     summary: "New sidepods and a revised beam wing aimed at high-speed corners.",
+    link: "https://example.com/sample-1",
     source: "Sample Wire",
     tier: "official",
+    publishedAt: minutesAgo(12),
+    latestAt: minutesAgo(4),
     outlets: 6,
-    flag: "red",
-    tag: "Breaking",
-    minutesAgo: 12,
+    alsoOn: [{ source: "Paddock Journal", link: "https://example.com/sample-1b" }],
+    topic: "technical",
+    breaking: true,
+    tags: [{ id: "team:aurora", label: TEAMS.aurora.name, kind: "team", color: TEAMS.aurora.color }],
   },
   {
     id: "s2",
     headline: "Why Vortex's straight-line speed has disappeared since the summer",
     summary: "A deep dive into drag levels and the team's new cooling layout.",
+    link: "https://example.com/sample-2",
     source: "Paddock Journal",
     tier: "tier1",
-    outlets: 3,
-    flag: "blue",
-    tag: "Technical",
-    minutesAgo: 47,
+    publishedAt: minutesAgo(47),
+    latestAt: minutesAgo(47),
+    outlets: 1,
+    alsoOn: [],
+    topic: "technical",
+    breaking: false,
+    tags: [
+      { id: "driver:brk", label: "BRK", kind: "driver", color: TEAMS.vortex.color },
+      { id: "team:vortex", label: TEAMS.vortex.name, kind: "team", color: TEAMS.vortex.color },
+    ],
   },
   {
     id: "s3",
     headline: "Ortega linked with Rosso Corse seat for next season",
     summary: "Talks reported to have started after the summer break.",
+    link: "https://example.com/sample-3",
     source: "Grid Gossip",
     tier: "rumor",
+    publishedAt: minutesAgo(95),
+    latestAt: minutesAgo(60),
     outlets: 4,
-    flag: "yellow",
-    tag: "Transfers",
-    minutesAgo: 95,
+    alsoOn: [],
+    topic: "transfers",
+    breaking: false,
+    tags: [{ id: "driver:ort", label: "ORT", kind: "driver", color: TEAMS.nimbus.color }],
   },
 ];
 

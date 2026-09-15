@@ -22,6 +22,30 @@ export function formatCountdown(ms: number): string {
 }
 
 /**
+ * Short age of a news item.
+ *
+ * @param ms milliseconds since publication; future times read "just now".
+ * @returns "just now", "12m ago", "3h ago" or "2d ago".
+ */
+export function formatAgo(ms: number): string {
+  if (ms < MINUTE) return "just now";
+  if (ms < HOUR) return `${Math.floor(ms / MINUTE)}m ago`;
+  if (ms < DAY) return `${Math.floor(ms / HOUR)}h ago`;
+  return `${Math.floor(ms / DAY)}d ago`;
+}
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/**
+ * A fixed UTC timestamp such as "14 Sep 18:29 UTC". Built by hand rather than
+ * with Intl so server and browser render identical text before hydration.
+ */
+export function formatUtcStamp(iso: string): string {
+  const d = new Date(iso);
+  return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${pad(d.getUTCHours())}:${pad(d.getUTCMinutes())} UTC`;
+}
+
+/**
  * The next Saturday at `hour`:00 local time strictly after `from` — the sample
  * qualifying slot used by the design mockups until real schedules are ingested.
  */

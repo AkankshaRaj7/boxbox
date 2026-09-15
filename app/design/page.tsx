@@ -7,13 +7,14 @@ import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PitBoardCountdown } from "@/components/f1/PitBoardCountdown";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
 import { PredictionSlip } from "@/components/f1/PredictionSlip";
-import { RadioCard } from "@/components/f1/RadioCard";
+import { NewsWire } from "@/components/f1/NewsWire";
 import { EnamelPin, StreakFlame } from "@/components/f1/Rewards";
 import { RumorCard } from "@/components/f1/RumorCard";
 import { SeatBoard } from "@/components/f1/SeatBoard";
 import { SectorChip } from "@/components/f1/SectorChip";
 import { ShiftLightMeter } from "@/components/f1/ShiftLightMeter";
 import { SlantTag } from "@/components/f1/SlantTag";
+import { StoryCard } from "@/components/f1/StoryCard";
 import { TelemetryChart } from "@/components/f1/TelemetryChart";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot, type TyreCompound } from "@/components/f1/TyreDot";
@@ -262,10 +263,13 @@ export default function DesignPage() {
               </div>
             </div>
           </Specimen>
-          <Specimen label="RadioCard" className="md:col-span-2">
+          <Specimen label="NewsWire" className="md:col-span-2 lg:col-span-3">
+            <NewsWire stories={STORIES} />
+          </Specimen>
+          <Specimen label="RadioCard · StoryCard" className="md:col-span-2">
             <div className="space-y-3">
               {STORIES.slice(0, 2).map((s) => (
-                <RadioCard key={s.id} {...s} />
+                <StoryCard key={s.id} story={s} />
               ))}
             </div>
           </Specimen>
