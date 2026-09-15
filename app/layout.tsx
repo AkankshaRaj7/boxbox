@@ -5,6 +5,7 @@ import { BottomNav } from "@/components/f1/BottomNav";
 import { LightsOut } from "@/components/f1/LightsOut";
 import { SiteFooter } from "@/components/f1/SiteFooter";
 import { SiteHeader } from "@/components/f1/SiteHeader";
+import { INTRO_SEEN_KEY } from "@/lib/lights";
 import "./globals.css";
 
 const titillium = Titillium_Web({
@@ -26,8 +27,12 @@ export const metadata: Metadata = {
     "Standings, news, the driver market and the pecking order in one place. An unofficial fan site.",
 };
 
-/** Marks the session as having seen the lights-out intro, before first paint. */
-const LIGHTS_ONCE = `try{var k="bb-lights";if(sessionStorage.getItem(k)){document.documentElement.dataset.lights="seen"}else{sessionStorage.setItem(k,"1")}}catch(e){document.documentElement.dataset.lights="seen"}`;
+/**
+ * Before first paint, shows the lights-out start screen on the first visit of a
+ * browser session. Skipped under reduced motion; without JavaScript it never
+ * shows, so the page is always reachable.
+ */
+const INTRO_START = `try{if(!sessionStorage.getItem(${JSON.stringify(INTRO_SEEN_KEY)})&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.dataset.intro="start"}}catch(e){}`;
 
 /**
  * Root layout: fonts, the once-per-session lights-out intro, header, mobile
@@ -41,8 +46,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
-        <Script id="lights-once" strategy="beforeInteractive">
-          {LIGHTS_ONCE}
+        <Script id="intro-start" strategy="beforeInteractive">
+          {INTRO_START}
         </Script>
         <LightsOut />
         <SiteHeader />

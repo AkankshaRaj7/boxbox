@@ -3,7 +3,7 @@
 Read this first in a new session, then [plan.md](plan.md) for the full roadmap
 and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
-_Last updated: 2026-09-15 — Phase 1, steps 1–3 (standings, calendar + countdown, news wire) done._
+_Last updated: 2026-09-15 — Phase 1, steps 1–3 (standings, calendar + countdown, news wire) done; team colours tweaked and the lights-out intro rebuilt with sound._
 
 ## Status
 
@@ -15,10 +15,10 @@ order and game are still fictional sample data, and the page says so.
 
 | Check | Result |
 |---|---|
-| `npm test` | 122 tests pass (adds RSS parsing, tagging, topics, grouping, relative time) |
+| `npm test` | 134 tests pass (adds lights timing, car pick, car-pass duration and keyframes, team-colour separation) |
 | `npm run typecheck` | Clean |
 | `npm run lint` | Clean |
-| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders |
+| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders. Intro (real click): lights at 0.75/1.75/2.74/3.75/4.75 s; car pass checked without sound: car measured at 80 % of a 698 px screen (558 × 1508 px), pass 936 ms, cover and marks clips correct after the pass; page handed back with nothing inert (checked while the pane was visible); second visit and Esc skip go straight in. Car drawing and tyre marks checked as rendered PNGs. Sound files serve as `audio/mp4` and `audio/wav`; sound not listened to by Claude |
 
 ## What exists
 
@@ -175,6 +175,70 @@ order and game are still fictional sample data, and the page says so.
     "independent outlets", so group them by owner then.
   - The mobile nav "News" item still jumps to the home radio feed (`/#news`);
     `/news` is reached from its "Full wire →" link.
+- **Team colour overrides:** OpenF1's Audi red (`#f50537`) was nearly
+  identical to Ferrari's (`#ed1131`, ΔE 3.7), and Cadillac/Haas were both
+  greys. In `lib/teams.ts` Audi is now a deeper crimson `#c4002f` (ΔE 16.7 from
+  Ferrari, 15 under deuteranopia), Cadillac a mid grey `#767a7d` and Haas silver
+  `#c3c7cb` (ΔE 29). `lib/teams.test.ts` keeps both pairs ≥ 1.3:1 apart in
+  lightness and every livery bar ≥ 3:1 against the page. Recheck if OpenF1
+  colours are ever pulled in automatically.
+- **Lights-out intro (replaces the 1.6 s CSS-only intro; deviates from plan.md's
+  "radio-beep toggle, off by default"):**
+  - Browsers block sound until a click, so the first visit of a session shows a
+    **tap-to-start screen** ("Lights on" / "Enter without sound", Esc skips).
+    Chosen by the user over silent auto-play.
+  - Real cadence (`lib/lights.ts`): first light 0.7 s after the tap, one per
+    second, random 0.5–1.5 s hold, lights out ≈ 5.2–6.2 s. Skip button throughout.
+  - **Beeps** are synthesised with Web Audio (`lib/intro-audio.ts`): an 880 Hz
+    beep per light. The context is created inside the click.
+  - **Car pass** (replaced an earlier zoom-in "page arrival" and a synthesised
+    engine, which the user said didn't sound like F1): at lights out a car in a
+    random 2026 team colour (`pickCar`) crosses the screen up or down at a
+    constant 2600 px/s. The car is **80 % of the screen width** (user's request,
+    `CAR_WIDTH_SHARE`), so on desktop it is longer than the screen is tall;
+    `carPassDuration` (tested) turns that into 0.8–1.8 s, fixed at the start tap
+    so the sound lines up. `carPassKeyframes` (tested) drives three Web
+    Animations: the car, the dark cover cut away behind the car's middle to reveal
+    the page, and rear-tyre marks growing behind the rear axle (`REAR_AXLE`
+    915/1080). The marks hold 0.9 s, then fade over 1.1 s. Skip or Esc at any
+    point goes straight to the page with no car and no sound.
+  - `IntroCar` is our own detailed top-down SVG of a 2026-style car (400 × 1080):
+    four-element front wing, stepped nose, halo and driver, sidepods with inlets,
+    undercuts and louvres, coke-bottle engine cover, floor edges, suspension,
+    diffuser, beam and rear wing. Shaded with gradients from `--team` and tokens;
+    no logos, sponsors or team-specific livery. Pass a unique `idPrefix` when
+    several render on one page (gradient ids). Shown in `/design`.
+  - **Tyre marks** (`.lights-out__mark` in globals.css): each rear tyre gets a
+    near-solid dark rubber band with lengthwise striations, masked by an SVG
+    `feTurbulence` grain (one image stretched over the whole band; tiling it
+    left visible seams) and an uneven lengthwise fade, plus a faint light
+    "scuff" edge layer so the marks show on the near-black page background.
+  - **Car sound:** "F1 Car passing" by robbo799 (Freesound) from Pixabay, Pixabay
+    Content License (no credit required; editing into a new work allowed; no
+    standalone redistribution). Pixabay's CDN returns 403 to scripts, so the user
+    downloaded it by hand. The 40 s recording has an almost continuous engine note
+    with six loudness peaks; pitch analysis couldn't find a clear Doppler drop,
+    so the clip is the peak with the sharpest rise-and-fall shape, 24.2 s in:
+    3 s cut (1.6 s before to 1.4 s after), cosine fades, levelled to −1 dBFS.
+    Files: `public/sounds/car-pass.m4a` (AAC 64 kbps, 27 KB) with a
+    `car-pass.wav` fallback (22 kHz mono, 136 KB) for browsers without AAC;
+    `CAR_SOUND.peakAt` 1.6 s. The player aligns the peak with the car crossing
+    mid-screen and never starts before lights out. Alternative cuts at 8.9 s (A)
+    and 17.0 s (B) were sent to the user to compare. Tools: `afconvert` (no
+    ffmpeg on this machine) and Python `wave`.
+  - **Checking visuals when the Browser pane is hidden:** screenshots time out
+    and animations don't advance there. Render components to static SVG in a
+    scratch vitest run (`renderToStaticMarkup`, with the tokens and used classes
+    inlined), then `qlmanage -t` turns SVG or HTML into a PNG you can look at.
+  - States live on `<html data-intro>`: `start` (set before first paint by the
+    script in `app/layout.tsx` when `sessionStorage["bb-lights"]` is unset and
+    reduced motion is off), `lights`, `car`, then removed. Without
+    JavaScript or under reduced motion the overlay never shows. While it is up,
+    scroll is locked and the rest of `<body>` is `inert`.
+  - `LightsOut inline` (in `/design`) runs the same sequence without touching the
+    page state or the session flag.
+  - Browser automation: a synthetic Enter key did not activate the focused
+    button (real keyboards do); test with a click.
 - **Mobile overflow fix:** at 375px the home page's second grid row was 388px
   wide (pre-existing, not caused by the standings). The implicit grid track
   grew to the Pecking order column's min-content, because `PowerRankRow`'s

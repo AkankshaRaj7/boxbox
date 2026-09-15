@@ -7,6 +7,7 @@ import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PitBoardCountdown } from "@/components/f1/PitBoardCountdown";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
 import { PredictionSlip } from "@/components/f1/PredictionSlip";
+import { IntroCar } from "@/components/f1/IntroCar";
 import { NewsWire } from "@/components/f1/NewsWire";
 import { EnamelPin, StreakFlame } from "@/components/f1/Rewards";
 import { RumorCard } from "@/components/f1/RumorCard";
@@ -19,7 +20,7 @@ import { TelemetryChart } from "@/components/f1/TelemetryChart";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot, type TyreCompound } from "@/components/f1/TyreDot";
 import { Wordmark } from "@/components/f1/Wordmark";
-import { readableOn } from "@/lib/color";
+import { readableOn, teamStyle } from "@/lib/color";
 import type { RumorStatus } from "@/lib/credibility";
 import {
   CIRCUIT,
@@ -243,6 +244,17 @@ export default function DesignPage() {
           </Specimen>
           <Specimen label="NextSessionCountdown · season over">
             <NextSessionCountdown sessions={[]} />
+          </Specimen>
+          <Specimen label="IntroCar">
+            <div className="flex justify-center gap-8 py-2">
+              {Object.values(TEAMS)
+                .slice(0, 3)
+                .map((team) => (
+                  <div key={team.id} style={teamStyle(team.color)} className="w-20">
+                    <IntroCar idPrefix={`design-${team.id}`} />
+                  </div>
+                ))}
+            </div>
           </Specimen>
           <Specimen label="TrackOutline">
             <Panel as="div" className="p-4">

@@ -4,6 +4,9 @@
  * Jolpica has no team colours, so these come from OpenF1's `team_colour` for
  * the current season. Colours and short names only — never logos. Moves to
  * the `teams` table once Supabase lands.
+ *
+ * Adjusted where OpenF1's colours were too close to tell apart: Audi is a
+ * deeper crimson than Ferrari's red, Cadillac a mid grey and Haas silver.
  */
 export type TeamInfo = {
   /** Three-letter code for the timing tower. */
@@ -16,10 +19,10 @@ export type TeamInfo = {
 export const TEAMS_2026: Record<string, TeamInfo> = {
   alpine: { code: "ALP", name: "Alpine", color: "#00a1e8" },
   aston_martin: { code: "AMR", name: "Aston Martin", color: "#229971" },
-  audi: { code: "AUD", name: "Audi", color: "#f50537" },
-  cadillac: { code: "CAD", name: "Cadillac", color: "#909090" },
+  audi: { code: "AUD", name: "Audi", color: "#c4002f" },
+  cadillac: { code: "CAD", name: "Cadillac", color: "#767a7d" },
   ferrari: { code: "FER", name: "Ferrari", color: "#ed1131" },
-  haas: { code: "HAA", name: "Haas", color: "#9c9fa2" },
+  haas: { code: "HAA", name: "Haas", color: "#c3c7cb" },
   mclaren: { code: "MCL", name: "McLaren", color: "#f47600" },
   mercedes: { code: "MER", name: "Mercedes", color: "#00d7b6" },
   rb: { code: "RCB", name: "Racing Bulls", color: "#6c98ff" },

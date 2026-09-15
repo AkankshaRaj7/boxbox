@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { readableOn } from "./color";
+import { contrastRatio, readableOn } from "./color";
 import { FALLBACK_TEAM_COLOR, TEAMS_2026, teamInfo } from "./teams";
 
 describe("TEAMS_2026", () => {
@@ -11,6 +11,19 @@ describe("TEAMS_2026", () => {
       expect(() => readableOn(team.color)).not.toThrow();
     }
     expect(new Set(teams.map((t) => t.code)).size).toBe(teams.length);
+  });
+
+  it.each([
+    ["ferrari", "audi"],
+    ["cadillac", "haas"],
+  ])("keeps %s and %s far enough apart in lightness to tell apart", (a, b) => {
+    expect(contrastRatio(TEAMS_2026[a].color, TEAMS_2026[b].color)).toBeGreaterThanOrEqual(1.3);
+  });
+
+  it("keeps every livery bar at least 3:1 against the page", () => {
+    for (const team of Object.values(TEAMS_2026)) {
+      expect(contrastRatio(team.color, "#0a0a0d")).toBeGreaterThanOrEqual(3);
+    }
   });
 });
 

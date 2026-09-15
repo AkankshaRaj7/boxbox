@@ -133,70 +133,182 @@
 }
 
 /* ── Lights out ───────────────────────────────────────────────
-   Five lights come on one by one, all go out together, then the overlay clears.
-   Pure CSS so it paints before hydration; the root layout marks the session as
-   "seen" so it plays once per browser session. */
+   Driven by components/f1/LightsOut.tsx. The pre-paint script in app/layout.tsx
+   sets data-intro="start" on the first visit of a session; the component moves
+   it to "lights" during the sequence and "car" while the car pass reveals the
+   page (Web Animations keyframes from carPassKeyframes in lib/lights.ts). With no
+   data-intro (no JavaScript, reduced motion, already seen) the overlay stays
+   hidden, so the start screen covers the page from the first paint or not at all. */
 .lights-out {
   position: fixed;
   inset: 0;
   z-index: 100;
-  display: grid;
-  place-items: center;
-  background: var(--color-asphalt);
-  animation: lights-out-clear 250ms ease-in 1.35s forwards;
+  display: none;
+  overflow: hidden;
+}
+
+:root[data-intro="start"],
+:root[data-intro="lights"],
+:root[data-intro="car"] {
+  overflow: hidden;
+}
+
+:root[data-intro="start"] .lights-out,
+:root[data-intro="lights"] .lights-out,
+:root[data-intro="car"] .lights-out,
+.lights-out--inline {
+  display: block;
 }
 
 .lights-out--inline {
   position: relative;
   inset: auto;
   z-index: auto;
-  min-height: 10rem;
-  animation: none;
+  min-height: 19rem;
+}
+
+/* The dark screen holding the lights; cut away behind the car to reveal the page. */
+.lights-out__cover {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--color-asphalt);
+}
+
+/* The car and its tyre marks share a centred column, 80% of the stage wide
+   (CAR_WIDTH_SHARE in lib/lights.ts). */
+.lights-out__car,
+.lights-out__marks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin-inline: auto;
+  width: 80%;
+  pointer-events: none;
+}
+
+.lights-out__car {
+  aspect-ratio: 400 / 1080;
+  will-change: transform;
+}
+
+.lights-out__car-body {
+  height: 100%;
+}
+
+.lights-out__car-body[data-direction="down"] {
+  transform: rotate(180deg);
+}
+
+/* Rubber laid down by the rear tyres: near-solid dark bands, darkest in the
+   middle, with grainy patches and ragged edges, plus a faint scuffed edge so the
+   marks still read where they cross the near-black page. */
+.lights-out__marks {
+  bottom: 0;
+  --rubber-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='1200' viewBox='0 0 160 1200' preserveAspectRatio='none'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8 0.02' numOctaves='3' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.8 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+  --rubber-fade: linear-gradient(
+    to bottom,
+    black,
+    rgb(0 0 0 / 0.72) 30%,
+    black 55%,
+    rgb(0 0 0 / 0.82) 80%,
+    black
+  );
+}
+
+.lights-out__mark {
+  position: absolute;
+  inset-block: 0;
+  /* The rear tyres span 2.5–21.5% and 78.5–97.5% of the car's width. */
+  width: 19%;
+}
+
+.lights-out__mark[data-side="left"] {
+  left: 2.5%;
+}
+
+.lights-out__mark[data-side="right"] {
+  right: 2.5%;
+}
+
+.lights-out__rubber,
+.lights-out__scuff {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--rubber-grain), var(--rubber-fade);
+  mask-image: var(--rubber-grain), var(--rubber-fade);
+  /* One grain image stretched over the whole band: tiling left visible seams. */
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.lights-out__rubber {
+  background:
+    repeating-linear-gradient(
+      to right,
+      color-mix(in srgb, var(--color-asphalt) 55%, transparent) 0 2px,
+      transparent 2px 8px
+    ),
+    linear-gradient(
+      to right,
+      transparent,
+      color-mix(in srgb, var(--color-asphalt) 88%, transparent) 10%,
+      var(--color-asphalt) 50%,
+      color-mix(in srgb, var(--color-asphalt) 88%, transparent) 90%,
+      transparent
+    );
+  mix-blend-mode: multiply;
+}
+
+.lights-out__scuff {
+  background: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--color-fg) 14%, transparent) 4%,
+    transparent 14%,
+    transparent 86%,
+    color-mix(in srgb, var(--color-fg) 14%, transparent) 96%,
+    transparent
+  );
 }
 
 .lights-out__light {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 9999px;
   background: var(--color-line);
-  animation:
-    light-on 1ms linear calc(var(--i) * 200ms) forwards,
-    light-off 1ms linear 1200ms forwards;
+  box-shadow: inset 0 -4px 0 color-mix(in srgb, var(--color-asphalt) 45%, transparent);
 }
 
-@keyframes light-on {
-  to {
-    background: var(--color-box-red);
-    box-shadow: 0 0 18px rgb(255 45 45 / 0.7);
+.lights-out__light[data-on="true"] {
+  background: var(--color-box-red);
+  box-shadow: 0 0 28px color-mix(in srgb, var(--color-box-red) 70%, transparent);
+}
+
+@media (min-width: 48rem) {
+  .lights-out__light {
+    width: 4rem;
+    height: 4rem;
   }
 }
 
-@keyframes light-off {
-  to {
-    background: var(--color-line);
-    box-shadow: none;
-  }
-}
-
-@keyframes lights-out-clear {
-  to {
-    opacity: 0;
-    visibility: hidden;
-  }
-}
-
-[data-lights="seen"] .lights-out:not(.lights-out--inline) {
-  display: none;
+:root[data-intro="car"] .page-wipe {
+  animation: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .lights-out:not(.lights-out--inline) {
-    display: none;
+    display: none !important;
   }
 
-  .lights-out__light,
   .live-pulse,
   .page-wipe {
-    animation: none;
+    animation: none !important;
   }
 }
