@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* BOXBOX design tokens — "Pit Wall at Night". Every colour in the UI resolves to one of these. */
+@theme {
+  --color-asphalt: #0a0a0d;
+  --color-carbon: #14141a;
+  --color-kerb: #1e1e26;
+  --color-line: #2b2b35;
+  --color-fg: #f4f4f6;
+  --color-fg-dim: #9b9ba7;
+  --color-box-red: #ff2d2d;
+
+  --color-sector-fastest: #a855f7;
+  --color-sector-pb: #22c55e;
+  --color-sector-slower: #facc15;
+
+  --color-tyre-soft: #ff3b30;
+  --color-tyre-medium: #ffd60a;
+  --color-tyre-hard: #ededed;
+  --color-tyre-inter: #30d158;
+  --color-tyre-wet: #0a84ff;
+
+  --color-flag-green: #22c55e;
+  --color-flag-yellow: #facc15;
+  --color-flag-red: #ff2d2d;
+  --color-flag-blue: #3b82f6;
+
+  --color-shift-green: #22c55e;
+  --color-shift-red: #ff2d2d;
+  --color-shift-blue: #3b82f6;
+
+  --text-display-sm: 1.75rem;
+  --text-display: 2.5rem;
+  --text-hero: 4rem;
+}
+
+@theme inline {
+  --font-sans: var(--font-titillium), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--color-asphalt);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-box-red);
+    outline-offset: 2px;
+  }
+}
+
+/* Heavy italic condensed caps used for every heading. */
+@utility headline {
+  font-weight: 900;
+  font-style: italic;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+/* Speed slant: skew the container, un-skew the label inside. */
+@utility slant {
+  transform: skewX(-12deg);
+}
+
+@utility unslant {
+  display: inline-block;
+  transform: skewX(12deg);
+}
+
+/* Pit-board card: top-right corner cut off. */
+@utility pit-board {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+}
+
+@utility carbon-weave {
+  background-color: var(--color-carbon);
+  background-image:
+    repeating-linear-gradient(45deg, rgb(255 255 255 / 0.04) 0 2px, transparent 2px 4px),
+    repeating-linear-gradient(-45deg, rgb(0 0 0 / 0.25) 0 2px, transparent 2px 4px);
+}
+
+@utility kerb-stripe {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-box-red) 0 10px,
+    var(--color-fg) 10px 20px
+  );
+}
+
+@utility chequered {
+  background-image: conic-gradient(
+    var(--color-fg) 25%,
+    var(--color-asphalt) 0 50%,
+    var(--color-fg) 0 75%,
+    var(--color-asphalt) 0
+  );
+  background-size: 8px 8px;
+}
+
+/* Broadcast "LIVE" pulse. */
+@keyframes live-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@utility live-pulse {
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+/* Page-change speed wipe, applied by app/template.tsx. */
+@keyframes page-wipe {
+  from {
+    opacity: 0;
+    transform: translateX(32px);
+  }
+}
+
+.page-wipe {
+  animation: page-wipe 220ms ease-out;
+}
+
+/* ── Lights out ───────────────────────────────────────────────
+   Five lights come on one by one, all go out together, then the overlay clears.
+   Pure CSS so it paints before hydration; the root layout marks the session as
+   "seen" so it plays once per browser session. */
+.lights-out {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--color-asphalt);
+  animation: lights-out-clear 250ms ease-in 1.35s forwards;
+}
+
+.lights-out--inline {
+  position: relative;
+  inset: auto;
+  z-index: auto;
+  min-height: 10rem;
+  animation: none;
+}
+
+.lights-out__light {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background: var(--color-line);
+  animation:
+    light-on 1ms linear calc(var(--i) * 200ms) forwards,
+    light-off 1ms linear 1200ms forwards;
+}
+
+@keyframes light-on {
+  to {
+    background: var(--color-box-red);
+    box-shadow: 0 0 18px rgb(255 45 45 / 0.7);
+  }
+}
+
+@keyframes light-off {
+  to {
+    background: var(--color-line);
+    box-shadow: none;
+  }
+}
+
+@keyframes lights-out-clear {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+[data-lights="seen"] .lights-out:not(.lights-out--inline) {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lights-out:not(.lights-out--inline) {
+    display: none;
+  }
+
+  .lights-out__light,
+  .live-pulse,
+  .page-wipe {
+    animation: none;
+  }
+}

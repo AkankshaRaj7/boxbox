@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#0a0a0d"/>
+  <rect x="8" y="10" width="48" height="10" fill="#ff2d2d"/>
+  <rect x="9" y="22" width="46" height="32" fill="#14141a" stroke="#2b2b35" stroke-width="2"/>
+  <text x="32" y="45" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-style="italic" font-size="18" fill="#f4f4f6">BOX</text>
+</svg>
