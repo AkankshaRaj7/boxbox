@@ -223,8 +223,8 @@ order and game are still fictional sample data, and the page says so.
     Files: `public/sounds/car-pass.m4a` (AAC 64 kbps, 27 KB) with a
     `car-pass.wav` fallback (22 kHz mono, 136 KB) for browsers without AAC;
     `CAR_SOUND.peakAt` 1.6 s. The player aligns the peak with the car crossing
-    mid-screen and never starts before lights out. Alternative cuts at 8.9 s (A)
-    and 17.0 s (B) were sent to the user to compare. Tools: `afconvert` (no
+    mid-screen and never starts before lights out. The user compared this cut (C)
+    with alternatives at 8.9 s (A) and 17.0 s (B) and confirmed C. Tools: `afconvert` (no
     ffmpeg on this machine) and Python `wave`.
   - **Checking visuals when the Browser pane is hidden:** screenshots time out
     and animations don't advance there. Render components to static SVG in a
