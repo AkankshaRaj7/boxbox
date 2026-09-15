@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LightsReplay } from "@/components/design/LightsReplay";
 import { TowerShuffleDemo } from "@/components/design/TowerShuffleDemo";
+import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PitBoardCountdown } from "@/components/f1/PitBoardCountdown";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
@@ -238,6 +239,9 @@ export default function DesignPage() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Specimen label="PitBoardCountdown">
             <PitBoardCountdown {...NEXT_SESSION} />
+          </Specimen>
+          <Specimen label="NextSessionCountdown · season over">
+            <NextSessionCountdown sessions={[]} />
           </Specimen>
           <Specimen label="TrackOutline">
             <Panel as="div" className="p-4">

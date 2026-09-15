@@ -1,8 +1,11 @@
 import { describe, expect, it } from "vitest";
 import {
+  parseCalendar,
   parseConstructorStandings,
   parseDriverStandings,
+  parseLastWinner,
   parseRound,
+  type RaceTableResponse,
   type StandingsResponse,
 } from "./jolpica";
 import { FALLBACK_TEAM_COLOR, TEAMS_2026 } from "./teams";
@@ -128,5 +131,83 @@ describe("parseRound", () => {
 
   it("has no round before the first race", () => {
     expect(parseRound(preSeason)).toEqual({ season: "2027", round: null });
+  });
+});
+
+/** The real 2026 Singapore sprint weekend, fields in Jolpica's order, plus an untimed session. */
+const calendar: RaceTableResponse = {
+  MRData: {
+    RaceTable: {
+      season: "2026",
+      Races: [
+        {
+          season: "2026",
+          round: "17",
+          raceName: "Singapore Grand Prix",
+          Circuit: {
+            circuitId: "marina_bay",
+            circuitName: "Marina Bay Street Circuit",
+            Location: { locality: "Marina Bay", country: "Singapore" },
+          },
+          date: "2026-10-11",
+          time: "12:00:00Z",
+          FirstPractice: { date: "2026-10-09", time: "08:30:00Z" },
+          SecondPractice: { date: "2026-10-09" },
+          Qualifying: { date: "2026-10-10", time: "13:00:00Z" },
+          Sprint: { date: "2026-10-10", time: "09:00:00Z" },
+          SprintQualifying: { date: "2026-10-09", time: "12:30:00Z" },
+        },
+      ],
+    },
+  },
+};
+
+describe("parseCalendar", () => {
+  it("orders a sprint weekend's sessions by start time", () => {
+    const [weekend] = parseCalendar(calendar);
+    expect(weekend.sessions.map((s) => [s.kind, s.startsAt])).toEqual([
+      ["fp1", "2026-10-09T08:30:00Z"],
+      ["sprint-qualifying", "2026-10-09T12:30:00Z"],
+      ["sprint", "2026-10-10T09:00:00Z"],
+      ["qualifying", "2026-10-10T13:00:00Z"],
+      ["race", "2026-10-11T12:00:00Z"],
+    ]);
+  });
+
+  it("leaves out sessions without a start time", () => {
+    expect(parseCalendar(calendar)[0].sessions.some((s) => s.kind === "fp2")).toBe(false);
+  });
+
+  it("carries the event and circuit onto the weekend and its sessions", () => {
+    const [weekend] = parseCalendar(calendar);
+    expect(weekend).toMatchObject({ round: 17, event: "Singapore Grand Prix", circuitId: "marina_bay", country: "Singapore" });
+    expect(weekend.sessions[1]).toMatchObject({ name: "Sprint Qualifying", round: 17, event: "Singapore Grand Prix" });
+  });
+});
+
+describe("parseLastWinner", () => {
+  const driver = (code: string | undefined, familyName: string) => ({
+    driverId: familyName.toLowerCase(),
+    code,
+    givenName: "X",
+    familyName,
+  });
+  const results = (...races: [string, ReturnType<typeof driver>][]): Parameters<typeof parseLastWinner>[0] => ({
+    MRData: { RaceTable: { Races: races.map(([season, d]) => ({ season, Results: [{ Driver: d }] })) } },
+  });
+
+  it("returns the most recent winner", () => {
+    expect(parseLastWinner(results(["2024", driver("PIA", "Piastri")], ["2025", driver("VER", "Verstappen")]))).toEqual({
+      code: "VER",
+      season: "2025",
+    });
+  });
+
+  it("derives a code for winners from before codes existed", () => {
+    expect(parseLastWinner(results(["1957", driver(undefined, "Fangio")]))?.code).toBe("FAN");
+  });
+
+  it("is null for a new venue", () => {
+    expect(parseLastWinner(results())).toBeNull();
   });
 });

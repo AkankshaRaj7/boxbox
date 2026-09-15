@@ -1,5 +1,5 @@
+import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
-import { PitBoardCountdown } from "@/components/f1/PitBoardCountdown";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
 import { PredictionSlip } from "@/components/f1/PredictionSlip";
 import { RadioCard } from "@/components/f1/RadioCard";
@@ -9,12 +9,10 @@ import { SectorChip } from "@/components/f1/SectorChip";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot } from "@/components/f1/TyreDot";
-import { fetchStandings } from "@/lib/jolpica";
+import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
 import {
   BRIEFING,
-  CIRCUIT,
   HOT_RUMOR,
-  NEXT_SESSION,
   PLAYER,
   POWER_RANKING,
   PREDICTION_SLIP,
@@ -22,10 +20,74 @@ import {
   STORIES,
   TEAMS,
 } from "@/lib/sample-data";
+import { currentWeekend, upcomingSessions } from "@/lib/schedule";
 import type { Standings } from "@/lib/standings";
 
-/** Re-render hourly, so a failed standings fetch is retried rather than cached. Matches STANDINGS_REVALIDATE. */
+/** Re-render hourly, so a failed Jolpica fetch is retried rather than cached. Matches JOLPICA_REVALIDATE. */
 export const revalidate = 3600;
+
+/** Upcoming sessions sent to the countdown: two to three weekends' worth. */
+const SESSIONS_AHEAD = 12;
+
+const raceDay = new Intl.DateTimeFormat("en-GB", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+
+/** Upcoming sessions and this weekend's circuit, or null when Jolpica is down. */
+async function loadSchedule() {
+  try {
+    const calendar = await fetchCalendar();
+    const now = Date.now();
+    const weekend = currentWeekend(calendar, now);
+    const lastWinner = weekend ? await fetchLastWinner(weekend.circuitId).catch(() => null) : null;
+    return { sessions: upcomingSessions(calendar, now).slice(0, SESSIONS_AHEAD), weekend, lastWinner };
+  } catch (error) {
+    console.error("Calendar unavailable:", error);
+    return null;
+  }
+}
+
+type Schedule = Awaited<ReturnType<typeof loadSchedule>>;
+
+/** This weekend's circuit. The outline is illustrative until real layouts are ingested. */
+function CircuitCard({ schedule, className }: { schedule: Schedule; className: string }) {
+  const weekend = schedule?.weekend;
+  const lastWinner = schedule?.lastWinner;
+  const race = weekend?.sessions.find((s) => s.kind === "race");
+
+  return (
+    <Panel className={`p-4 ${className}`} aria-labelledby="circuit-title">
+      <SectionHeader id="circuit-title" title="Circuit" />
+      {weekend ? (
+        <>
+          <p className="font-bold leading-snug">{weekend.circuitName}</p>
+          <p className="text-sm text-fg-dim">
+            {weekend.locality}, {weekend.country}
+          </p>
+          <TrackOutline name={weekend.circuitName} illustrative className="mt-2" />
+          <p className="text-xs text-fg-dim">Outline is illustrative, not the real layout.</p>
+          <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
+            {[
+              ["Round", `R${weekend.round}`],
+              ["Format", weekend.sessions.some((s) => s.kind === "sprint") ? "Sprint" : "Standard"],
+              ["Race (UTC)", race ? raceDay.format(Date.parse(race.startsAt)) : "TBC"],
+              ["Last winner", lastWinner ? `${lastWinner.code} ${lastWinner.season}` : "—"],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt className="font-bold uppercase text-fg-dim">{label}</dt>
+                <dd className="font-mono text-sm">{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </>
+      ) : (
+        <p className="text-sm text-fg-dim">
+          {schedule
+            ? "No race coming up. The new calendar appears here once it's published."
+            : "Circuit details are off the timing screens right now. Check back shortly."}
+        </p>
+      )}
+    </Panel>
+  );
+}
 
 /** Real championship standings, with a message instead if Jolpica is down. */
 async function Championship() {
@@ -63,19 +125,25 @@ async function Championship() {
 }
 
 /**
- * The Paddock: the daily hub. Championship standings are real; the rest still
- * renders from fictional sample data until Phase 1 replaces it.
+ * The Paddock: the daily hub. Standings, the next-session countdown and the
+ * circuit card are real; the rest is fictional sample data until Phase 1 replaces it.
  */
-export default function PaddockPage() {
+export default async function PaddockPage() {
+  const schedule = await loadSchedule();
+
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
       <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
-        Championship standings are real. Everything else on this page (countdown, briefing, circuit, news, rumors,
-        pecking order and the game) is still fictional sample data.
+        Standings, the countdown and the circuit are real. The briefing, radio feed, rumors, pecking order and the
+        game are still fictional sample data.
       </p>
 
       <div className="grid gap-4 lg:grid-cols-12">
-        <PitBoardCountdown className="lg:col-span-4" {...NEXT_SESSION} />
+        <NextSessionCountdown
+          className="lg:col-span-4"
+          sessions={schedule?.sessions ?? []}
+          unavailable={schedule === null}
+        />
 
         <Panel className="p-4 lg:col-span-5" aria-labelledby="briefing-title">
           <SectionHeader
@@ -94,23 +162,7 @@ export default function PaddockPage() {
           </ul>
         </Panel>
 
-        <Panel className="p-4 lg:col-span-3" aria-labelledby="circuit-title">
-          <SectionHeader id="circuit-title" title="Circuit" />
-          <TrackOutline name={CIRCUIT.name} />
-          <dl className="mt-3 grid grid-cols-2 gap-2 text-xs">
-            {[
-              ["Length", `${CIRCUIT.lengthKm} km`],
-              ["Laps", CIRCUIT.laps],
-              ["DRS zones", CIRCUIT.drsZones],
-              ["Last winner", CIRCUIT.lastWinner],
-            ].map(([label, value]) => (
-              <div key={label}>
-                <dt className="font-bold uppercase text-fg-dim">{label}</dt>
-                <dd className="font-mono text-sm">{value}</dd>
-              </div>
-            ))}
-          </dl>
-        </Panel>
+        <CircuitCard schedule={schedule} className="lg:col-span-3" />
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">

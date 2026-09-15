@@ -1,4 +1,4 @@
-/** Outline of the fictional sample circuit. Real circuits replace this in Phase 1. */
+/** Outline of the fictional sample circuit, until real layouts are ingested. */
 const TRACK =
   "M40 160 L250 160 Q300 160 300 115 L300 85 Q300 50 265 50 L205 50 Q180 50 168 72 L152 102 Q140 122 112 116 L72 106 Q40 100 40 132 Z";
 
@@ -7,14 +7,28 @@ const DRS_ZONES = ["M70 160 L240 160", "M300 112 L300 88"];
 
 /**
  * Circuit outline with DRS zones in green and a chequered start/finish line.
+ * Pass `illustrative` when the sample layout stands in for a real circuit, so
+ * it is never announced as that circuit's actual layout.
  */
-export function TrackOutline({ name, className = "" }: { name: string; className?: string }) {
+export function TrackOutline({
+  name,
+  illustrative = false,
+  className = "",
+}: {
+  name: string;
+  illustrative?: boolean;
+  className?: string;
+}) {
   return (
     <svg
       viewBox="20 30 300 150"
       className={`w-full ${className}`}
       role="img"
-      aria-label={`${name} layout with DRS zones marked in green`}
+      aria-label={
+        illustrative
+          ? `Illustrative circuit outline, not the real ${name} layout`
+          : `${name} layout with DRS zones marked in green`
+      }
     >
       <path d={TRACK} fill="none" className="stroke-line" strokeWidth="12" strokeLinejoin="round" />
       <path d={TRACK} fill="none" className="stroke-fg" strokeWidth="4" strokeLinejoin="round" />
