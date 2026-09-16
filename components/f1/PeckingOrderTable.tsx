@@ -4,12 +4,22 @@ import type { RankedTeam } from "@/lib/pace";
 import { teamInfo } from "@/lib/teams";
 
 /**
- * The car pecking order as a table of rows. `limit` cuts it to a preview.
+ * The car pecking order as a table of rows. `limit` cuts it to a preview, and
+ * `compact` drops the sparkline for a narrow column, where it would otherwise
+ * squeeze the team name down to an initial.
  *
  * Renders nothing but an explanation before the season's first race, when
  * there are no laps to rank anyone on.
  */
-export function PeckingOrderTable({ teams, limit }: { teams: RankedTeam[]; limit?: number }) {
+export function PeckingOrderTable({
+  teams,
+  limit,
+  compact = false,
+}: {
+  teams: RankedTeam[];
+  limit?: number;
+  compact?: boolean;
+}) {
   if (teams.length === 0) {
     return (
       <Panel as="div" className="p-4 text-sm text-fg-dim">
@@ -30,6 +40,7 @@ export function PeckingOrderTable({ teams, limit }: { teams: RankedTeam[]; limit
             movement={team.movement}
             gap={team.gap}
             trend={team.trend}
+            showTrend={!compact}
           />
         );
       })}

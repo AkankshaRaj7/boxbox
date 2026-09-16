@@ -8,10 +8,11 @@ import { TrackOutline } from "@/components/f1/TrackOutline";
 import { circuitInfo } from "@/lib/circuits";
 import Link from "next/link";
 import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
+import { briefing } from "@/lib/briefing";
 import { WIRE_HOURS, loadWire, topStories, transferStories } from "@/lib/news";
+import type { Story } from "@/lib/news-model";
 import { PACE, peckingOrder } from "@/lib/pace";
-import { BRIEFING } from "@/lib/sample-data";
-import { currentWeekend, upcomingSessions } from "@/lib/schedule";
+import { currentWeekend, upcomingSessions, type RaceWeekend } from "@/lib/schedule";
 import { driverHref, teamHref } from "@/lib/season";
 import type { Standings } from "@/lib/standings";
 
@@ -39,7 +40,7 @@ async function loadSchedule() {
     const now = Date.now();
     const weekend = currentWeekend(calendar, now);
     const lastWinner = weekend ? await fetchLastWinner(weekend.circuitId).catch(() => null) : null;
-    return { sessions: upcomingSessions(calendar, now).slice(0, SESSIONS_AHEAD), weekend, lastWinner };
+    return { calendar, sessions: upcomingSessions(calendar, now).slice(0, SESSIONS_AHEAD), weekend, lastWinner };
   } catch (error) {
     console.error("Calendar unavailable:", error);
     return null;
@@ -107,6 +108,54 @@ function CircuitCard({ schedule, className }: { schedule: Schedule; className: s
 }
 
 /** Real championship standings, with a message instead if Jolpica is down. */
+/**
+ * What matters today, written from the standings, the calendar, the pecking
+ * order and the wire. Fetches standings like Championship does: Next dedupes
+ * the two identical requests within a render.
+ */
+async function Briefing({
+  className,
+  calendar,
+  stories,
+}: {
+  className: string;
+  calendar: RaceWeekend[];
+  stories: Story[];
+}) {
+  let standings: Standings | null = null;
+  try {
+    standings = await fetchStandings();
+  } catch (error) {
+    console.error("Standings unavailable for the briefing:", error);
+  }
+  const lines = briefing({ standings, calendar, pecking: peckingOrder(), stories });
+
+  return (
+    <Panel className={`p-4 ${className}`} aria-labelledby="briefing-title">
+      <SectionHeader
+        id="briefing-title"
+        title="The Briefing"
+        kerb
+        action={<span className="font-mono text-xs text-fg-dim">60 SEC READ</span>}
+      />
+      {lines.length > 0 ? (
+        <ul className="space-y-2.5">
+          {lines.map((line) => (
+            <li key={line} className="flex gap-2.5">
+              <span aria-hidden="true" className="slant mt-2 block h-1.5 w-2.5 shrink-0 bg-box-red" />
+              {line}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-sm text-fg-dim">
+          Nothing to brief yet. The season&apos;s first race fills this in.
+        </p>
+      )}
+    </Panel>
+  );
+}
+
 async function Championship() {
   let standings: Standings | null = null;
   try {
@@ -145,8 +194,7 @@ async function Championship() {
 }
 
 /**
- * The Paddock: the daily hub. Everything here is real except the Briefing and
- * the Silly Season rumors, which are still fictional sample data.
+ * The Paddock: the daily hub. Every figure on it is real.
  */
 export default async function PaddockPage() {
   const [schedule, wire] = await Promise.all([loadSchedule(), loadWire()]);
@@ -155,11 +203,6 @@ export default async function PaddockPage() {
 
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
-      <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
-        The Briefing and the Silly Season rumors are still fictional sample data. Everything else on this page —
-        standings, countdown, circuit, headlines, fastest lap and pecking order — is real.
-      </p>
-
       <div className="grid gap-4 lg:grid-cols-12">
         <NextSessionCountdown
           className="lg:col-span-4"
@@ -167,22 +210,7 @@ export default async function PaddockPage() {
           unavailable={schedule === null}
         />
 
-        <Panel className="p-4 lg:col-span-5" aria-labelledby="briefing-title">
-          <SectionHeader
-            id="briefing-title"
-            title="The Briefing"
-            kerb
-            action={<span className="font-mono text-xs text-fg-dim">60 SEC READ</span>}
-          />
-          <ul className="space-y-2.5">
-            {BRIEFING.map((line) => (
-              <li key={line} className="flex gap-2.5">
-                <span aria-hidden="true" className="slant mt-2 block h-1.5 w-2.5 shrink-0 bg-box-red" />
-                {line}
-              </li>
-            ))}
-          </ul>
-        </Panel>
+        <Briefing className="lg:col-span-5" calendar={schedule?.calendar ?? []} stories={wire.stories} />
 
         <CircuitCard schedule={schedule} className="lg:col-span-3" />
       </div>
@@ -248,7 +276,7 @@ export default async function PaddockPage() {
                 </Link>
               }
             />
-            <PeckingOrderTable teams={peckingOrder()} limit={PREVIEW_TEAMS} />
+            <PeckingOrderTable teams={peckingOrder()} limit={PREVIEW_TEAMS} compact />
           </section>
         </div>
       </div>

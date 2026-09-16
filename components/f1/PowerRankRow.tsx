@@ -71,6 +71,7 @@ export function PowerRankRow({
   movement,
   gap,
   trend,
+  showTrend = true,
 }: {
   rank: number;
   teamName: string;
@@ -80,13 +81,15 @@ export function PowerRankRow({
   gap: number;
   /** Gap to the fastest car in %, oldest round first. */
   trend: number[];
+  /** Drop the sparkline where the row is too narrow to carry it. */
+  showTrend?: boolean;
 }) {
   return (
     <div style={teamStyle(color)} className="flex min-h-11 items-center gap-3 px-3 py-2">
       <span className="headline w-6 text-xl">{rank}</span>
       <TeamColorBar color={color} className="h-6 self-center" />
       <span className="min-w-0 flex-1 truncate text-sm font-semibold">{teamName}</span>
-      <Sparkline values={trend} />
+      {showTrend && <Sparkline values={trend} />}
       <span className="w-14 text-right font-mono text-xs tabular-nums text-fg-dim">
         {gap === 0 ? "P1" : `+${gap.toFixed(2)}%`}
       </span>
