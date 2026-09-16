@@ -41,6 +41,7 @@ npm run dev         # http://localhost:4747
 npm run typecheck   # next typegen + tsc --noEmit
 npm run lint
 npm test            # vitest (lib/**/*.test.ts)
+npm run data:pace   # refresh data/pace.json from OpenF1 (--all to rebuild)
 ```
 
 `npm run build` shares `.next/` with the dev server — stop dev first.
@@ -70,7 +71,11 @@ npm test            # vitest (lib/**/*.test.ts)
 - `app/` — routes. `app/page.tsx` is the Paddock home; `app/design` the style guide.
 - `components/f1/` — F1 UI kit. `components/design/` — style-guide-only demos.
 - `lib/` — pure logic with colocated `*.test.ts`.
-- `lib/sample-data.ts` — **fictional** Phase 0 data; replaced by ingested data in Phase 1.
+- `lib/sample-data.ts` — **fictional** data, now used only by `/design`. No
+  page on the site reads it; keep it that way.
+- `data/` — committed, generated data the site reads directly: `circuits.json`
+  and `pace.json`. Refreshed by `npm run data:*` and by GitHub Actions, never
+  fetched at request time.
 
 ## Next.js 16
 

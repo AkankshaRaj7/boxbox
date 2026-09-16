@@ -3,16 +3,16 @@
 Read this first in a new session, then [plan.md](plan.md) for the full roadmap
 and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
-_Last updated: 2026-09-16 — Phase 1, steps 1–4 done and pushed (`18c82be`): standings, calendar + countdown, news wire, and driver and team pages with per-driver helmets, per-team cars, the team-page car arrival and the owner's driver photos. Next: step 5, Supabase._
+_Last updated: 2026-09-16 — the Paddock now carries no invented data at all. Real race pace, fastest lap, driver-market stories and a generated Briefing replaced the last sample blocks, and the nav points at real pages. Next: deploy to Vercel Hobby._
 
 ## Start here (next session)
 
-- `main` is clean and pushed; the last feature commit is `18c82be` (driver and
-  team pages, team cars, driver helmets, driver photos).
-- **Next task: step 5, Supabase + scheduled jobs**, then step 6, deploy to
-  Vercel Hobby. Smaller follow-ups are listed under steps 3 and 4.
+- `main` is clean and pushed. The last six commits replaced every fictional
+  block on the Paddock with real data and repointed the navigation.
+- **Next task: deploy to Vercel Hobby.** Supabase is deliberately *not* next —
+  see "Why there is still no Supabase" below.
 - Before coding: start the dev server with the Browser pane's `boxbox` config
-  (port 4747), then confirm `npm test` (172), `npm run typecheck` and
+  (port 4747), then confirm `npm test` (226), `npm run typecheck` and
   `npm run lint` pass. If another chat's BOXBOX server already holds 4747, use
   the `boxbox-attach` config, which attaches the pane to it instead.
 - Working with the owner: finish and verify a change, then **ask before
@@ -33,7 +33,7 @@ _Last updated: 2026-09-16 — Phase 1, steps 1–4 done and pushed (`18c82be`): 
     re-cut the intro sound).
 - This file is long; "Decisions made so far" is the reference for *why* things
   are built the way they are. Skim it before changing standings, calendar,
-  circuits, news or the intro.
+  circuits, news, pace or the intro.
 
 ## Status
 
@@ -42,15 +42,20 @@ page shows real 2026 standings, a real next-session countdown and the real
 upcoming circuit from Jolpica-F1, plus real headlines from six RSS feeds; the
 full wire lives at `/news`. Every current driver and team has a page
 (`/drivers/rus`, `/teams/red_bull`), linked from the standings tower and from
-news tags. The briefing, fastest-lap panel, rumors, pecking
-order and game are still fictional sample data, and the page says so.
+news tags. **Nothing on the Paddock is fictional any more:** the pecking order
+comes from race-lap pace, the fastest lap and its sectors from OpenF1, Silly
+Season from transfer-tagged wire stories, and the Briefing is generated from
+the standings, calendar, pace and wire. `lib/sample-data.ts` is now reached
+only by the dev-only `/design`. The predictions game was removed until Phase 3
+gives it accounts.
 
 | Check | Result |
 |---|---|
-| `npm test` | 172 tests pass (adds season parsing across split pages, driver/team stats, form, team spells, teammate head-to-heads, rosters, helmet designs, car art, and the team-page arrival and reveal timing) |
+| `npm test` | 226 tests pass (adds nav active state, the pace statistics and a guard over the committed `data/pace.json`, lap-time formatting, transfer filtering and the Briefing's lines) |
 | `npm run typecheck` | Clean |
 | `npm run lint` | Clean |
-| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders. Intro (real click): lights at 0.75/1.75/2.74/3.75/4.75 s; car pass checked without sound: car measured at 80 % of a 698 px screen (558 × 1508 px), pass 936 ms, cover and marks clips correct after the pass; page handed back with nothing inert (checked while the pane was visible); second visit and Esc skip go straight in. Car drawing and tyre marks checked as rendered PNGs. Sound files serve as `audio/mp4` and `audio/wav`; sound not listened to by Claude. Driver/team pages (step 4): `/drivers/rus` (P2, 211 pts, 6–8 qualifying and 4–10 race vs ANT), `/drivers/law` (team-change note, a head-to-head per seat), `/teams/red_bull` (VER 8–2 HAD, VER–LAW R12–R14), `/teams/rb`; no overflow at 375px; `/drivers/xyz` and `/teams/nope` 404; `/drivers/RUS` and `/teams/McLaren` 308 to lower case; standings rows link to driver pages; `/design` renders. Art round (2026-09-16): `/design` shows all 11 team cars and 23 helmets; `/drivers/nor` has the photo breaking out above the panel and the big mirrored helmet on the right at 1280px, the larger inline helmet beside the number at 375px; `/teams/mclaren` name in papaya, arrival frozen mid-drive shows the text still clipped and tyre marks uncovering behind the rear wheel, and at the stop the text is fully revealed with no clip left; no overflow at 375px on `/drivers/ver` or `/teams/rb` |
+| Browser (2026-09-16, real data) | Paddock: Briefing reads "Antonelli leads Russell by 81 points, with 233 still on the table over nine rounds" / "Mercedes lead the constructors' by 145 from Ferrari" / "Mercedes have the quickest car of the last five races, 0.23% clear of Ferrari" / "Audi are the biggest climbers in the pecking order, up a place to fifth" — all four checked against the raw numbers. Fastest lap card: RUS 1:35.587 lap 49, hard tyre 20 laps old, S1 purple / S2 green / S3 yellow, each verified against the session's own sector bests. Silly Season shows its quiet-market state (0 of 72 wire stories are transfers). `/pecking-order` lists all 11 teams (Mercedes +0.14% → Cadillac +4.73%) with a 14-round trend chart whose McLaren line breaks at R2. Nav: `/news` highlights News, `/pecking-order` highlights Pace, `/#market` moves the marker. No overflow at 375px or 1280px on `/`, `/news`, `/pecking-order`; bottom nav is 4 equal columns; team names render in full in both the compact preview and the full table. Empty states rendered and checked for the pecking order, Silly Season and the Briefing. Six routes return 200, `/drivers/xyz` 404s, and a clean dev server logs no errors. |
+| Browser (earlier rounds) | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders. Intro (real click): lights at 0.75/1.75/2.74/3.75/4.75 s; car pass checked without sound: car measured at 80 % of a 698 px screen (558 × 1508 px), pass 936 ms, cover and marks clips correct after the pass; page handed back with nothing inert (checked while the pane was visible); second visit and Esc skip go straight in. Car drawing and tyre marks checked as rendered PNGs. Sound files serve as `audio/mp4` and `audio/wav`; sound not listened to by Claude. Driver/team pages (step 4): `/drivers/rus` (P2, 211 pts, 6–8 qualifying and 4–10 race vs ANT), `/drivers/law` (team-change note, a head-to-head per seat), `/teams/red_bull` (VER 8–2 HAD, VER–LAW R12–R14), `/teams/rb`; no overflow at 375px; `/drivers/xyz` and `/teams/nope` 404; `/drivers/RUS` and `/teams/McLaren` 308 to lower case; standings rows link to driver pages; `/design` renders. Art round (2026-09-16): `/design` shows all 11 team cars and 23 helmets; `/drivers/nor` has the photo breaking out above the panel and the big mirrored helmet on the right at 1280px, the larger inline helmet beside the number at 375px; `/teams/mclaren` name in papaya, arrival frozen mid-drive shows the text still clipped and tyre marks uncovering behind the rear wheel, and at the stop the text is fully revealed with no clip left; no overflow at 375px on `/drivers/ver` or `/teams/rb` |
 
 ## What exists
 
@@ -64,13 +69,15 @@ order and game are still fictional sample data, and the page says so.
   season + round label), real next-session countdown, circuit card (real
   outline, length, scheduled laps, round, format, race day in UTC, last
   winner) and a radio feed of the top 3 wire stories with a "Full wire" link,
-  each with a fallback message if its source is down; plus the sample Briefing,
-  fastest lap, rumor card, pecking order, predictions sheet and badges.
-  `revalidate = 900`.
+  each with a fallback message if its source is down; a generated Briefing, the
+  real fastest lap, real driver-market stories and a five-team pecking-order
+  preview. `revalidate = 900`. No sample data.
 - **`app/news/page.tsx`** — the full news wire (`revalidate = 900`): every story
   from the last 72 h with filters, and a notice naming any feed that failed.
+- **`app/pecking-order/page.tsx`** — the full car pecking order: 11 teams, a
+  season trend chart and a "How this is measured" note.
 - **`app/design/page.tsx`** — dev-only style guide (404 in production) showing
-  every token and component.
+  every token and component. The only reader of `lib/sample-data.ts`.
 - **`components/f1/`** — the F1 UI kit: `TimingTower`, `StandingsPanel`,
   `PitBoardCountdown`, `RadioCard`, `ShiftLightMeter`, `RumorCard`, `SectorChip`,
   `TyreDot`, `PowerRankRow`, `SeatBoard`, `TelemetryChart`, `PredictionSlip`,
@@ -84,7 +91,18 @@ order and game are still fictional sample data, and the page says so.
   last winner), `teams.ts` (2026 team codes, short names and colours keyed by
   Jolpica `constructorId`), `circuits.ts` (layouts, length, scheduled laps),
   `lights.ts` (intro timing, car pick, car-pass keyframes), `intro-audio.ts`
-  (beeps and the car recording) and `sample-data.ts`.
+  (beeps and the car recording) and `sample-data.ts` (now `/design` only).
+- **Pace:** `lib/pace.ts` (lap filtering, `representativePace`, `teamPace`,
+  `gapsToFastest`, `rankTeams`, `seasonTrend`, `peckingOrder`, and the typed
+  `PACE` import of the committed data), `scripts/build-pace.mts`
+  (`npm run data:pace`), `data/pace.json` (~6 KB, committed) and
+  `.github/workflows/pace-data.yml` (daily refresh).
+- **Briefing:** `lib/briefing.ts` — seven line generators, each returning a
+  sentence or null, plus `pointsRemaining` for the championship arithmetic.
+- **Nav:** `lib/nav.ts` (`activeNavHref`), `components/f1/nav-items.ts` and
+  `components/f1/HeaderNav.tsx`.
+- **New components:** `PeckingOrderTable` (with a `compact` mode for narrow
+  columns) and `FastestLapCard`.
 - **Driver and team pages:** `app/drivers/[code]/page.tsx` and
   `app/teams/[id]/page.tsx`; `lib/season.ts` (season model and pure stats:
   `driverStats`, `recentForm`, `teamSpells`, `headToHead`,
@@ -447,29 +465,117 @@ order and game are still fictional sample data, and the page says so.
   `page-wipe` animation first: a background tab can freeze it at
   `translateX(32px)` and fake a 32px overflow.
 
+- **Navigation (2026-09-16):**
+  - The five nav items used to be hash anchors on the home page, so every click
+    scrolled the same page and `/news` — the one built-out page — was reachable
+    only from a small "Full wire" link. Items now carry real hrefs: News →
+    `/news`, Pace → `/pecking-order`, Market stays a Paddock section until the
+    rumor admin flow gives it a page's worth.
+  - `activeNavHref` decides the current item from the route, or from the hash on
+    the Paddock page, and is shared by the header and the tab bar.
+  - Section links stay plain `<a>`, not `Link`: a real hash navigation is what
+    fires the `hashchange` the marker listens for.
+  - **The predictions game was removed**, not hidden — it cannot be anything but
+    fictional without accounts and storage, so it waits for Phase 3. Its
+    components live on in `/design`. The bottom nav is now four columns.
+- **Car pace (2026-09-16):**
+  - Method, as stated on the page: per driver, drop untimed laps, the lap out of
+    the pits and the lap they pitted on; take the median; drop laps more than 7%
+    off that median; take the median again. Per team, keep the **quicker car**,
+    so a retirement or an afternoon in traffic doesn't become the team's pace. A
+    driver needs 25% of the busiest driver's laps to count at all.
+  - Ranking averages the gap to the quickest car over the **last five races**. A
+    single race moves a team a percent either way on strategy alone, so a
+    one-race ranking is noise.
+  - **Races come from Jolpica's calendar, not OpenF1's.** The two disagree about
+    2026: OpenF1 has races at Sakhir (12 Apr) and Jeddah (19 Apr) that Jolpica's
+    23-round calendar does not list. Standings, driver pages and the countdown
+    are all Jolpica's, so the pecking order must rest on the same rounds.
+    Sessions are matched by date.
+  - Drivers are joined OpenF1 number → TLA → Jolpica constructor **per round**,
+    which handles mid-season seat changes. All 22 acronyms matched for R14.
+  - The numbers were validated twice: a Python prototype first, then the
+    TypeScript reproduced it to the decimal; and the fastest lap the pipeline
+    extracts (RUS, lap 49, 95.587 s) matches Jolpica's independently reported
+    `1:35.587` on lap 49.
+  - Two teams are missing from one round each (McLaren R2, Cadillac R8) because
+    neither car completed enough laps. `rankTeams` counts a team only for the
+    races it appears in, and the trend chart breaks the line rather than drawing
+    through the gap.
+- **OpenF1 quirks, all learned the hard way:**
+  - It answers **429** when rushed. The script waits 0.7 s between requests and
+    backs off 10/20/30 s on a 429.
+  - It answers **404**, not an empty list, for a race that hasn't run.
+  - `session_type=Race` includes sprints; filter on `session_name === "Race"`.
+  - A race is only read **six hours after it starts**, so a scheduled run during
+    a Grand Prix cannot record a half-finished one.
+  - Rounds already in `data/pace.json` cost no requests, and an unchanged run
+    leaves the file byte-identical so the Action commits nothing.
+- **`tsx` is a devDependency** because Node 20 cannot run TypeScript, and the
+  build script and the site should share one tested implementation of the
+  statistics rather than keeping them in a second language. The script is
+  `.mts`: `package.json` has no `"type": "module"`, so a `.ts` script would be
+  compiled as CJS and top-level `await` fails.
+- **The Briefing (2026-09-16):**
+  - Voice is **pit-wall factual**, chosen by the owner over a team-radio voice
+    and a timing-screen terse one.
+  - Every line is a fact computed in `lib/briefing.ts`. **No LLM**, per the
+    zero-cost rule, and nothing invented.
+  - Each generator returns a sentence **or null**, and the panel takes the first
+    four that fire, so a quiet day shortens the briefing instead of padding it.
+  - Lines are ranked so synthesis outranks anything already visible on another
+    card. `paceAgainstPoints` only fires when the quickest car is *not* leading
+    the constructors', so it is silent while Mercedes lead both.
+  - The title-clinched line needs the lead to **exceed** the points still
+    available; a lead exactly equal to them still leaves a countback tie.
+- **Silly Season (2026-09-16):** real transfer-tagged wire stories, ranked by how
+  many outlets carry them, with **no credibility rating** — grouping real rumors
+  and weighing them needs the Phase 2 admin flow, and an unreviewed rating would
+  be guessing about a real person's career. Expect it to be empty often: on
+  2026-09-16 none of 72 wire stories was a driver-market story, which is the
+  market rather than a broken classifier (checked: "Hamilton signs new Ferrari
+  contract", "Verstappen linked with Mercedes move" and "Alpine confirm 2027
+  line-up" all classify as transfers; "Honda replaces its F1 engine development
+  chief" correctly does not).
+- **Why there is still no Supabase.** The owner asked what it was for, and the
+  honest answer is that nothing built so far needs it: every page is live data
+  on a cache timer. It becomes necessary for **sign-in, the predictions game and
+  leagues** (Phase 3) and for **admin-approved rumors** (Phase 2). Until then a
+  scheduled job writing a committed JSON file — the pattern `data/pace.json`
+  now uses — covers anything a job computes and the site only reads, with no
+  account and no free-tier project to keep awake. Deploy first.
+
 ## Next steps — Phase 1 (MVP)
 
 1. ~~Real standings~~ — done.
 2. ~~Real calendar + next session countdown + circuit card~~ — done, including
    real layouts, length and scheduled laps. Possible follow-up: a full calendar page.
-3. ~~News wire~~ — done (see "News wire" above). Follow-ups: point the nav's
-   "News" item at `/news`, add formula1.com once first-seen times are stored,
-   strip long RaceFans " | …" title suffixes.
-4. ~~Driver and team pages~~ — done and pushed, including per-driver helmets,
-   per-team cars, the car arrival and the owner's driver photos (see "Driver
-   and team pages"). Follow-ups: swap the owner's photos for licensed ones
-   before any deploy (they are git-ignored, so the live site shows helmets);
-   the compare tool, rumors section and `/drivers`/`/teams` index pages were
-   left out by choice; a pre-season visit 404s every page until round 1 has
-   results; Tsunoda has no photo or helmet design (no reference photo found).
-5. **Supabase + scheduled jobs** once data needs storing. The user creates the
-   free Supabase and Vercel accounts themselves; never add a payment method.
-6. **Deploy** to Vercel Hobby. Note before deploying: the site fetches Jolpica
-   and the RSS feeds on each revalidate with no database yet, and driver photos
-   are git-ignored, so deployed driver pages show helmets.
+3. ~~News wire~~ — done. Follow-ups: strip long RaceFans " | …" title suffixes;
+   add formula1.com once first-seen times are stored; deep-link the Silly
+   Season "Full wire" at a pre-filtered `/news`. That needs the URL **hash**,
+   the way the nav already works — reading search params would force `/news` to
+   render dynamically instead of being cached every 15 minutes.
+4. ~~Driver and team pages~~ — done. Follow-ups: swap the owner's photos for
+   licensed ones before any deploy (they are git-ignored, so the live site shows
+   helmets); the compare tool and `/drivers`/`/teams` index pages were left out
+   by choice; a pre-season visit 404s every page until round 1 has results;
+   Tsunoda has no photo or helmet design.
+5. ~~Replace the remaining sample data~~ — done: nav and routes, the pace
+   pipeline, the pecking order, the fastest lap, Silly Season and the Briefing.
+   `lib/sample-data.ts` is now `/design` only.
+6. **Deploy to Vercel Hobby.** Before deploying, note:
+   - Driver photos are git-ignored, so deployed driver pages show helmets.
+   - `.github/workflows/pace-data.yml` pushes to `main`; make sure Vercel
+     redeploying on every such commit is what you want.
+   - `/design` 404s in production by design.
+   - The site fetches Jolpica and the RSS feeds on each revalidate; only the
+     pace data is precomputed.
+7. **Supabase** only when Phase 2 rumors or Phase 3 accounts need it — see
+   "Why there is still no Supabase". The owner creates the free accounts
+   themselves; never add a payment method.
 
-Remove each block of `lib/sample-data.ts` (and the "fictional sample data"
-notice) as the real data for it lands. Keep `/design` working with sample data.
+Phase 2 candidates: the rumor admin flow behind Silly Season, a `/races/[slug]`
+hub, and a championship calculator built on `pointsRemaining` in `lib/briefing.ts`.
 
 ## Gotchas
 
@@ -482,5 +588,21 @@ notice) as the real data for it lands. Keep `/design` working with sample data.
   reuse it rather than starting another (Browser pane: `boxbox-attach`).
 - The Browser pane's `zoom` action isn't supported; to inspect an SVG closely,
   enlarge it temporarily with `javascript_tool` and take a screenshot.
+- **Screenshots are unreliable while the Browser pane is hidden** — scrolling
+  doesn't repaint, so you get a blank image. Read the DOM with `javascript_tool`
+  or `read_page` instead, and don't trust digits read off a scaled screenshot
+  (a 1.90% was misread as 1.98% that way).
+- **Don't trust a Fast Refresh error.** A 500 seen mid-edit can be a stale
+  intermediate state; restart the dev server and re-sweep the routes before
+  chasing it. The browser console keeps errors across navigations, so check the
+  *server* log for whether a problem is still live.
+- **Implicit grid tracks size to min-content**, which overflows at 375px. Both
+  the home page and `/pecking-order` needed an explicit `grid-cols-1`. And a
+  fix that is viewport-based (`hidden sm:block`) does **not** cover a narrow
+  column on a wide screen — that is what `PeckingOrderTable`'s `compact` mode
+  is for.
+- Adding a field to `fastestLap` in `data/pace.json` needs the stored one
+  cleared first (set it to `null`), or `--all`: the script keeps a stored
+  fastest lap when it is already current.
 - Scratch checks against real Jolpica JSON: a vitest config outside the repo
   can't resolve `vitest`; symlink the repo's `node_modules` next to it.

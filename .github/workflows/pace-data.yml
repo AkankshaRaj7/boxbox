@@ -1,0 +1,56 @@
+# Keeps data/pace.json current: the site reads the committed file, so nobody
+# visiting BOXBOX ever waits on OpenF1 for the ~1,100 lap rows a race produces.
+name: Pace data
+
+on:
+  schedule:
+    # Once a day. The build script only reads a race six hours after it starts,
+    # so this always finds a finished one, and writes nothing when there is no
+    # new round — most runs commit nothing at all.
+    - cron: "0 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+# Never let two refreshes push over each other.
+concurrency:
+  group: pace-data
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci
+
+      - name: Fetch any new race
+        run: npm run data:pace
+
+      # lib/pace.test.ts checks the committed file itself: rounds in order,
+      # only constructors the site can colour, believable lap times, and a
+      # fastest lap whose sectors add up. A bad refresh fails here rather than
+      # reaching the site.
+      - name: Check the new data
+        run: npm test
+
+      - name: Commit when the data changed
+        run: |
+          if git diff --quiet -- data/pace.json; then
+            echo "No new race pace; nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/pace.json
+          git commit -m "Refresh race pace data"
+          # main may have moved since checkout; the data file is ours alone.
+          git pull --rebase origin ${GITHUB_REF_NAME}
+          git push
