@@ -14,7 +14,7 @@ export const TOPICS: Record<Topic, { label: string; tone: "yellow" | "blue" | "g
 };
 
 /** A driver or team named in a story. */
-export type Entity = { id: string; label: string; kind: "driver" | "team"; color: string };
+export type Entity = { id: string; label: string; kind: "driver" | "team"; color: string; href?: string };
 
 export type Story = {
   id: string;

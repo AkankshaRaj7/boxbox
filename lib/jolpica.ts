@@ -6,6 +6,7 @@
  * cached by Next.js and refetched at most once per `JOLPICA_REVALIDATE`.
  */
 import { SESSION_NAMES, type RaceWeekend, type Session, type SessionKind } from "@/lib/schedule";
+import type { Classification, DriverBio, RoundInfo, SeasonResults } from "@/lib/season";
 import type { StandingRow, Standings } from "@/lib/standings";
 import { FALLBACK_TEAM_COLOR, teamInfo } from "@/lib/teams";
 
@@ -72,7 +73,34 @@ export type JolpicaRace = SessionTime & {
 type ResultsRace = { season: string; Results: { Driver: JolpicaDriver }[] };
 
 export type RaceTableResponse<Race = JolpicaRace> = {
-  MRData: { RaceTable: { season?: string; Races: Race[] } };
+  MRData: { total?: string; RaceTable: { season?: string; Races: Race[] } };
+};
+
+type ProfileDriver = JolpicaDriver & { permanentNumber?: string; nationality?: string; dateOfBirth?: string };
+
+type ClassificationRow = {
+  number?: string;
+  position: string;
+  positionText: string;
+  points: string;
+  grid?: string;
+  status: string;
+  Driver: ProfileDriver;
+  Constructor: JolpicaConstructor;
+};
+
+type QualifyingResultRow = { number?: string; position: string; Driver: ProfileDriver; Constructor: JolpicaConstructor };
+
+/** A race from the season-wide `/results/`, `/sprint/` or `/qualifying/` endpoints. */
+export type ClassifiedRace = {
+  season: string;
+  round: string;
+  raceName: string;
+  date: string;
+  Circuit: { circuitId: string };
+  Results?: ClassificationRow[];
+  SprintResults?: ClassificationRow[];
+  QualifyingResults?: QualifyingResultRow[];
 };
 
 function toPoints(value: string): number {
@@ -161,15 +189,103 @@ export function parseLastWinner(res: RaceTableResponse<ResultsRace>): { code: st
   return race && winner ? { code: driverCode(winner), season: race.season } : null;
 }
 
-async function getJolpica<T>(path: string): Promise<T> {
-  const res = await fetch(`${JOLPICA_BASE}${path}`, {
-    next: { revalidate: JOLPICA_REVALIDATE, tags: ["jolpica"] },
-    signal: AbortSignal.timeout(10_000),
-  });
-  if (!res.ok) {
-    throw new Error(`Jolpica ${path} responded ${res.status}`);
+function toClassification(round: number, row: ClassificationRow): Classification {
+  return {
+    round,
+    driverId: row.Driver.driverId,
+    constructorId: row.Constructor.constructorId,
+    position: Number(row.position),
+    positionText: row.positionText,
+    status: row.status,
+    grid: row.grid === undefined ? null : Number(row.grid),
+    points: toPoints(row.points),
+  };
+}
+
+/**
+ * A season's classifications from the paged `/results/`, `/sprint/` and
+ * `/qualifying/` responses. Pages split a round's rows wherever the limit
+ * falls, so rows are merged by round. Driver details come from each driver's
+ * latest row.
+ */
+export function parseSeasonResults(pages: {
+  results: ClassifiedRace[];
+  sprints: ClassifiedRace[];
+  qualifying: ClassifiedRace[];
+}): SeasonResults {
+  const rounds = new Map<number, RoundInfo>();
+  const drivers = new Map<string, { round: number; bio: DriverBio }>();
+  const noteDriver = (round: number, row: { number?: string; Driver: ProfileDriver }) => {
+    const seen = drivers.get(row.Driver.driverId);
+    if (seen && seen.round > round) return;
+    const d = row.Driver;
+    drivers.set(d.driverId, {
+      round,
+      bio: {
+        id: d.driverId,
+        code: driverCode(d),
+        givenName: d.givenName,
+        familyName: d.familyName,
+        number: row.number ?? d.permanentNumber ?? null,
+        nationality: d.nationality ?? null,
+        dateOfBirth: d.dateOfBirth ?? null,
+      },
+    });
+  };
+
+  const teams = new Map<string, string>();
+  const races: Classification[] = [];
+  for (const race of pages.results) {
+    const round = Number(race.round);
+    rounds.set(round, { round, event: race.raceName, date: race.date, circuitId: race.Circuit.circuitId });
+    for (const row of race.Results ?? []) {
+      races.push(toClassification(round, row));
+      noteDriver(round, row);
+      teams.set(row.Constructor.constructorId, row.Constructor.name);
+    }
   }
-  return res.json();
+  const sprints = pages.sprints.flatMap((race) =>
+    (race.SprintResults ?? []).map((row) => toClassification(Number(race.round), row)),
+  );
+  const qualifying = pages.qualifying.flatMap((race) =>
+    (race.QualifyingResults ?? []).map((row) => ({
+      round: Number(race.round),
+      driverId: row.Driver.driverId,
+      constructorId: row.Constructor.constructorId,
+      position: Number(row.position),
+    })),
+  );
+
+  return {
+    season: pages.results[0]?.season ?? pages.qualifying[0]?.season ?? "",
+    rounds: [...rounds.values()].sort((a, b) => a.round - b.round),
+    drivers: [...drivers.values()].map((d) => d.bio),
+    teams: [...teams].map(([id, name]) => ({ id, name })),
+    races,
+    sprints,
+    qualifying,
+  };
+}
+
+/** Retries after a 429: Jolpica also limits bursts to a few requests a second. */
+const RATE_LIMIT_RETRIES = 2;
+
+async function getJolpica<T>(path: string): Promise<T> {
+  for (let attempt = 0; ; attempt++) {
+    const res = await fetch(`${JOLPICA_BASE}${path}`, {
+      next: { revalidate: JOLPICA_REVALIDATE, tags: ["jolpica"] },
+      signal: AbortSignal.timeout(10_000),
+    });
+    if (res.status === 429 && attempt < RATE_LIMIT_RETRIES) {
+      const seconds = Math.min(Number(res.headers.get("retry-after")) || 1, 5);
+      await new Promise((resolve) => setTimeout(resolve, seconds * 1000));
+      continue;
+    }
+    if (!res.ok) {
+      throw new Error(`Jolpica ${path} responded ${res.status}`);
+    }
+    return res.json();
+  }
 }
 
 /**
@@ -196,6 +312,38 @@ export async function fetchStandings(): Promise<Standings> {
  */
 export async function fetchCalendar(): Promise<RaceWeekend[]> {
   return parseCalendar(await getJolpica<RaceTableResponse>("/current/?limit=100"));
+}
+
+/** Jolpica's largest page size. */
+const PAGE_LIMIT = 100;
+
+/**
+ * Every race row from a paged race-table endpoint. Pages load one after
+ * another, so a cold cache doesn't trip Jolpica's burst limit.
+ */
+async function getAllRaces<Race>(path: string): Promise<Race[]> {
+  const races: Race[] = [];
+  let total = Infinity;
+  for (let offset = 0; offset < total; offset += PAGE_LIMIT) {
+    const res = await getJolpica<RaceTableResponse<Race>>(`${path}?limit=${PAGE_LIMIT}&offset=${offset}`);
+    total = Number(res.MRData.total ?? 0);
+    races.push(...res.MRData.RaceTable.Races);
+  }
+  return races;
+}
+
+/**
+ * The current season's race, sprint and qualifying classifications: about ten
+ * requests, made in sequence, each cached for `JOLPICA_REVALIDATE` and shared
+ * by every driver and team page.
+ *
+ * @throws if Jolpica is unreachable.
+ */
+export async function fetchSeasonResults(): Promise<SeasonResults> {
+  const results = await getAllRaces<ClassifiedRace>("/current/results/");
+  const sprints = await getAllRaces<ClassifiedRace>("/current/sprint/");
+  const qualifying = await getAllRaces<ClassifiedRace>("/current/qualifying/");
+  return parseSeasonResults({ results, sprints, qualifying });
 }
 
 /**

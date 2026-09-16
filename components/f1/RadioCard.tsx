@@ -1,4 +1,5 @@
 import { ExternalLink, Radio } from "lucide-react";
+import Link from "next/link";
 import { Fragment } from "react";
 import { Panel } from "@/components/f1/Panel";
 import { SlantTag, type SlantTone } from "@/components/f1/SlantTag";
@@ -53,7 +54,7 @@ export function RadioCard({
   publishedAt: string;
   href?: string;
   /** Drivers and teams named in the story, shown with their team colour. */
-  tags?: { id: string; label: string; color: string }[];
+  tags?: { id: string; label: string; color: string; href?: string }[];
   /** The same story at other outlets. */
   alsoOn?: { source: string; link: string }[];
 }) {
@@ -87,7 +88,13 @@ export function RadioCard({
               style={teamStyle(t.color)}
               className="border-l-2 border-(--team) pl-1.5 font-mono text-xs font-bold text-(--team-text)"
             >
-              {t.label}
+              {t.href ? (
+                <Link href={t.href} className="hover:underline">
+                  {t.label}
+                </Link>
+              ) : (
+                t.label
+              )}
             </li>
           ))}
         </ul>

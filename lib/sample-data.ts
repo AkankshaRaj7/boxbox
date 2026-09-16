@@ -8,6 +8,7 @@
 import type { Outline } from "@/lib/circuits";
 import type { RumorStatus } from "@/lib/credibility";
 import type { Story } from "@/lib/news-model";
+import type { FormEntry } from "@/lib/season";
 import type { StandingRow } from "@/lib/standings";
 import { nextSaturdayAt } from "@/lib/time";
 
@@ -244,3 +245,12 @@ export const PLAYER = {
   leagueName: "Office Pit Crew",
   badges: ["Nostradamus", "Perfect Podium", "Rain Master"],
 };
+
+/** Last five results for the /design FormChips specimen. */
+export const SAMPLE_FORM: FormEntry[] = [
+  { round: 10, label: "DNF", kind: "out" },
+  { round: 11, label: "P7", kind: "points" },
+  { round: 12, label: "P1", kind: "win" },
+  { round: 13, label: "P2", kind: "podium" },
+  { round: 14, label: "P14", kind: "finish" },
+];

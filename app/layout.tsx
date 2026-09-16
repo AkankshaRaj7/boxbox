@@ -28,11 +28,11 @@ export const metadata: Metadata = {
 };
 
 /**
- * Before first paint, shows the lights-out start screen on the first visit of a
+ * Before first paint, marks the page as scripted (`data-js`) and shows the lights-out start screen on the first visit of a
  * browser session. Skipped under reduced motion; without JavaScript it never
  * shows, so the page is always reachable.
  */
-const INTRO_START = `try{if(!sessionStorage.getItem(${JSON.stringify(INTRO_SEEN_KEY)})&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.dataset.intro="start"}}catch(e){}`;
+const INTRO_START = `try{document.documentElement.dataset.js="";if(!sessionStorage.getItem(${JSON.stringify(INTRO_SEEN_KEY)})&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.dataset.intro="start"}}catch(e){}`;
 
 /**
  * Root layout: fonts, the once-per-session lights-out intro, header, mobile

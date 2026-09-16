@@ -6,6 +6,10 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev"],
       "port": 4747
+    },
+    {
+      "name": "boxbox-attach",
+      "url": "http://localhost:4747"
     }
   ]
 }

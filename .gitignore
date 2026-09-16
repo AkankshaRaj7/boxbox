@@ -42,3 +42,6 @@ next-env.d.ts
 
 # claude code personal overrides
 .claude/settings.local.json
+
+# Owner-supplied driver photos of unknown licence: local only, never committed (see docs/handoff.md).
+/public/drivers/

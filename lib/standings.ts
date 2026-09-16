@@ -5,6 +5,8 @@ export type StandingRow = {
   name: string;
   color: string;
   points: number;
+  /** Driver or team page, when there is one. */
+  href?: string;
 };
 
 /** Both championship tables as they stood after `round` of `season`. */

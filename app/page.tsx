@@ -23,6 +23,7 @@ import {
   TEAMS,
 } from "@/lib/sample-data";
 import { currentWeekend, upcomingSessions } from "@/lib/schedule";
+import { driverHref, teamHref } from "@/lib/season";
 import type { Standings } from "@/lib/standings";
 
 /**
@@ -131,7 +132,10 @@ async function Championship() {
       />
       <Panel as="div">
         {standings && standings.drivers.length > 0 ? (
-          <StandingsPanel drivers={standings.drivers} constructors={standings.constructors} />
+          <StandingsPanel
+            drivers={standings.drivers.map((d) => ({ ...d, href: driverHref(d.code) }))}
+            constructors={standings.constructors.map((c) => ({ ...c, href: teamHref(c.id) }))}
+          />
         ) : (
           <p className="p-4 text-sm text-fg-dim">
             {standings

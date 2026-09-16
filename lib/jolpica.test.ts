@@ -5,6 +5,8 @@ import {
   parseDriverStandings,
   parseLastWinner,
   parseRound,
+  parseSeasonResults,
+  type ClassifiedRace,
   type RaceTableResponse,
   type StandingsResponse,
 } from "./jolpica";
@@ -209,5 +211,89 @@ describe("parseLastWinner", () => {
 
   it("is null for a new venue", () => {
     expect(parseLastWinner(results())).toBeNull();
+  });
+});
+
+describe("parseSeasonResults", () => {
+  const driver = (driverId: string, code: string) => ({
+    driverId,
+    code,
+    givenName: "Sam",
+    familyName: driverId,
+    permanentNumber: "9",
+    nationality: "British",
+    dateOfBirth: "2000-01-01",
+  });
+  const row = (d: ReturnType<typeof driver>, position: number, extra: Record<string, string> = {}) => ({
+    number: "9",
+    position: String(position),
+    positionText: String(position),
+    points: position === 1 ? "25" : "0.5",
+    grid: String(position),
+    status: "Finished",
+    Driver: d,
+    Constructor: mercedes,
+    ...extra,
+  });
+  const race = (round: number, rows: Partial<ClassifiedRace>): ClassifiedRace => ({
+    season: "2026",
+    round: String(round),
+    raceName: `Grand Prix ${round}`,
+    date: `2026-03-0${round}`,
+    Circuit: { circuitId: `circuit_${round}` },
+    ...rows,
+  });
+  const rus = driver("russell", "RUS");
+  const ant = driver("antonelli", "ANT");
+
+  /** Round 2 is split across two pages, as Jolpica does wherever the page limit falls. */
+  const season = parseSeasonResults({
+    results: [
+      race(1, { Results: [row(rus, 1), row(ant, 2)] }),
+      race(2, { Results: [row(rus, 1, { number: "63" })] }),
+      race(2, { Results: [row(ant, 2, { grid: "0", positionText: "R", status: "Retired" })] }),
+    ],
+    sprints: [race(2, { SprintResults: [row(ant, 1)] })],
+    qualifying: [race(2, { QualifyingResults: [{ position: "1", Driver: ant, Constructor: mercedes }] })],
+  });
+
+  it("merges rounds split across pages", () => {
+    expect(season.rounds).toEqual([
+      { round: 1, event: "Grand Prix 1", date: "2026-03-01", circuitId: "circuit_1" },
+      { round: 2, event: "Grand Prix 2", date: "2026-03-02", circuitId: "circuit_2" },
+    ]);
+    expect(season.races.filter((r) => r.round === 2).map((r) => r.driverId)).toEqual(["russell", "antonelli"]);
+  });
+
+  it("converts numbers and keeps the finish code and a pit-lane grid of 0", () => {
+    expect(season.races.at(-1)).toEqual({
+      round: 2,
+      driverId: "antonelli",
+      constructorId: "mercedes",
+      position: 2,
+      positionText: "R",
+      status: "Retired",
+      grid: 0,
+      points: 0.5,
+    });
+  });
+
+  it("takes driver details from the latest race", () => {
+    expect(season.drivers.find((d) => d.id === "russell")).toEqual({
+      id: "russell",
+      code: "RUS",
+      givenName: "Sam",
+      familyName: "russell",
+      number: "63",
+      nationality: "British",
+      dateOfBirth: "2000-01-01",
+    });
+    expect(season.teams).toEqual([{ id: "mercedes", name: "Mercedes" }]);
+  });
+
+  it("parses sprints and qualifying", () => {
+    expect(season.season).toBe("2026");
+    expect(season.sprints).toMatchObject([{ round: 2, driverId: "antonelli", points: 25 }]);
+    expect(season.qualifying).toEqual([{ round: 2, driverId: "antonelli", constructorId: "mercedes", position: 1 }]);
   });
 });

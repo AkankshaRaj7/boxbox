@@ -7,20 +7,29 @@ import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PitBoardCountdown } from "@/components/f1/PitBoardCountdown";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
 import { PredictionSlip } from "@/components/f1/PredictionSlip";
+import { DriverHero } from "@/components/f1/DriverHero";
+import { FormChips } from "@/components/f1/FormChips";
+import { HeadToHeadCard } from "@/components/f1/HeadToHeadCard";
+import { Helmet } from "@/components/f1/Helmet";
 import { IntroCar } from "@/components/f1/IntroCar";
 import { NewsWire } from "@/components/f1/NewsWire";
 import { EnamelPin, StreakFlame } from "@/components/f1/Rewards";
 import { RumorCard } from "@/components/f1/RumorCard";
 import { SeatBoard } from "@/components/f1/SeatBoard";
+import { SideCar } from "@/components/f1/SideCar";
 import { SectorChip } from "@/components/f1/SectorChip";
 import { ShiftLightMeter } from "@/components/f1/ShiftLightMeter";
 import { SlantTag } from "@/components/f1/SlantTag";
+import { StatStrip } from "@/components/f1/StatStrip";
 import { StoryCard } from "@/components/f1/StoryCard";
+import { TeamHero } from "@/components/f1/TeamHero";
 import { TelemetryChart } from "@/components/f1/TelemetryChart";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { TyreDot, type TyreCompound } from "@/components/f1/TyreDot";
 import { Wordmark } from "@/components/f1/Wordmark";
 import { readableOn, teamStyle } from "@/lib/color";
+import { CAR_ART } from "@/lib/car-art";
+import { HELMETS, helmetDesign } from "@/lib/helmet-designs";
 import type { RumorStatus } from "@/lib/credibility";
 import {
   CIRCUIT,
@@ -28,6 +37,7 @@ import {
   POWER_RANKING,
   PREDICTION_SLIP,
   RUMORS,
+  SAMPLE_FORM,
   SAMPLE_LAP,
   SEATS,
   STORIES,
@@ -84,6 +94,7 @@ const SWATCH_GROUPS: { title: string; swatches: { name: string; className: strin
 ];
 
 const TYPE_SCALE = [
+  { className: "headline text-mega", label: "Mega · 112 · race numbers", sample: "44" },
   { className: "headline text-hero", label: "Hero · 64 · Titillium 900 italic", sample: "Lights out" },
   { className: "headline text-display", label: "Display · 40", sample: "Pecking order" },
   { className: "headline text-display-sm", label: "Display small · 28", sample: "Silly Season" },
@@ -91,6 +102,15 @@ const TYPE_SCALE = [
   { className: "text-base", label: "Body · 16 · 400", sample: "New sidepods and a revised beam wing." },
   { className: "text-sm text-fg-dim", label: "Small · 14", sample: "Reported by 6 outlets" },
   { className: "font-mono text-xl tabular-nums", label: "Timing · JetBrains Mono · tabular", sample: "1:18.214  +0.087" },
+];
+
+const SAMPLE_STATS = [
+  { label: "Standing", value: "P1" },
+  { label: "Points", value: "287" },
+  { label: "Wins", value: "6" },
+  { label: "Podiums", value: "11" },
+  { label: "Poles", value: "4" },
+  { label: "Best finish", value: "P1" },
 ];
 
 const COMPOUNDS: TyreCompound[] = ["soft", "medium", "hard", "inter", "wet"];
@@ -256,6 +276,25 @@ export default function DesignPage() {
                 ))}
             </div>
           </Specimen>
+          <Specimen label="FormChips">
+            <Panel as="div" className="p-4">
+              <FormChips form={SAMPLE_FORM} />
+            </Panel>
+          </Specimen>
+          <Specimen label="HeadToHeadCard">
+            <HeadToHeadCard
+              a={{ code: "ALV", name: "Rafa Alves" }}
+              b={{ code: "DAN", name: "Mika Danner" }}
+              color={TEAMS.aurora.color}
+              context="Aurora Racing · R1–R14 · 14 rounds"
+              qualifying={[9, 5]}
+              race={[8, 6]}
+              points={[287, 241]}
+            />
+          </Specimen>
+          <Specimen label="StatStrip">
+            <StatStrip stats={SAMPLE_STATS} />
+          </Specimen>
           <Specimen label="TrackOutline">
             <Panel as="div" className="p-4">
               <TrackOutline name={CIRCUIT.name} outline={CIRCUIT.outline} />
@@ -345,6 +384,57 @@ export default function DesignPage() {
               <EnamelPin label="Nostradamus" />
               <EnamelPin label="Rain Master" />
             </div>
+          </Specimen>
+        </div>
+        <div className="mt-8 space-y-8">
+          <Specimen label="SideCar · drawn over free-licensed 2026 photos">
+            <div className="space-y-6">
+              {Object.entries(CAR_ART).map(([name, art]) => (
+                <figure key={name}>
+                  <SideCar art={art} helmet={HELMETS.norris} idPrefix={`design-car-${name}`} className="w-full" />
+                  <figcaption className="mt-1 font-mono text-xs text-fg-dim">
+                    {name}
+                    {art.ready ? "" : " · draft"} · after a photo by {art.credit.author} ({art.credit.licence})
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
+          </Specimen>
+          <Specimen label="Helmet · signature designs and a team-colour helmet">
+            <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+              {[...Object.entries(HELMETS), ["team colour", helmetDesign("sample", TEAMS.vortex.color)] as const].map(
+                ([name, design]) => (
+                  <figure key={name}>
+                    <Helmet design={design} number="21" idPrefix={`design-helmet-${name.replace(/\W/g, "")}`} className="w-full" />
+                    <figcaption className="mt-1 font-mono text-xs text-fg-dim">{name}</figcaption>
+                  </figure>
+                ),
+              )}
+            </div>
+          </Specimen>
+          <Specimen label="DriverHero">
+            <DriverHero
+              number="7"
+              helmet={helmetDesign("sample", TEAMS.aurora.color)}
+              code="ALV"
+              givenName="Rafa"
+              familyName="Alves"
+              color={TEAMS.aurora.color}
+              team={{ name: TEAMS.aurora.name }}
+              facts={["Fictional", "Age 26"]}
+              stats={SAMPLE_STATS}
+              idPrefix="design-hero-helmet"
+            />
+          </Specimen>
+          <Specimen label="TeamHero">
+            <TeamHero
+              name={TEAMS.vortex.name}
+              code="VTX"
+              color={TEAMS.vortex.color}
+              facts={["Fictional sample team"]}
+              stats={SAMPLE_STATS}
+              idPrefix="design-team-car"
+            />
           </Specimen>
         </div>
       </GuideSection>

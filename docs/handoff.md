@@ -3,17 +3,26 @@
 Read this first in a new session, then [plan.md](plan.md) for the full roadmap
 and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
-_Last updated: 2026-09-15 — Phase 1, steps 1–3 (standings, calendar + countdown, news wire) done; team colours tweaked and the lights-out intro rebuilt with sound._
+_Last updated: 2026-09-16 — Phase 1, step 4 (driver and team pages) built; now in an owner-review loop on realistic helmets, team cars, the team-page car arrival and driver photos. All of it is uncommitted._
 
 ## Start here (next session)
 
-- `main` is clean and pushed; the last feature commit is `850c28d` (intro, car,
-  sound, team colours).
-- **Next task: step 4, driver and team pages** (see "Next steps"). Small
-  follow-ups are listed under step 3.
+- Step 4 (driver and team pages) is built and verified but **not committed**:
+  the owner reviews it first. On 2026-09-16 they asked for realism upgrades,
+  now in progress (see "Driver and team pages → Owner feedback round 2"):
+  per-driver helmets, real team cars, a car arrival on team pages, a glowing
+  surname outline and driver photos they will supply.
+- The owner approved the helmet and McLaren car style on 2026-09-16 ("looks
+  good"). Since then all 11 team cars and 22 driver helmets have been drawn
+  the same way and reviewed render by render (see "Owner feedback round 2").
+- **Waiting on the owner:** a look at the full grid of cars and helmets, and
+  the driver photos now shown on driver and team pages.
+- **Next task: step 5, Supabase + scheduled jobs** (see "Next steps"). Small
+  follow-ups are listed under steps 3 and 4.
 - Before coding: start the dev server with the Browser pane's `boxbox` config
-  (port 4747), then confirm `npm test` (134), `npm run typecheck` and
-  `npm run lint` pass.
+  (port 4747), then confirm `npm test` (156), `npm run typecheck` and
+  `npm run lint` pass. If another chat's BOXBOX server already holds 4747, use
+  the `boxbox-attach` config, which attaches the pane to it instead.
 - Working with the owner: finish and verify a change, then **ask before
   committing and pushing**; for look/sound/feel decisions, offer options with a
   recommendation. They hold the site to a real-F1 standard of quality.
@@ -30,15 +39,17 @@ _Last updated: 2026-09-15 — Phase 1, steps 1–3 (standings, calendar + countd
 **Phase 0 (setup + design system) is done. Phase 1 is under way:** the home
 page shows real 2026 standings, a real next-session countdown and the real
 upcoming circuit from Jolpica-F1, plus real headlines from six RSS feeds; the
-full wire lives at `/news`. The briefing, fastest-lap panel, rumors, pecking
+full wire lives at `/news`. Every current driver and team has a page
+(`/drivers/rus`, `/teams/red_bull`), linked from the standings tower and from
+news tags. The briefing, fastest-lap panel, rumors, pecking
 order and game are still fictional sample data, and the page says so.
 
 | Check | Result |
 |---|---|
-| `npm test` | 134 tests pass (adds lights timing, car pick, car-pass duration and keyframes, team-colour separation) |
+| `npm test` | 156 tests pass (adds season parsing across split pages, driver/team stats, form, team spells, teammate head-to-heads, rosters) |
 | `npm run typecheck` | Clean |
 | `npm run lint` | Clean |
-| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders. Intro (real click): lights at 0.75/1.75/2.74/3.75/4.75 s; car pass checked without sound: car measured at 80 % of a 698 px screen (558 × 1508 px), pass 936 ms, cover and marks clips correct after the pass; page handed back with nothing inert (checked while the pane was visible); second visit and Esc skip go straight in. Car drawing and tyre marks checked as rendered PNGs. Sound files serve as `audio/mp4` and `audio/wav`; sound not listened to by Claude |
+| Browser | `/` shows standings after R14, countdown to R15 Azerbaijan FP1, Baku (real outline, 6.003 km, 51 laps, last winner VER 2025) and 3 real top stories; `/news` shows 89 live stories, filters work (Technical → 3 cards), all links external `https` with `noopener`, no images, no overflow at 375px; `/design` renders. Intro (real click): lights at 0.75/1.75/2.74/3.75/4.75 s; car pass checked without sound: car measured at 80 % of a 698 px screen (558 × 1508 px), pass 936 ms, cover and marks clips correct after the pass; page handed back with nothing inert (checked while the pane was visible); second visit and Esc skip go straight in. Car drawing and tyre marks checked as rendered PNGs. Sound files serve as `audio/mp4` and `audio/wav`; sound not listened to by Claude. Driver/team pages (step 4): `/drivers/rus` (P2, 211 pts, 6–8 qualifying and 4–10 race vs ANT), `/drivers/law` (team-change note, a head-to-head per seat), `/teams/red_bull` (VER 8–2 HAD, VER–LAW R12–R14), `/teams/rb`; no overflow at 375px; `/drivers/xyz` and `/teams/nope` 404; `/drivers/RUS` and `/teams/McLaren` 308 to lower case; standings rows link to driver pages; `/design` renders |
 
 ## What exists
 
@@ -73,6 +84,14 @@ order and game are still fictional sample data, and the page says so.
   Jolpica `constructorId`), `circuits.ts` (layouts, length, scheduled laps),
   `lights.ts` (intro timing, car pick, car-pass keyframes), `intro-audio.ts`
   (beeps and the car recording) and `sample-data.ts`.
+- **Driver and team pages:** `app/drivers/[code]/page.tsx` and
+  `app/teams/[id]/page.tsx`; `lib/season.ts` (season model and pure stats:
+  `driverStats`, `recentForm`, `teamSpells`, `headToHead`,
+  `teammateHeadToHeads`, `teamRoster`, `teamHeadToHeads`, `teamStats`,
+  `driverWeekends`, `teamWeekends`, `driverHref`/`teamHref`);
+  `fetchSeasonResults`/`parseSeasonResults` in `lib/jolpica.ts`; components
+  `Helmet`, `DriverHero`, `TeamHero`, `FormChips`, `HeadToHeadCard`,
+  `StatStrip` and `NewsMentions`. New token `text-mega` (7rem race numbers).
 - **`components/f1/NextSessionCountdown.tsx`** — client wrapper around
   `PitBoardCountdown` that picks the session on the viewer's clock, with
   "Season complete" / "No signal" states.
@@ -199,6 +218,162 @@ order and game are still fictional sample data, and the page says so.
     "independent outlets", so group them by owner then.
   - The mobile nav "News" item still jumps to the home radio feed (`/#news`);
     `/news` is reached from its "Full wire →" link.
+- **Driver and team pages (Phase 1, step 4):**
+  - Owner's choices: a **helmet + race number** hero, last-5 form as **position
+    chips**, **teammate head-to-head** in scope; no `/drivers` or `/teams`
+    index pages, no compare tool, no rumors section (no real rumor data until
+    Phase 2), **no nav change** (pages are reached from standings rows and news
+    tags).
+  - Not asked, decided in build, worth confirming with the owner: the helmet is
+    a **side view** (a top-down helmet read as a blob), and team pages reuse the
+    intro's `IntroCar` turned nose-right as the hero.
+  - URLs: `/drivers/{code}` (lower-case three-letter code, per plan.md) and
+    `/teams/{constructorId}`; other casing gets a 308. Codes are unique within a
+    season, which is all the pages cover. `generateStaticParams` returns `[]`,
+    so pages render on first visit and revalidate every 15 min (news mentions);
+    Jolpica responses keep their hourly cache.
+  - Data: Jolpica's season-wide `/current/results/`, `/sprint/` and
+    `/qualifying/`, paged at 100 rows: about ten requests shared by every page.
+    **A round's rows can be split across two pages**, so the parser merges by
+    round. Driver number, nationality and date of birth come from each driver's
+    latest row. Pit-lane starts are grid `0` (shown "PL"); `null` means unknown.
+  - **Jolpica rate limits bursts** (~4 requests/s): loading the pages in
+    parallel on a cold cache returned 429. Pages now load one after another and
+    `getJolpica` retries a 429 up to twice after `Retry-After` (max 5 s).
+  - Rules: stats are Grand Prix only (wins, podiums, poles = qualifying P1,
+    DNFs = started but unclassified); points include sprints; standings points
+    and position are used when Jolpica's standings load. Head-to-heads count
+    only rounds both drivers raced **for the same team** (so Hadjar R1–R11 and
+    Lawson R12–R14 at Red Bull are separate pairings); qualifying counts rounds
+    where both set a time; race counts finishing order, retirements included,
+    when both started. Finish labels: DNF (R), DNS (W), DSQ (D), NC, EX, DNQ.
+  - A driver not in the latest round (e.g. Hadjar) keeps a page with a "Not in
+    the R14 line-up" note; a driver who changed teams gets a spell line and a
+    team bar per round in the results table.
+  - News mentions: up to 4 wire stories tagged with the driver or team (last
+    72 h). Story tags now carry `href` and link to the pages.
+  - Helmet (`components/f1/Helmet.tsx`, 260 × 240, facing right): tall shell,
+    slim rear spoiler, crown intake, narrow tinted eyeport visor with pivot and
+    tear-off tabs, chin vents and lip, generic white stripe, race number on the
+    rear. No real driver designs. Size it with a width class (no default width).
+- **Driver and team pages → Owner feedback round 2 (2026-09-16):**
+  - Asked for: real per-driver helmet designs, driver photos, a car that looks
+    like the real one, team logos, a car pass with the intro sound and fading
+    tyre marks on team pages, pose-video driver cards "coming out of the frame",
+    and a glowing team-colour outline on surnames.
+  - **Not allowed, told the owner:** team logos (CLAUDE.md; trademarks) and
+    official F1/team photos or pose videos (copyright; CLAUDE.md bans press
+    photos). Sponsor and team logos are left off helmets and cars.
+  - **Surname glow:** `team-glow` utility in `globals.css` (text stroke plus
+    layered text-shadow in `--team`), used on the `DriverHero` h1. Done.
+  - **Helmets:** `lib/helmet-designs.ts` holds per-driver designs (base,
+    crown, lower, stripe, band, chin, `maze` noise pattern or `pinstripes`,
+    visor tint); everyone else gets a team-colour helmet with the race number.
+    First batch: Norris (lime with dark maze), Hamilton (yellow, red pinstripes
+    and chin), Verstappen (white, red patterned crown, navy lower), from 2026
+    Commons race photos (Liauzh, CC BY 4.0, "2026 Chinese GP" series) and a
+    CC BY-SA Norris 2025 helmet drawing used for proportions only. `Helmet.tsx`
+    silhouette was measured from that drawing's alpha mask. Owner said the
+    first render was "flat or cartoonish" with fake visor/hardware; it now has
+    clear-coat reflections, eyeport shadow, a smoked visor with sky/ground
+    reflection, tear-offs, a slim pivot plate and a small neck post. Awaiting
+    their verdict before the other 19 drivers.
+  - **Whole grid (after approval):** every team and 22 of 23 drivers who have
+    raced in 2026 come from one CC BY 4.0 set by Liauzh on Commons
+    ("2026 Chinese GP - <Team> - <Driver> - <Session>", 32 photos; qualifying
+    shots are the most side-on). Tsunoda has no photo and keeps a team-colour
+    helmet. Helmet designs for the other 19 are read from distant race photos,
+    so main colours and panels are reliable and fine artwork is approximated.
+  - **Car review workflow, per team:** cut out with rembg (isnet-general-use),
+    flip nose-right at 1200 wide, contour → outline path; view 2× grid halves;
+    write wheels, far wheel, panels, cockpit, halo, mirror, shading and
+    highlights; render from `/design` and fix. First drafts written from 1×
+    grids for all 10 teams at once were poor (misplaced panels, shadow tails),
+    which is why each car was redone from the 2× grids. `SideCar` now clips
+    everything below the tyre contact line (`groundCut`), draws far-side
+    wheels only above the nose line (`highlights[0]` must be that line), and
+    supports tyre compound, livery wheel covers and a painted halo. Tests
+    check wheels, ground line, credits, `groundCut` and that rain lights sit
+    clear of the wheels. `ready` gates a drawing onto the team page; all 11
+    are ready.
+  - **Team cars:** owner chose **vector drawn over a free-licensed photo**.
+    `lib/car-art.ts` per team: outline from the photo cut-out's mask, livery
+    panels and wheels measured on a grid, shading, foreground panels, cockpit,
+    photo credit (CC BY needs it; shown under the team hero). `SideCar.tsx`
+    renders it. McLaren only so far (from "2026 Chinese GP - McLaren - Lando
+    Norris - FP1", Liauzh, CC BY 4.0); the other ten followed after approval. Rejected on the way: a hand-coordinate car (cartoonish),
+    photo inpainting of logos (smudges) and colour-flattening + vtracer
+    (camouflage blobs, 1 MB).
+  - **Team-page arrival:** owner chose **drive in and stop** (not pass-through).
+    `lib/team-pass.ts` (tested) + `TeamCarPass.tsx`: the car is heard first
+    (intro recording, peak ~35 % into the drive), drives in from the left edge
+    with a hard-braking easing, stops exactly over the parked car
+    (`data-parked`), and tyre marks behind the rear wheel hold 0.9 s then fade
+    1.8 s. Sound only after user activation (`navigator.userActivation`);
+    silent on direct loads; nothing moves under reduced motion. Verified on
+    `/teams/mclaren`: `driving` → `parked`, marks faded, no errors.
+  - **Driver photos (2026-09-16):** the owner supplied 22 photos in
+    `~/Desktop/f1 drivers/` (not Tsunoda). They look like team, press and
+    Pinterest/social images (736 px wide, screenshots, official portraits,
+    memes) with no licence. The owner was told this conflicts with the
+    no-press-photos rule and chose to **use them all for now and replace them
+    later**, including the unsuitable ones (Verstappen's middle finger,
+    Leclerc with a vodka bottle, the Hulk edit of Hulkenberg). So they are
+    **local only**: cut-outs go to `public/drivers/{driverId}.webp`, which is
+    git-ignored and never committed or deployed. `lib/driver-photos.ts`
+    returns a photo only when the file exists, so the live site falls back to
+    helmets. Replace these with licensed photos (e.g. the CC BY-SA "at the
+    Melbourne Walk during the 2026 Australian Grand Prix" Commons series,
+    ~15 drivers) before publishing any.
+  - **Cut-outs:** `cutout_drivers.py [driverIds]` (scratchpad): rembg
+    isnet-general-use (u2net_human_seg for Alonso, whose skin matched the
+    white background), keeps connected shapes ≥ 6 % of the largest, feathers
+    the edge, fits the figure bottom-centred on a transparent 600 × 800
+    canvas. Pre-crops: Alonso's print frame, the Hulkenberg title. Leftovers:
+    a pink streak by Gasly, a chair edge by Hadjar.
+  - **Pop-out:** `DriverHero` renders the photo in an overlay layer above the
+    panel (the panel's pit-board clip-path would clip anything above its top
+    edge), in the same grid as the panel so the column lines up; the photo is
+    135 % of the panel height, anchored to its bottom, so the head breaks out
+    over the top. The stat strip moved outside the panel. Team roster cards do
+    the same. `.driver-pop` (rise-in, then a slow 7 s breathe) and
+    `.driver-spotlight` (team-colour glow) are in `globals.css`; the animation
+    is off under reduced motion. A driver without a photo keeps the big helmet.
+  - **Round 3 (2026-09-16):** owner said the helmets had become too small.
+    With a photo, `DriverHero` now uses a three-column grid from md up (photo |
+    name | helmet): the helmet is large on the right, mirrored with
+    `-scale-x-100` to face the driver (so no race number on it, which would
+    read backwards), with a mirrored team-colour spotlight. Below md it sits
+    beside the race number (w-24/w-28). Team roster cards show it on the right
+    (w-20). Without a photo the big helmet stays in the first column.
+  - **Team hero text:** the team name is in `--team-text`. The text block is
+    `data-reveal`; `revealKeyframes` (lib/team-pass.ts, tested) clips it
+    left to right just behind the car's tail as it passes (behind the nose in
+    stacked layouts, where the text sits above the car's path), run with the
+    drive-in's timing and `fill: "backwards"` so no clip remains afterwards.
+    To avoid a flash of the server-rendered text and parked car before the
+    drive-in, the pre-paint script in `app/layout.tsx` sets `data-js` on
+    `<html>` and globals.css hides `[data-parked]`/`[data-reveal]` while
+    `.team-pass[data-pass="idle"]` (motion allowed only). `TeamCarPass` sets
+    `static` when it doesn't animate, so nothing stays hidden.
+  - **Tyre marks bug:** the marks had never been visible. `.team-pass__marks`
+    was 0 px tall and animates `clip-path`, which clips to the element's own
+    box, so everything was cut away. It is now 1.75rem tall with a negative
+    margin centring the near mark on the ground line. They were also
+    restyled for the near-black panel: lit top and bottom edges and fine light
+    striations over a black core.
+  - **Verifying the arrival:** pause the stage's Web Animations
+    (`document.getAnimations()` filtered to `.team-pass` targets), set
+    `currentTime`, wait ~1 s for the pane to repaint, then measure
+    (`getComputedStyle(...).clipPath`) or screenshot. Screenshots taken
+    straight after pausing can show a stale frame.
+  - **Tools (scratchpad only, not in the repo):** a Python 3.13 venv with
+    `rembg[cpu]`, `opencv-python-headless`, `vtracer`, Pillow (the rembg model
+    downloads to the scratch folder). Recipes: Commons API `iiurlwidth` for
+    large thumbnails, `sips` crops, alpha-mask contour → Catmull-Rom path, grid
+    overlays for measuring, and rendering a component's SVG from page HTML
+    with tokens inlined, placed on a square canvas so `qlmanage` doesn't crop.
+    The Browser pane's screenshots go stale when it is hidden.
 - **Team colour overrides:** OpenF1's Audi red (`#f50537`) was nearly
   identical to Ferrari's (`#ed1131`, ΔE 3.7), and Cadillac/Haas were both
   greys. In `lib/teams.ts` Audi is now a deeper crimson `#c4002f` (ΔE 16.7 from
@@ -279,7 +454,10 @@ order and game are still fictional sample data, and the page says so.
 3. ~~News wire~~ — done (see "News wire" above). Follow-ups: point the nav's
    "News" item at `/news`, add formula1.com once first-seen times are stored,
    strip long RaceFans " | …" title suffixes.
-4. **Driver and team pages.**
+4. ~~Driver and team pages~~ — done (see "Driver and team pages"). Follow-ups:
+   owner feedback on the helmet and team-page car; the compare tool, rumors
+   section and `/drivers`/`/teams` index pages were left out by choice; a
+   pre-season visit 404s every page until round 1 has results.
 5. **Supabase + scheduled jobs** once data needs storing. The user creates the
    free Supabase and Vercel accounts themselves; never add a payment method.
 6. **Deploy** to Vercel Hobby.
@@ -295,4 +473,8 @@ notice) as the real data for it lands. Keep `/design` working with sample data.
 - Next.js 16 differs from older versions: check `node_modules/next/dist/docs/`
   before using an unfamiliar API (see AGENTS.md).
 - If port 4747 is "in use", a previous BOXBOX dev server is still running —
-  reuse it rather than starting another.
+  reuse it rather than starting another (Browser pane: `boxbox-attach`).
+- The Browser pane's `zoom` action isn't supported; to inspect an SVG closely,
+  enlarge it temporarily with `javascript_tool` and take a screenshot.
+- Scratch checks against real Jolpica JSON: a vitest config outside the repo
+  can't resolve `vitest`; symlink the repo's `node_modules` next to it.

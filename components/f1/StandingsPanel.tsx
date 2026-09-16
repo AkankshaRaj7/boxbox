@@ -13,6 +13,7 @@ function toTowerRows(rows: StandingRow[]) {
     code: r.code,
     name: r.name,
     color: r.color,
+    href: r.href,
     value: `${r.points} PTS`,
     detail: i === 0 ? "LEADER" : `−${leader - r.points}`,
   }));

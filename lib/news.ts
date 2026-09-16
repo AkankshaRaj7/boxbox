@@ -6,6 +6,7 @@
 import { fetchStandings } from "@/lib/jolpica";
 import type { Entity, SourceTier, Story, Topic } from "@/lib/news-model";
 import { parseFeed, type FeedItem } from "@/lib/rss";
+import { driverHref, teamHref } from "@/lib/season";
 import type { StandingRow } from "@/lib/standings";
 import { TEAMS_2026 } from "@/lib/teams";
 
@@ -125,6 +126,7 @@ export function buildMatchers(drivers: StandingRow[]): Matcher[] {
     label: d.code,
     kind: "driver" as const,
     color: d.color,
+    href: driverHref(d.code),
     pattern: wordPattern(escapeRegExp(stripAccents(d.name.split(" ").at(-1) ?? d.name))),
   }));
   const teamMatchers = Object.entries(TEAM_PATTERNS).map(([id, source]) => ({
@@ -132,6 +134,7 @@ export function buildMatchers(drivers: StandingRow[]): Matcher[] {
     label: TEAMS_2026[id]?.name ?? id,
     kind: "team" as const,
     color: TEAMS_2026[id]?.color ?? "#9b9ba7",
+    href: teamHref(id),
     pattern: wordPattern(source),
   }));
   return [...driverMatchers, ...teamMatchers];
@@ -262,7 +265,7 @@ export function buildStories(
 ): Story[] {
   const sourceById = new Map(sources.map((s) => [s.id, s]));
   const entityById = new Map<string, Entity>(
-    matchers.map((m) => [m.id, { id: m.id, label: m.label, kind: m.kind, color: m.color }]),
+    matchers.map((m) => [m.id, { id: m.id, label: m.label, kind: m.kind, color: m.color, href: m.href }]),
   );
 
   return groupArticles(articles)
