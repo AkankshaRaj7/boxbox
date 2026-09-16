@@ -10,6 +10,7 @@ import {
   toArticles,
   tokens,
   topStories,
+  transferStories,
   type Article,
   type NewsSource,
 } from "./news";
@@ -191,5 +192,30 @@ describe("topStories", () => {
     ];
     const stories = buildStories([solo, ...shared], matchers, NOW);
     expect(topStories(stories, NOW, 2).map((s) => s.outlets)).toEqual([2, 1]);
+  });
+});
+
+describe("transferStories", () => {
+  it("keeps only driver-market stories, most reported first", () => {
+    const stories = buildStories(
+      [
+        article("bbc", "Russell signs new Mercedes contract for 2027", "", 2),
+        article("sky", "Russell signs new Mercedes deal for 2027", "", 2),
+        article("autosport", "Hamilton linked with a move away from Ferrari", "", 1),
+        article("the-race", "Ferrari bring a new floor to the Spanish Grand Prix", "", 1),
+      ],
+      matchers,
+      NOW,
+    );
+    const market = transferStories(stories, NOW);
+    expect(market.every((story) => story.topic === "transfers")).toBe(true);
+    expect(market[0].headline).toContain("Russell");
+    expect(market[0].outlets).toBe(2);
+    expect(market.map((s) => s.headline).join(" ")).not.toContain("floor");
+  });
+
+  it("returns nothing when the market is quiet", () => {
+    const stories = buildStories([article("bbc", "Norris wins the Spanish Grand Prix")], matchers, NOW);
+    expect(transferStories(stories, NOW)).toEqual([]);
   });
 });

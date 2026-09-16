@@ -3,19 +3,14 @@ import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { FastestLapCard } from "@/components/f1/FastestLapCard";
 import { PeckingOrderTable } from "@/components/f1/PeckingOrderTable";
 import { StoryCard } from "@/components/f1/StoryCard";
-import { RumorCard } from "@/components/f1/RumorCard";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
 import { circuitInfo } from "@/lib/circuits";
 import Link from "next/link";
 import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
-import { loadWire, topStories } from "@/lib/news";
+import { WIRE_HOURS, loadWire, topStories, transferStories } from "@/lib/news";
 import { PACE, peckingOrder } from "@/lib/pace";
-import {
-  BRIEFING,
-  HOT_RUMOR,
-  TEAMS,
-} from "@/lib/sample-data";
+import { BRIEFING } from "@/lib/sample-data";
 import { currentWeekend, upcomingSessions } from "@/lib/schedule";
 import { driverHref, teamHref } from "@/lib/season";
 import type { Standings } from "@/lib/standings";
@@ -25,6 +20,9 @@ import type { Standings } from "@/lib/standings";
  * responses keep their own hourly cache, and a failed fetch is retried.
  */
 export const revalidate = 900;
+
+/** Driver-market stories in the Silly Season preview. */
+const MARKET_STORIES = 2;
 
 /** Teams shown in the Paddock pecking-order preview; the rest are on its page. */
 const PREVIEW_TEAMS = 5;
@@ -153,6 +151,7 @@ async function Championship() {
 export default async function PaddockPage() {
   const [schedule, wire] = await Promise.all([loadSchedule(), loadWire()]);
   const headlines = topStories(wire.stories, wire.now);
+  const market = transferStories(wire.stories, wire.now, MARKET_STORIES);
 
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
@@ -214,14 +213,28 @@ export default async function PaddockPage() {
 
         <div className="space-y-8 lg:col-span-3">
           <section id="market" aria-labelledby="market-title" className="scroll-mt-20">
-            <SectionHeader id="market-title" title="Silly Season" kerb />
-            <RumorCard
-              driver={HOT_RUMOR.driver}
-              fromTeam={TEAMS[HOT_RUMOR.fromTeam]}
-              toTeam={TEAMS[HOT_RUMOR.toTeam]}
-              status={HOT_RUMOR.status}
-              outlets={HOT_RUMOR.outlets}
+            <SectionHeader
+              id="market-title"
+              title="Silly Season"
+              kerb
+              action={
+                <Link href="/news" className="text-xs font-bold uppercase text-fg-dim hover:text-fg">
+                  Full wire →
+                </Link>
+              }
             />
+            {market.length > 0 ? (
+              <div className="space-y-3">
+                {market.map((story) => (
+                  <StoryCard key={story.id} story={story} />
+                ))}
+              </div>
+            ) : (
+              <Panel as="div" className="p-4 text-sm text-fg-dim">
+                The driver market is quiet — no seat or contract stories in the last {WIRE_HOURS} hours. They appear
+                here the moment an outlet reports one.
+              </Panel>
+            )}
           </section>
 
           <section id="pace" aria-labelledby="pace-title" className="scroll-mt-20">

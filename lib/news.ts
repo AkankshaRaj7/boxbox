@@ -316,6 +316,21 @@ export function topStories(stories: Story[], now: number, count = 3): Story[] {
     .slice(0, count);
 }
 
+/**
+ * Driver-market stories on the wire, most newsworthy first.
+ *
+ * No credibility rating: grouping real rumors and weighing them needs the
+ * admin approval flow, so until then this is simply what outlets are
+ * reporting, linked to them.
+ */
+export function transferStories(stories: Story[], now: number, count = 3): Story[] {
+  return topStories(
+    stories.filter((story) => story.topic === "transfers"),
+    now,
+    count,
+  );
+}
+
 async function fetchFeed(source: NewsSource): Promise<FeedItem[]> {
   const res = await fetch(source.url, {
     headers: { "User-Agent": USER_AGENT, Accept: "application/rss+xml, application/xml;q=0.9, */*;q=0.5" },
