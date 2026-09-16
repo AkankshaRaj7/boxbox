@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { NAV_ITEMS } from "@/components/f1/nav-items";
+import { HeaderNav } from "@/components/f1/HeaderNav";
 import { SlantTag } from "@/components/f1/SlantTag";
 import { Wordmark } from "@/components/f1/Wordmark";
 
@@ -11,20 +11,7 @@ export function SiteHeader() {
         <Link href="/" className="shrink-0">
           <Wordmark />
         </Link>
-        <nav aria-label="Sections" className="hidden md:block">
-          <ul className="flex items-center gap-1">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.hash}>
-                <a
-                  href={`/${item.hash}`}
-                  className="slant block px-3 py-1.5 text-sm font-bold uppercase text-fg-dim transition-colors hover:bg-kerb hover:text-fg"
-                >
-                  <span className="unslant">{item.label}</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <HeaderNav />
         <SlantTag tone="neutral">Design preview</SlantTag>
       </div>
     </header>

@@ -1,9 +1,7 @@
 import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { PowerRankRow } from "@/components/f1/PowerRankRow";
-import { PredictionSlip } from "@/components/f1/PredictionSlip";
 import { StoryCard } from "@/components/f1/StoryCard";
-import { EnamelPin, StreakFlame } from "@/components/f1/Rewards";
 import { RumorCard } from "@/components/f1/RumorCard";
 import { SectorChip } from "@/components/f1/SectorChip";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
@@ -16,9 +14,7 @@ import { loadWire, topStories } from "@/lib/news";
 import {
   BRIEFING,
   HOT_RUMOR,
-  PLAYER,
   POWER_RANKING,
-  PREDICTION_SLIP,
   SAMPLE_LAP,
   TEAMS,
 } from "@/lib/sample-data";
@@ -161,7 +157,7 @@ export default async function PaddockPage() {
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
       <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
         Standings, the countdown, the circuit and the radio feed headlines are real. The briefing, fastest lap,
-        rumors, pecking order and the game are still fictional sample data.
+        rumors and the pecking order are still fictional sample data.
       </p>
 
       <div className="grid gap-4 lg:grid-cols-12">
@@ -238,7 +234,16 @@ export default async function PaddockPage() {
           </section>
 
           <section id="pace" aria-labelledby="pace-title" className="scroll-mt-20">
-            <SectionHeader id="pace-title" title="Pecking order" kerb />
+            <SectionHeader
+              id="pace-title"
+              title="Pecking order"
+              kerb
+              action={
+                <Link href="/pecking-order" className="text-xs font-bold uppercase text-fg-dim hover:text-fg">
+                  Full order →
+                </Link>
+              }
+            />
             <Panel as="div" className="divide-y divide-line">
               {POWER_RANKING.map((row) => (
                 <PowerRankRow
@@ -254,36 +259,6 @@ export default async function PaddockPage() {
           </section>
         </div>
       </div>
-
-      <section id="play" aria-labelledby="play-title" className="mt-8 scroll-mt-20">
-        <SectionHeader id="play-title" title="Play" kerb />
-        <div className="grid gap-4 lg:grid-cols-12">
-          <div className="lg:col-span-5">
-            <PredictionSlip {...PREDICTION_SLIP} />
-          </div>
-          <Panel as="div" className="flex flex-col gap-5 p-4 lg:col-span-7">
-            <div className="flex flex-wrap items-end gap-8">
-              <div>
-                <div className="text-xs font-bold uppercase text-fg-dim">Season points</div>
-                <div className="font-mono text-display leading-none tabular-nums">{PLAYER.points}</div>
-              </div>
-              <div>
-                <div className="text-xs font-bold uppercase text-fg-dim">{PLAYER.leagueName}</div>
-                <div className="headline text-display">P{PLAYER.leagueRank}</div>
-              </div>
-              <StreakFlame streak={PLAYER.streak} />
-            </div>
-            <div>
-              <div className="mb-2 text-xs font-bold uppercase text-fg-dim">Badges</div>
-              <div className="flex flex-wrap gap-3">
-                {PLAYER.badges.map((b) => (
-                  <EnamelPin key={b} label={b} />
-                ))}
-              </div>
-            </div>
-          </Panel>
-        </div>
-      </section>
     </main>
   );
 }

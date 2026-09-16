@@ -12,11 +12,10 @@ function subscribeToHash(listener: () => void) {
 }
 
 /**
- * Mobile tab bar with a slanted red indicator on the current item: the section
- * in the URL hash on the Paddock page, or the page itself everywhere else.
- * Hidden from the md breakpoint up, where the header carries navigation.
+ * Desktop navigation, with the same slanted red marker the mobile tab bar uses
+ * on the current section or page.
  */
-export function BottomNav() {
+export function HeaderNav() {
   const pathname = usePathname();
   const hash = useSyncExternalStore(
     subscribeToHash,
@@ -26,30 +25,24 @@ export function BottomNav() {
   const active = activeNavHref(NAV_ITEMS, pathname, hash);
 
   return (
-    <nav
-      aria-label="Sections"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-asphalt/95 backdrop-blur md:hidden"
-    >
-      <ul className="grid" style={{ gridTemplateColumns: `repeat(${NAV_ITEMS.length}, minmax(0, 1fr))` }}>
-        {NAV_ITEMS.map(({ label, href, section, icon: Icon }) => {
+    <nav aria-label="Sections" className="hidden md:block">
+      <ul className="flex items-center gap-1">
+        {NAV_ITEMS.map(({ label, href, section }) => {
           const isActive = active === href;
           // Section links stay plain anchors: a real hash navigation is what
-          // fires the `hashchange` that moves the indicator.
+          // fires the `hashchange` that moves the marker.
           const Tag = section === undefined ? Link : "a";
           return (
             <li key={href}>
               <Tag
                 href={href}
                 aria-current={isActive ? (section === undefined ? "page" : "location") : undefined}
-                className={`relative flex h-16 flex-col items-center justify-center gap-1 text-xs font-semibold ${
+                className={`slant relative block px-3 py-1.5 text-sm font-bold uppercase transition-colors hover:bg-kerb hover:text-fg ${
                   isActive ? "text-fg" : "text-fg-dim"
                 }`}
               >
-                {isActive && (
-                  <span aria-hidden="true" className="slant absolute inset-x-3 top-0 h-1 bg-box-red" />
-                )}
-                <Icon size={20} aria-hidden="true" />
-                {label}
+                <span className="unslant">{label}</span>
+                {isActive && <span aria-hidden="true" className="absolute inset-x-1 bottom-0 h-0.5 bg-box-red" />}
               </Tag>
             </li>
           );
