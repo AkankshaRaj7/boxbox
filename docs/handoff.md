@@ -7,8 +7,18 @@ _Last updated: 2026-09-16 — the Paddock now carries no invented data at all. R
 
 ## Start here (next session)
 
-- `main` is clean and pushed. The last six commits replaced every fictional
-  block on the Paddock with real data and repointed the navigation.
+- **`main` is clean but NOT pushed — it is 7 commits ahead of `origin/main`.**
+  The owner reviews before pushing; ask them before running `git push`.
+  The seven, oldest first:
+  | Commit | What it did |
+  |---|---|
+  | `bff65ec` | Nav points at real pages; predictions game removed |
+  | `500b913` | Pace pipeline: `data/pace.json` from OpenF1 laps |
+  | `d1973d1` | Real pecking order on `/pecking-order` and the Paddock |
+  | `a14f9f3` | Real fastest lap, sectors and tyre |
+  | `bb58350` | Silly Season shows real transfer stories |
+  | `4bd6b25` | The Briefing is generated; sample-data notice removed |
+  | `8967d5b` | Daily pace-refresh Action; docs brought up to date |
 - **Next task: deploy to Vercel Hobby.** Supabase is deliberately *not* next —
   see "Why there is still no Supabase" below.
 - Before coding: start the dev server with the Browser pane's `boxbox` config
@@ -80,7 +90,8 @@ gives it accounts.
   every token and component. The only reader of `lib/sample-data.ts`.
 - **`components/f1/`** — the F1 UI kit: `TimingTower`, `StandingsPanel`,
   `PitBoardCountdown`, `RadioCard`, `ShiftLightMeter`, `RumorCard`, `SectorChip`,
-  `TyreDot`, `PowerRankRow`, `SeatBoard`, `TelemetryChart`, `PredictionSlip`,
+  `TyreDot`, `PowerRankRow`, `PeckingOrderTable`, `FastestLapCard`, `SeatBoard`,
+  `TelemetryChart`, `PredictionSlip` (`/design` only),
   `StreakFlame`/`EnamelPin`, `TrackOutline`, `LightsOut` (intro), `IntroCar`, `Wordmark`, header,
   footer (with the unofficial-site disclaimer) and mobile `BottomNav`.
 - **`lib/`** — `color.ts` (`teamStyle`, AA-readable team text), `credibility.ts`
@@ -195,10 +206,13 @@ gives it accounts.
     (formula1.com assets).
   - The card credits "f1-circuits (MIT)" with a link.
 - **News wire (Phase 1):**
-  - **No Supabase yet.** Feeds are fetched server-side with
-    `fetch(..., { next: { revalidate: 900 } })`, like Jolpica; no storage, no
-    GitHub Action. Moving ingest to Actions + Supabase later would add
-    "first seen" times and history.
+  - **No storage.** Feeds are fetched server-side with
+    `fetch(..., { next: { revalidate: 900 } })`, like Jolpica. The
+    `pace-data.yml` Action covers pace only; news has no job and no database,
+    so the wire is a rolling 72 hours with no history. Storing first-seen times
+    — a committed JSON written by an Action, or Supabase — is what would let
+    formula1.com join the sources (its items carry no dates) and give Silly
+    Season a memory longer than three days.
   - **Sources** (`NEWS_SOURCES`, all tier-1): BBC Sport, Autosport,
     Motorsport.com, The Race (`/rss/`; `/feed/` redirects there), RaceFans and
     Sky Sports. The Race and RaceFans mix series, so they keep only items whose
@@ -235,8 +249,8 @@ gives it accounts.
   - Autosport and Motorsport.com are sister sites with rewritten headlines. They
     count as separate outlets for now; Phase 2 rumor credibility needs
     "independent outlets", so group them by owner then.
-  - The mobile nav "News" item still jumps to the home radio feed (`/#news`);
-    `/news` is reached from its "Full wire →" link.
+  - The nav's "News" item pointed at the home radio feed (`/#news`) until
+    `bff65ec` repointed it at `/news`. See "Navigation" below.
 - **Driver and team pages (Phase 1, step 4):**
   - Owner's choices: a **helmet + race number** hero, last-5 form as **position
     chips**, **teammate head-to-head** in scope; no `/drivers` or `/teams`
@@ -573,6 +587,16 @@ gives it accounts.
 7. **Supabase** only when Phase 2 rumors or Phase 3 accounts need it — see
    "Why there is still no Supabase". The owner creates the free accounts
    themselves; never add a payment method.
+
+Small follow-ups, none urgent:
+
+- `components/f1/SeatBoard.tsx` imports the `SeatStatus` *type* from
+  `lib/sample-data.ts`. Nothing on the live site renders SeatBoard, so no page
+  carries sample data, but the type belongs in `lib/` proper — tidy it when
+  Silly Season gets its Phase 2 work.
+- `classify` files "Honda replaces its F1 engine development chief" as technical
+  and "F1 announces 2027 calendar" as race-reports. Both are defensible, neither
+  is a transfer misfire, so they were left alone.
 
 Phase 2 candidates: the rumor admin flow behind Silly Season, a `/races/[slug]`
 hub, and a championship calculator built on `pointsRemaining` in `lib/briefing.ts`.
