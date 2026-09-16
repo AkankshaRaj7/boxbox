@@ -59,3 +59,13 @@ export function nextSaturdayAt(from: Date, hour: number): Date {
   }
   return target;
 }
+
+/**
+ * A lap time as a timing screen shows it: "1:35.587", or "58.214" when the lap
+ * is under a minute.
+ */
+export function formatLapTime(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const rest = seconds - minutes * 60;
+  return minutes > 0 ? `${minutes}:${rest.toFixed(3).padStart(6, "0")}` : rest.toFixed(3);
+}

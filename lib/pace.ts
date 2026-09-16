@@ -133,6 +133,9 @@ export type PaceData = {
   fastestLap: FastestLap | null;
 };
 
+/** Tyre compounds OpenF1 reports, in the site's own spelling. */
+export type TyreCompound = "soft" | "medium" | "hard" | "inter" | "wet";
+
 /** The quickest single lap of the most recent race, with its sector splits. */
 export type FastestLap = {
   round: number;
@@ -143,6 +146,10 @@ export type FastestLap = {
   seconds: number;
   /** Sector times in order, with how each compares to the rest of the session. */
   sectors: { seconds: number; kind: "fastest" | "pb" | "slower" }[];
+  /** The tyre the lap was set on, or null when the stint isn't known. */
+  compound: TyreCompound | null;
+  /** How many laps old that tyre was, or null alongside an unknown compound. */
+  tyreAgeLaps: number | null;
 };
 
 /** Each team's gap to the quickest car of that race, in percent. */

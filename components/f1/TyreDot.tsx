@@ -1,4 +1,6 @@
-export type TyreCompound = "soft" | "medium" | "hard" | "inter" | "wet";
+import type { TyreCompound } from "@/lib/pace";
+
+export type { TyreCompound };
 
 const COMPOUNDS: Record<TyreCompound, { ring: string; letter: string; name: string }> = {
   soft: { ring: "border-tyre-soft", letter: "S", name: "Soft" },

@@ -16,7 +16,7 @@
  */
 import { readFile, writeFile } from "node:fs/promises";
 import { setTimeout as sleep } from "node:timers/promises";
-import { teamPace, type FastestLap, type Lap, type PaceData, type RacePace } from "../lib/pace";
+import { teamPace, type FastestLap, type Lap, type PaceData, type RacePace, type TyreCompound } from "../lib/pace";
 
 const OPENF1 = "https://api.openf1.org/v1";
 const JOLPICA = "https://api.jolpi.ca/ergast/f1";
@@ -96,6 +96,39 @@ type OpenF1Lap = {
 };
 type OpenF1Driver = { driver_number: number; name_acronym: string };
 type OpenF1Pit = { driver_number: number; lap_number: number };
+type OpenF1Stint = {
+  driver_number: number;
+  compound: string | null;
+  lap_start: number | null;
+  lap_end: number | null;
+  tyre_age_at_start: number | null;
+};
+
+/** OpenF1's compound names in the site's own spelling. */
+const COMPOUNDS: Record<string, TyreCompound> = {
+  SOFT: "soft",
+  MEDIUM: "medium",
+  HARD: "hard",
+  INTERMEDIATE: "inter",
+  WET: "wet",
+};
+
+/** The tyre a driver was on for a given lap, from that session's stints. */
+function tyreOn(stints: OpenF1Stint[], driverNumber: number, lapNumber: number) {
+  const stint = stints.find(
+    (s) =>
+      s.driver_number === driverNumber &&
+      s.lap_start !== null &&
+      s.lap_end !== null &&
+      lapNumber >= s.lap_start &&
+      lapNumber <= s.lap_end,
+  );
+  const compound = stint?.compound === undefined || stint.compound === null ? null : COMPOUNDS[stint.compound] ?? null;
+  if (!stint || compound === null || stint.lap_start === null) {
+    return { compound: null, tyreAgeLaps: null };
+  }
+  return { compound, tyreAgeLaps: (stint.tyre_age_at_start ?? 0) + (lapNumber - stint.lap_start) };
+}
 
 const toLap = (lap: OpenF1Lap): Lap => ({
   driverNumber: lap.driver_number,
@@ -111,6 +144,7 @@ const toLap = (lap: OpenF1Lap): Lap => ({
  */
 function fastestLap(
   laps: OpenF1Lap[],
+  stints: OpenF1Stint[],
   round: number,
   event: string,
   codeOf: (driverNumber: number) => string | undefined,
@@ -143,7 +177,16 @@ function fastestLap(
     return [{ seconds, kind } as const];
   });
   return sectors.length === 3
-    ? { round, event, driverCode, constructorId, lapNumber: best.lap_number, seconds: best.lap_duration!, sectors }
+    ? {
+        round,
+        event,
+        driverCode,
+        constructorId,
+        lapNumber: best.lap_number,
+        seconds: best.lap_duration!,
+        sectors,
+        ...tyreOn(stints, best.driver_number, best.lap_number),
+      }
     : null;
 }
 
@@ -246,9 +289,11 @@ async function main() {
   let latestFastest = existing?.fastestLap ?? null;
   if (newest && latestFastest?.round !== newest.round) {
     const laps = (await get<OpenF1Lap[]>(`${OPENF1}/laps?session_key=${newest.session.session_key}`)) ?? [];
+    const stints = (await get<OpenF1Stint[]>(`${OPENF1}/stints?session_key=${newest.session.session_key}`)) ?? [];
     const code = await driverCodes(newest.session);
     latestFastest = fastestLap(
       laps,
+      stints,
       newest.round,
       newest.race.raceName,
       (n) => code.get(n),

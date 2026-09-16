@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-09-16T16:00:05.810Z",
+ "generatedAt": "2026-09-16T16:28:43.922Z",
  "races": [
   {
    "round": 1,
@@ -287,6 +287,8 @@
     "seconds": 31.991,
     "kind": "slower"
    }
-  ]
+  ],
+  "compound": "hard",
+  "tyreAgeLaps": 20
  }
 }

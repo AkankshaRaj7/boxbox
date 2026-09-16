@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { formatAgo, formatCountdown, formatUtcStamp, nextSaturdayAt } from "./time";
+import { formatAgo, formatCountdown, formatLapTime, formatUtcStamp, nextSaturdayAt } from "./time";
 
 describe("formatAgo", () => {
   it("rounds down to the largest whole unit", () => {
@@ -48,5 +48,19 @@ describe("nextSaturdayAt", () => {
   it("rolls to next week once Saturday's slot has passed", () => {
     const saturdayEvening = new Date(2026, 8, 19, 18, 0);
     expect(nextSaturdayAt(saturdayEvening, 15).getDate()).toBe(26);
+  });
+});
+
+describe("formatLapTime", () => {
+  it("shows minutes, seconds and thousandths", () => {
+    expect(formatLapTime(95.587)).toBe("1:35.587");
+  });
+
+  it("pads the seconds past a whole minute", () => {
+    expect(formatLapTime(61.5)).toBe("1:01.500");
+  });
+
+  it("drops the minute when a lap is under one", () => {
+    expect(formatLapTime(58.214)).toBe("58.214");
   });
 });
