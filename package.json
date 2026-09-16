@@ -9,7 +9,8 @@
     "lint": "eslint",
     "test": "vitest run",
     "typecheck": "next typegen && tsc --noEmit",
-    "data:circuits": "node scripts/build-circuits.mjs"
+    "data:circuits": "node scripts/build-circuits.mjs",
+    "data:pace": "tsx scripts/build-pace.mts"
   },
   "dependencies": {
     "fast-xml-parser": "^5.11.1",
@@ -27,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "tailwindcss": "^4",
+    "tsx": "^4.23.13",
     "typescript": "^5",
     "vitest": "^4.1.11"
   }

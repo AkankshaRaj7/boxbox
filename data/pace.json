@@ -1,0 +1,292 @@
+{
+ "season": "2026",
+ "generatedAt": "2026-09-16T16:00:05.810Z",
+ "races": [
+  {
+   "round": 1,
+   "event": "Australian Grand Prix",
+   "circuitId": "albert_park",
+   "date": "2026-03-08",
+   "teams": {
+    "rb": 84.863,
+    "mclaren": 83.534,
+    "mercedes": 83.03,
+    "haas": 84.627,
+    "alpine": 85.19,
+    "aston_martin": 87.416,
+    "audi": 84.621,
+    "williams": 85.316,
+    "red_bull": 83.535,
+    "cadillac": 87.595,
+    "ferrari": 83.133
+   }
+  },
+  {
+   "round": 2,
+   "event": "Chinese Grand Prix",
+   "circuitId": "shanghai",
+   "date": "2026-03-15",
+   "teams": {
+    "mercedes": 96.414,
+    "ferrari": 96.837,
+    "alpine": 97.589,
+    "red_bull": 97.716,
+    "haas": 97.496,
+    "audi": 98.388,
+    "rb": 98.047,
+    "williams": 98.708,
+    "aston_martin": 100.36,
+    "cadillac": 99.813
+   }
+  },
+  {
+   "round": 3,
+   "event": "Japanese Grand Prix",
+   "circuitId": "suzuka",
+   "date": "2026-03-29",
+   "teams": {
+    "mercedes": 93.589,
+    "mclaren": 93.712,
+    "ferrari": 93.915,
+    "alpine": 94.619,
+    "red_bull": 94.752,
+    "audi": 95.667,
+    "rb": 94.955,
+    "haas": 94.917,
+    "williams": 96.128,
+    "cadillac": 96.564,
+    "aston_martin": 97.888
+   }
+  },
+  {
+   "round": 4,
+   "event": "Miami Grand Prix",
+   "circuitId": "miami",
+   "date": "2026-05-03",
+   "teams": {
+    "mercedes": 92.531,
+    "red_bull": 93.611,
+    "ferrari": 92.994,
+    "mclaren": 92.676,
+    "alpine": 93.946,
+    "cadillac": 96.405,
+    "audi": 94.911,
+    "haas": 94.617,
+    "williams": 94.236,
+    "aston_martin": 95.818,
+    "rb": 95.152
+   }
+  },
+  {
+   "round": 5,
+   "event": "Canadian Grand Prix",
+   "circuitId": "villeneuve",
+   "date": "2026-05-24",
+   "teams": {
+    "mclaren": 76.965,
+    "mercedes": 75.587,
+    "ferrari": 76.007,
+    "red_bull": 76.049,
+    "alpine": 77.068,
+    "rb": 77.541,
+    "audi": 77.421,
+    "haas": 77.411,
+    "aston_martin": 80.418,
+    "williams": 77.132,
+    "cadillac": 78.639
+   }
+  },
+  {
+   "round": 6,
+   "event": "Monaco Grand Prix",
+   "circuitId": "monaco",
+   "date": "2026-06-07",
+   "teams": {
+    "mercedes": 76.647,
+    "ferrari": 77.01,
+    "red_bull": 77.89,
+    "mclaren": 78.23,
+    "alpine": 78.386,
+    "rb": 78.71,
+    "williams": 79.133,
+    "audi": 79.353,
+    "cadillac": 79.751,
+    "haas": 79.421,
+    "aston_martin": 79.331
+   }
+  },
+  {
+   "round": 7,
+   "event": "Barcelona Grand Prix",
+   "circuitId": "catalunya",
+   "date": "2026-06-14",
+   "teams": {
+    "mercedes": 82.161,
+    "ferrari": 81.413,
+    "red_bull": 82.11,
+    "mclaren": 82.388,
+    "rb": 84.264,
+    "williams": 84.599,
+    "cadillac": 85.72,
+    "audi": 84.19,
+    "alpine": 84.303,
+    "haas": 84.69,
+    "aston_martin": 86.306
+   }
+  },
+  {
+   "round": 8,
+   "event": "Austrian Grand Prix",
+   "circuitId": "red_bull_ring",
+   "date": "2026-06-28",
+   "teams": {
+    "mercedes": 71.696,
+    "ferrari": 71.932,
+    "red_bull": 71.798,
+    "mclaren": 71.937,
+    "rb": 72.963,
+    "audi": 72.988,
+    "haas": 73.592,
+    "alpine": 72.993,
+    "williams": 74.131,
+    "aston_martin": 75.128
+   }
+  },
+  {
+   "round": 9,
+   "event": "British Grand Prix",
+   "circuitId": "silverstone",
+   "date": "2026-07-05",
+   "teams": {
+    "ferrari": 93.916,
+    "mercedes": 94.058,
+    "red_bull": 94.209,
+    "mclaren": 94.727,
+    "rb": 95.649,
+    "williams": 96.453,
+    "haas": 96.592,
+    "alpine": 95.744,
+    "audi": 95.671,
+    "cadillac": 97.048,
+    "aston_martin": 98.775
+   }
+  },
+  {
+   "round": 10,
+   "event": "Belgian Grand Prix",
+   "circuitId": "spa",
+   "date": "2026-07-19",
+   "teams": {
+    "mercedes": 109.915,
+    "red_bull": 110.215,
+    "ferrari": 110.162,
+    "mclaren": 110.718,
+    "rb": 111.095,
+    "audi": 111.252,
+    "alpine": 111.861,
+    "williams": 112.193,
+    "aston_martin": 115.958,
+    "haas": 112.095,
+    "cadillac": 114.664
+   }
+  },
+  {
+   "round": 11,
+   "event": "Hungarian Grand Prix",
+   "circuitId": "hungaroring",
+   "date": "2026-07-26",
+   "teams": {
+    "mclaren": 84.502,
+    "mercedes": 84.954,
+    "ferrari": 84.743,
+    "red_bull": 85.073,
+    "audi": 86.395,
+    "rb": 86.309,
+    "alpine": 86.599,
+    "haas": 87.314,
+    "aston_martin": 86.887,
+    "williams": 87.676,
+    "cadillac": 89.054
+   }
+  },
+  {
+   "round": 12,
+   "event": "Dutch Grand Prix",
+   "circuitId": "zandvoort",
+   "date": "2026-08-23",
+   "teams": {
+    "mclaren": 76.309,
+    "mercedes": 76.195,
+    "ferrari": 76.243,
+    "red_bull": 77.234,
+    "rb": 78.035,
+    "alpine": 78.316,
+    "audi": 77.968,
+    "williams": 79.108,
+    "haas": 78.794,
+    "aston_martin": 78.775,
+    "cadillac": 79.483
+   }
+  },
+  {
+   "round": 13,
+   "event": "Italian Grand Prix",
+   "circuitId": "monza",
+   "date": "2026-09-06",
+   "teams": {
+    "alpine": 86.022,
+    "mercedes": 85.09,
+    "red_bull": 85.467,
+    "mclaren": 86.083,
+    "rb": 86.522,
+    "haas": 87.059,
+    "ferrari": 86.024,
+    "audi": 86.43,
+    "williams": 86.452,
+    "cadillac": 88.382,
+    "aston_martin": 88.625
+   }
+  },
+  {
+   "round": 14,
+   "event": "Spanish Grand Prix",
+   "circuitId": "madring",
+   "date": "2026-09-13",
+   "teams": {
+    "mclaren": 97.985,
+    "red_bull": 98.078,
+    "mercedes": 98.161,
+    "ferrari": 98.175,
+    "alpine": 99.315,
+    "rb": 99.897,
+    "haas": 100.006,
+    "audi": 99.62,
+    "williams": 101.45,
+    "cadillac": 103.624,
+    "aston_martin": 100.887
+   }
+  }
+ ],
+ "fastestLap": {
+  "round": 14,
+  "event": "Spanish Grand Prix",
+  "driverCode": "RUS",
+  "constructorId": "mercedes",
+  "lapNumber": 49,
+  "seconds": 95.587,
+  "sectors": [
+   {
+    "seconds": 29.099,
+    "kind": "fastest"
+   },
+   {
+    "seconds": 34.497,
+    "kind": "pb"
+   },
+   {
+    "seconds": 31.991,
+    "kind": "slower"
+   }
+  ]
+ }
+}
