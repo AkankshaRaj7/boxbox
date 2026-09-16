@@ -6,7 +6,11 @@ const W = 64;
 const H = 20;
 const PAD = 2;
 
-/** Sparkline of gap-to-fastest; lower gaps plot higher, so "up" always means quicker. */
+/**
+ * Sparkline of gap-to-fastest; lower gaps plot higher, so "up" always means
+ * quicker. Hidden on a phone, where 64px of trend is unreadable and the team
+ * name needs the room; the season chart on /pecking-order carries the detail.
+ */
 function Sparkline({ values }: { values: number[] }) {
   const min = Math.min(...values);
   const range = Math.max(...values) - min || 1;
@@ -18,7 +22,12 @@ function Sparkline({ values }: { values: number[] }) {
     })
     .join(" ");
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="h-5 w-16 overflow-visible" aria-hidden="true" focusable="false">
+    <svg
+      viewBox={`0 0 ${W} ${H}`}
+      className="hidden h-5 w-16 overflow-visible sm:block"
+      aria-hidden="true"
+      focusable="false"
+    >
       <polyline points={points} fill="none" strokeWidth="2" className="stroke-(--team-text)" />
     </svg>
   );
@@ -30,7 +39,7 @@ function Movement({ movement }: { movement: number }) {
       <span className="flex w-10 items-center text-flag-green">
         <ChevronUp size={16} aria-hidden="true" />
         <span className="font-mono text-xs">{movement}</span>
-        <span className="sr-only">up {movement} places</span>
+        <span className="sr-only">up {movement} {movement === 1 ? "place" : "places"}</span>
       </span>
     );
   }
@@ -39,7 +48,7 @@ function Movement({ movement }: { movement: number }) {
       <span className="flex w-10 items-center text-box-red">
         <ChevronDown size={16} aria-hidden="true" />
         <span className="font-mono text-xs">{-movement}</span>
-        <span className="sr-only">down {-movement} places</span>
+        <span className="sr-only">down {-movement} {-movement === 1 ? "place" : "places"}</span>
       </span>
     );
   }
@@ -51,30 +60,35 @@ function Movement({ movement }: { movement: number }) {
   );
 }
 
-/** One row of the weekly car Power Ranking. */
+/**
+ * One row of the car pecking order: the gap it is ranked on, and a sparkline of
+ * how that gap moved race by race.
+ */
 export function PowerRankRow({
   rank,
   teamName,
   color,
   movement,
+  gap,
   trend,
 }: {
   rank: number;
   teamName: string;
   color: string;
   movement: number;
+  /** The gap this row is ranked on, in %. */
+  gap: number;
   /** Gap to the fastest car in %, oldest round first. */
   trend: number[];
 }) {
-  const latest = trend[trend.length - 1];
   return (
     <div style={teamStyle(color)} className="flex min-h-11 items-center gap-3 px-3 py-2">
       <span className="headline w-6 text-xl">{rank}</span>
       <TeamColorBar color={color} className="h-6 self-center" />
       <span className="min-w-0 flex-1 truncate text-sm font-semibold">{teamName}</span>
       <Sparkline values={trend} />
-      <span className="w-12 text-right font-mono text-xs tabular-nums text-fg-dim">
-        {latest === 0 ? "P1" : `+${latest.toFixed(1)}%`}
+      <span className="w-14 text-right font-mono text-xs tabular-nums text-fg-dim">
+        {gap === 0 ? "P1" : `+${gap.toFixed(2)}%`}
       </span>
       <Movement movement={movement} />
     </div>

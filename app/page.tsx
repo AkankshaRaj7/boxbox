@@ -1,6 +1,6 @@
 import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
-import { PowerRankRow } from "@/components/f1/PowerRankRow";
+import { PeckingOrderTable } from "@/components/f1/PeckingOrderTable";
 import { StoryCard } from "@/components/f1/StoryCard";
 import { RumorCard } from "@/components/f1/RumorCard";
 import { SectorChip } from "@/components/f1/SectorChip";
@@ -11,10 +11,10 @@ import { circuitInfo } from "@/lib/circuits";
 import Link from "next/link";
 import { fetchCalendar, fetchLastWinner, fetchStandings } from "@/lib/jolpica";
 import { loadWire, topStories } from "@/lib/news";
+import { peckingOrder } from "@/lib/pace";
 import {
   BRIEFING,
   HOT_RUMOR,
-  POWER_RANKING,
   SAMPLE_LAP,
   TEAMS,
 } from "@/lib/sample-data";
@@ -27,6 +27,9 @@ import type { Standings } from "@/lib/standings";
  * responses keep their own hourly cache, and a failed fetch is retried.
  */
 export const revalidate = 900;
+
+/** Teams shown in the Paddock pecking-order preview; the rest are on its page. */
+const PREVIEW_TEAMS = 5;
 
 /** Upcoming sessions sent to the countdown: two to three weekends' worth. */
 const SESSIONS_AHEAD = 12;
@@ -156,8 +159,8 @@ export default async function PaddockPage() {
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
       <p className="mb-4 border-l-2 border-flag-yellow bg-carbon px-3 py-2 text-sm text-fg-dim">
-        Standings, the countdown, the circuit and the radio feed headlines are real. The briefing, fastest lap,
-        rumors and the pecking order are still fictional sample data.
+        Standings, the countdown, the circuit and the radio feed headlines are real. The briefing, fastest lap and
+        rumors are still fictional sample data.
       </p>
 
       <div className="grid gap-4 lg:grid-cols-12">
@@ -244,18 +247,7 @@ export default async function PaddockPage() {
                 </Link>
               }
             />
-            <Panel as="div" className="divide-y divide-line">
-              {POWER_RANKING.map((row) => (
-                <PowerRankRow
-                  key={row.team}
-                  rank={row.rank}
-                  teamName={TEAMS[row.team].name}
-                  color={TEAMS[row.team].color}
-                  movement={row.movement}
-                  trend={row.trend}
-                />
-              ))}
-            </Panel>
+            <PeckingOrderTable teams={peckingOrder()} limit={PREVIEW_TEAMS} />
           </section>
         </div>
       </div>

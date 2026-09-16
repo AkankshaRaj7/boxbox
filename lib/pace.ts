@@ -221,6 +221,18 @@ export function rankTeams(races: RacePace[], window = FORM_RACES): RankedTeam[] 
 }
 
 /**
+ * One team's gap in every race of the season, in order, with null for a race
+ * it has no pace reading for. Aligned to `races` so a chart can label the x
+ * axis with real round numbers.
+ */
+export function seasonTrend(races: RacePace[], constructorId: string): (number | null)[] {
+  return races.map((race) => {
+    const gap = gapsToFastest(race.teams)[constructorId];
+    return gap === undefined ? null : gap;
+  });
+}
+
+/**
  * The committed pace data. The cast is safe because `npm run data:pace` writes
  * this file from the types above; JSON widens the sector `kind` union to string.
  */

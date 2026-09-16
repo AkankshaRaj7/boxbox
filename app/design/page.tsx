@@ -354,6 +354,7 @@ export default function DesignPage() {
                   teamName={TEAMS[row.team].name}
                   color={TEAMS[row.team].color}
                   movement={row.movement}
+                  gap={row.trend[row.trend.length - 1]}
                   trend={row.trend}
                 />
               ))}

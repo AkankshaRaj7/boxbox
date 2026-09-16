@@ -8,6 +8,7 @@ import {
   peckingOrder,
   rankTeams,
   representativePace,
+  seasonTrend,
   teamPace,
   type Lap,
   type RacePace,
@@ -216,5 +217,28 @@ describe("the committed data/pace.json", () => {
     const summed = lap.sectors.reduce((total, sector) => total + sector.seconds, 0);
     expect(summed).toBeCloseTo(lap.seconds, 1);
     expect(lap.constructorId in TEAMS_2026).toBe(true);
+  });
+});
+
+describe("seasonTrend", () => {
+  const races = [
+    race(1, { mclaren: 100, ferrari: 101 }),
+    race(2, { mclaren: 100 }),
+    race(3, { mclaren: 102, ferrari: 100 }),
+  ];
+
+  it("gives one value per race, in order", () => {
+    expect(seasonTrend(races, "mclaren")).toHaveLength(3);
+  });
+
+  it("leaves a hole where a team has no reading", () => {
+    const trend = seasonTrend(races, "ferrari");
+    expect(trend[1]).toBeNull();
+    expect(trend[0]).toBeCloseTo(1, 5);
+    expect(trend[2]).toBe(0);
+  });
+
+  it("is all holes for a team that never raced", () => {
+    expect(seasonTrend(races, "nowhere")).toEqual([null, null, null]);
   });
 });
