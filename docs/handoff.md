@@ -584,9 +584,40 @@ gives it accounts.
    - `/design` 404s in production by design.
    - The site fetches Jolpica and the RSS feeds on each revalidate; only the
      pace data is precomputed.
-7. **Supabase** only when Phase 2 rumors or Phase 3 accounts need it — see
+7. **Supabase** only when Phase 2b rumors or Phase 3 accounts need it — see
    "Why there is still no Supabase". The owner creates the free accounts
    themselves; never add a payment method.
+
+## Next phase — Phase 2, "win Sunday night"
+
+Planned with the owner on 2026-09-18 and **written up in full in
+[plan.md §9](plan.md)**. Read that before starting; the summary here is only
+enough to know what it is and what was decided.
+
+- **The premise:** Phase 1 made everything real, but real is not distinctive —
+  older sites carry the same standings and news. The hook is a *verdict*, not
+  more data: what actually decided the race, with the arithmetic shown.
+- **First deliverable is `/races/[round]` (stage 2a)**, then `/championship`
+  (2b), `/circuits/[id]` (2c), a `/races` index (2d).
+- **Decisions the owner made, so don't reopen them:**
+  - Sunday night first — the post-race verdict page before the track preview.
+  - The Paddock links to **the last completed race**, not the current weekend.
+  - The verdict **includes the time figure** ("worth roughly 11 seconds"), and
+    the page states how it is derived.
+  - **The word "mistake" is banned**, along with "error" and "failed", for
+    anything inferred. Observation plus arithmetic; the FIA may make claims, we
+    may not. See plan.md §9.4 — those rules are the point, not decoration.
+  - **Team radio is cut** on copyright grounds, not deferred.
+  - Market leaves the nav (it is empty most days); nav becomes
+    Paddock · Races · News · Pace.
+- **No new data sources, no accounts, no database, no cost.** A reduced per-race
+  record measures 13.8 KB, so a season is ~330 KB of committed JSON — one file
+  per race, beside `data/pace.json`.
+- **Phase 3 is explicitly out of scope.** It is where the project stops being
+  free in the way that matters: sign-in means personal data, a privacy policy, a
+  deletion path, moderation, and the first data that cannot be rebuilt from an
+  API. Most of Phase 3 (puzzle, share cards, even predictions scored locally)
+  needs no accounts; only leagues and cross-device history do.
 
 Small follow-ups, none urgent:
 

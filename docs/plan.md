@@ -244,7 +244,7 @@ BOXBOX/
 ## 7. Roadmap
 0. **Phase 0 — Setup and design:** new Claude session in BOXBOX, git init with a repo-only identity, port 4747, then everything in §3.11.
 1. **Phase 1 — MVP:** Paddock, standings, calendar and race hub, news wire, driver/team pages. Deploy to Vercel.
-2. **Phase 2:** Pecking order and Power Rankings, Silly Season plus admin, championship calculator.
+2. **Phase 2 — "win Sunday night":** race verdict pages, championship scenarios, circuit previews. Detailed in §9. (The pecking order shipped early, in Phase 1; Silly Season's admin flow moves to Phase 2b.)
 3. **Phase 3:** Sign-in, predictions game, leagues, polls, daily puzzle, share cards, web push.
 4. **Phase 4:** Spoiler shield, installable PWA, post-session recap pages.
 
@@ -263,3 +263,153 @@ BOXBOX/
   - Lighthouse mobile ≥ 90.
 - **Data checks:** past-race results match Jolpica; the pace script reproduces known 2025 pecking orders; the RSS dry run shows no duplicate stories and working source links.
 - **Cost check:** Vercel, Supabase and GitHub all on free plans, no payment method added.
+
+## 9. Phase 2 — "win Sunday night"
+
+Agreed with the owner on 2026-09-18. Everything here runs on Jolpica and OpenF1,
+which the site already depends on: **no new data sources, no accounts, no
+database, no cost.**
+
+### 9.1 The premise
+
+Phase 1 made every figure on the site real, but real is not the same as
+distinctive: standings, calendars and news wires exist on a dozen older sites a
+fan already has bookmarked. More data would not fix that — several community
+dashboards publish far more raw data than BOXBOX ever will, and they are not
+habits either.
+
+**The hook is a verdict, not a dataset.** The thing no mainstream site publishes
+consistently is *what actually decided the race*, with the arithmetic shown.
+That is one page, and it is cheap, because the data is already in reach.
+
+The worked example that settled this — the 2026 Spanish Grand Prix:
+
+```
+VSC DEPLOYED    lap 14
+VSC ENDING      lap 15
+
+L14 pit: ALB ALO ANT COL HUL LIN OCO PER RUS VER   ← ten cars, cheap stop
+L15 pit: NOR                                        ← one lap late
+
+Finish: P1 ANT (grid 2) · P2 VER (grid 3) · P3 NOR (grid 1)
+```
+
+The pole-sitter pits one lap after ten rivals and finishes third. Four API calls
+and about thirty lines of arithmetic.
+
+### 9.2 New routes
+
+| Route | What it is | Stage |
+|---|---|---|
+| `/races/[round]` | One page per race: the verdict | **2a** |
+| `/championship` | Who can still win, and what has to happen | 2b |
+| `/circuits/[id]` | Track preview | 2c |
+| `/races` | Season index — navigation, not a destination | 2d |
+
+### 9.3 `/races/[round]` — the page that matters
+
+Read top to bottom it is an argument, not a dashboard. The order is the point.
+
+| # | Block | Source |
+|---|---|---|
+| 1 | Header — round, event, circuit, date, podium | Jolpica |
+| 2 | **What decided this race** — 2–4 generated lines | derived |
+| 3 | The neutralisation — lap timeline, VSC/SC windows with every pit stop plotted against them | `race_control` + `pit` |
+| 4 | Race control — the FIA log, per driver, quoted verbatim | `race_control` |
+| 5 | Pit lane — stop times by team, stops per driver, stint compounds | `pit` + `stints` |
+| 6 | Classification — grid → finish, delta, status | Jolpica |
+
+Block 2 reuses **the Briefing's engine and its discipline**: each generator
+returns a sentence or `null`, ranked by interest, the page takes the first few,
+same pit-wall factual voice. A dull race gets a short verdict rather than
+manufactured drama.
+
+Block 3 is the visual proof of block 2: Norris's lap-15 stop sitting alone
+outside the lap-14 cluster is the whole story in one image.
+
+### 9.4 Editorial rules — the part that protects us
+
+These are not style preferences. Automated judgements about named
+professionals are the biggest risk in this phase.
+
+- **Never the words "mistake", "error" or "failed"** for anything we inferred.
+  Publish the observation and the arithmetic; let the reader conclude.
+  - ❌ "Norris made a strategic error"
+  - ✅ "Norris pitted on lap 15. Ten cars pitted on lap 14 under the VSC,
+    worth roughly 11 seconds. He started on pole and finished third."
+  - The second version stays true even when we are wrong about *why*.
+- **The FIA may make claims; we may not.** Race control messages are a primary
+  source — quote them verbatim and attribute them ("CAR 1 (NOR) TIME 1:36.934
+  DELETED – TRACK LIMITS AT TURN 6"). Never paraphrase a steward.
+- **Time figures state their method**, the way `/pecking-order` does: the
+  gain is derived from measured pit-lane loss at that circuit under green
+  versus under a neutralisation, and the page says so. A number nobody can
+  interrogate is worse than no number.
+- **No team radio.** OpenF1 exposes `recording_url` mp3s, and they are
+  tempting. That is Formula 1's broadcast audio: hosting, embedding or
+  hotlinking it is republishing, and transcribing it is a derivative work.
+  The same rule that bans press photos bans this, more strongly. If the
+  winner's radio call matters, link to a publisher who licensed it.
+- **Show sample size wherever history is thin.** Nine of the 2026 circuits have
+  one race of data or none.
+
+### 9.5 Navigation
+
+Nav becomes **Paddock · Races · News · Pace**.
+
+**Market leaves the nav** and stays a Paddock section. It was empty on every day
+we measured (0 of 72 wire stories were driver-market); a permanently empty
+section should not hold one of four slots while the flagship feature holds none.
+It returns when 2b's rumor flow gives it something to carry.
+
+### 9.6 Doors from pages that already exist
+
+This is what stops Phase 2 feeling like a separate tool bolted on.
+
+| Page | Change |
+|---|---|
+| Paddock | Fastest-lap card links to **the last completed race** (decided: not the current weekend). Circuit card links to `/circuits/[id]` at 2c. Championship panel gains "Who can still win →" at 2b |
+| Driver pages | Each weekend row links to its race — `driverWeekends` already yields exactly these rows |
+| Team pages | Same, via `teamWeekends` |
+| `/pecking-order` | Each round on the season trend chart links to its race |
+
+### 9.7 Data and architecture
+
+```
+scripts/build-race.mts  →  data/races/2026-14.json   (~14 KB each)
+lib/race.ts             →  pure verdict logic + colocated tests
+.github/workflows/      →  the existing Action runs this too
+```
+
+- **One file per race, not one big file.** `data/pace.json` stays as it is; race
+  records sit beside it and a page loads only the race being viewed.
+- **Measured, not guessed:** a reduced record is 13.8 KB, so a 24-race season is
+  about 330 KB of committed JSON. Comfortable, and the zero-account promise
+  survives.
+- **Filter hard at build time.** Race control comes down from 185 rows to 87 by
+  dropping blue flags and pit-lane chatter. `intervals` (27,000 rows per race)
+  is not ingested at all until a feature needs it.
+
+### 9.8 Sequence
+
+| Stage | Ships | The moment it wins |
+|---|---|---|
+| **2a** | `/races/[round]`, the pipeline, the nav change | Sunday night and Monday |
+| 2b | `/championship` | Any day — the answer to "why open this on a Wednesday" |
+| 2c | `/circuits/[id]` | Thursday and Friday of a race week |
+| 2d | `/races` index | Rarely; it is navigation |
+
+### 9.9 Deliberately cut
+
+- **A full driver-comparison page.** Originally wanted as a table of every
+  driver's practice, qualifying and race pace, records, DNFs and flags. It is
+  the least differentiated thing available — it is what every stats site already
+  is — and the most work per unit of interest. It survives as the `/races`
+  index at 2d.
+- **"Driver of the race".** Irreducibly subjective; an automated pick would be
+  the one arguable thing on the page. It is a natural reader poll once accounts
+  exist.
+- **"Which driver is better at this track"**, unless shown with its sample size.
+- **Everything account-shaped.** Predictions, leagues, leaderboards and sign-in
+  are Phase 3 and are explicitly out of scope here. Phase 2 adds no personal
+  data, so it adds no privacy policy, no backup problem and no moderation duty.
