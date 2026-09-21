@@ -16,7 +16,12 @@ export function FastestLapCard({ lap }: { lap: FastestLap }) {
   const team = teamInfo(lap.constructorId, lap.constructorId);
   return (
     <Panel as="div" className="flex flex-wrap items-center gap-x-3 gap-y-2 p-4">
-      <span className="w-full text-xs font-bold uppercase text-fg-dim">Fastest lap · {lap.event}</span>
+      <Link
+        href={`/races/${lap.round}`}
+        className="w-full text-xs font-bold uppercase text-fg-dim hover:text-fg"
+      >
+        Fastest lap · {lap.event} <span aria-hidden="true">→</span>
+      </Link>
       <Link
         href={driverHref(lap.driverCode)}
         style={teamStyle(team.color)}

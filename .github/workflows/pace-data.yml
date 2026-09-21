@@ -1,6 +1,6 @@
-# Keeps data/pace.json current: the site reads the committed file, so nobody
+# Keeps the committed race data current: the site reads these files, so nobody
 # visiting BOXBOX ever waits on OpenF1 for the ~1,100 lap rows a race produces.
-name: Pace data
+name: Race data
 
 on:
   schedule:
@@ -34,6 +34,9 @@ jobs:
       - name: Fetch any new race
         run: npm run data:pace
 
+      - name: Reduce any new race to what decided it
+        run: npm run data:race
+
       # lib/pace.test.ts checks the committed file itself: rounds in order,
       # only constructors the site can colour, believable lap times, and a
       # fastest lap whose sectors add up. A bad refresh fails here rather than
@@ -43,14 +46,14 @@ jobs:
 
       - name: Commit when the data changed
         run: |
-          if git diff --quiet -- data/pace.json; then
-            echo "No new race pace; nothing to commit."
+          if git diff --quiet -- data/ && [ -z "$(git status --porcelain -- data/)" ]; then
+            echo "No new race data; nothing to commit."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/pace.json
-          git commit -m "Refresh race pace data"
+          git add data/
+          git commit -m "Refresh race data"
           # main may have moved since checkout; the data file is ours alone.
           git pull --rebase origin ${GITHUB_REF_NAME}
           git push

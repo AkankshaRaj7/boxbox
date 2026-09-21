@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound, permanentRedirect } from "next/navigation";
 import { DriverHero } from "@/components/f1/DriverHero";
@@ -6,6 +7,7 @@ import { HeadToHeadCard } from "@/components/f1/HeadToHeadCard";
 import { NewsMentions } from "@/components/f1/NewsMentions";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { teamStyle } from "@/lib/color";
+import { listRaces } from "@/lib/race-data";
 import { driverPhoto } from "@/lib/driver-photos";
 import { helmetDesign } from "@/lib/helmet-designs";
 import { fetchSeasonResults, fetchStandings } from "@/lib/jolpica";
@@ -97,6 +99,8 @@ export default async function DriverPage({ params }: PageProps<"/drivers/[code]"
   const standing = standings?.drivers.findIndex((d) => d.id === driver.id) ?? -1;
   const latestRound = season.rounds.at(-1)!.round;
   const weekends = driverWeekends(season, driver.id);
+  // Only rounds we hold a race record for; the rest stay plain text.
+  const raceRounds = new Set((await listRaces()).map((race) => race.round));
   const changedTeams = spells.length > 1;
   const pairs = teammateHeadToHeads(season, driver.id);
   const mentions = wire.stories.filter((s) => s.tags.some((t) => t.id === `driver:${driver.id}`)).slice(0, MENTIONS);
@@ -174,7 +178,15 @@ export default async function DriverPage({ params }: PageProps<"/drivers/[code]"
                     const wTeam = teamOf(season, w.constructorId);
                     return (
                       <tr key={w.round} className="hover:bg-kerb">
-                        <td className="px-3 py-2 text-fg-dim">R{w.round}</td>
+                        <td className="px-3 py-2 text-fg-dim">
+                          {raceRounds.has(w.round) ? (
+                            <Link href={`/races/${w.round}`} className="hover:text-fg hover:underline">
+                              R{w.round}
+                            </Link>
+                          ) : (
+                            `R${w.round}`
+                          )}
+                        </td>
                         <td className="px-3 py-2 font-sans">
                           <span className="flex items-center gap-2">
                             {changedTeams && (

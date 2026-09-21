@@ -10,7 +10,8 @@
     "test": "vitest run",
     "typecheck": "next typegen && tsc --noEmit",
     "data:circuits": "node scripts/build-circuits.mjs",
-    "data:pace": "tsx scripts/build-pace.mts"
+    "data:pace": "tsx scripts/build-pace.mts",
+    "data:race": "tsx scripts/build-race.mts"
   },
   "dependencies": {
     "fast-xml-parser": "^5.11.1",

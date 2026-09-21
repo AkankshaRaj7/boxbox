@@ -15,76 +15,25 @@
  * rebuild every round from scratch.
  */
 import { readFile, writeFile } from "node:fs/promises";
-import { setTimeout as sleep } from "node:timers/promises";
 import { teamPace, type FastestLap, type Lap, type PaceData, type RacePace, type TyreCompound } from "../lib/pace";
+import {
+  OPENF1,
+  allRaces,
+  driverCodes,
+  get,
+  hasSettled,
+  raceSessions,
+  type Session,
+} from "./sources.mjs";
 
-const OPENF1 = "https://api.openf1.org/v1";
-const JOLPICA = "https://api.jolpi.ca/ergast/f1";
 const OUT = new URL("../data/pace.json", import.meta.url);
-/** Jolpica caps a page at 100 rows whatever limit you ask for. */
-const PAGE = 100;
-/** Politeness gap between requests; OpenF1 answers 429 if you rush it. */
-const THROTTLE_MS = 700;
-const RETRIES = 5;
-/**
- * How long after a race starts before its laps are read. A race plus a margin:
- * ingesting a session still running would record a half-finished race.
- */
-const SETTLE_MS = 6 * 60 * 60 * 1000;
 
 const rebuildAll = process.argv.includes("--all");
-
-/**
- * Fetches JSON, waiting longer after each 429. Returns null for 404, which is
- * how OpenF1 answers for a session that hasn't run yet.
- */
-async function get<T>(url: string): Promise<T | null> {
-  for (let attempt = 0; ; attempt++) {
-    const res = await fetch(url);
-    if (res.status === 404) {
-      return null;
-    }
-    if (res.status === 429 && attempt < RETRIES) {
-      const wait = 10_000 * (attempt + 1);
-      console.warn(`  rate limited, waiting ${wait / 1000}s`);
-      await sleep(wait);
-      continue;
-    }
-    if (!res.ok) {
-      throw new Error(`${url} responded ${res.status}`);
-    }
-    await sleep(THROTTLE_MS);
-    return (await res.json()) as T;
-  }
-}
-
-async function getOrThrow<T>(url: string): Promise<T> {
-  const body = await get<T>(url);
-  if (body === null) {
-    throw new Error(`${url} responded 404`);
-  }
-  return body;
-}
 
 type JolpicaRace = { round: string; raceName: string; date: string; Circuit: { circuitId: string } };
 type JolpicaResults = JolpicaRace & {
   Results: { Driver: { code: string }; Constructor: { constructorId: string } }[];
 };
-type Paged<T> = { MRData: { total: string; RaceTable: { Races: T[] } } };
-
-/** Every page of a Jolpica race list. */
-async function allRaces<T>(path: string): Promise<T[]> {
-  const races: T[] = [];
-  for (let offset = 0; ; offset += PAGE) {
-    const { MRData } = await getOrThrow<Paged<T>>(`${JOLPICA}${path}?limit=${PAGE}&offset=${offset}`);
-    races.push(...MRData.RaceTable.Races);
-    if (offset + PAGE >= Number(MRData.total)) {
-      return races;
-    }
-  }
-}
-
-type Session = { session_key: number; session_name: string; date_start: string; circuit_short_name: string };
 type OpenF1Lap = {
   driver_number: number;
   lap_number: number;
@@ -94,7 +43,6 @@ type OpenF1Lap = {
   duration_sector_3: number | null;
   is_pit_out_lap: boolean;
 };
-type OpenF1Driver = { driver_number: number; name_acronym: string };
 type OpenF1Pit = { driver_number: number; lap_number: number };
 type OpenF1Stint = {
   driver_number: number;
@@ -192,12 +140,6 @@ function fastestLap(
 
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
 
-/** Driver number to three-letter code for one session. */
-async function driverCodes(session: Session): Promise<Map<number, string>> {
-  const drivers = await getOrThrow<OpenF1Driver[]>(`${OPENF1}/drivers?session_key=${session.session_key}`);
-  return new Map(drivers.map((d) => [d.driver_number, d.name_acronym]));
-}
-
 /** Driver number to the constructor they raced for in `round`. */
 function seatOf(code: Map<number, string>, round: string, seats: Map<string, string>) {
   return (driverNumber: number) => {
@@ -227,9 +169,7 @@ async function main() {
     }
   }
 
-  const sessions = (await getOrThrow<Session[]>(`${OPENF1}/sessions?year=${season}`))
-    .filter((s) => s.session_name === "Race")
-    .sort((a, b) => a.date_start.localeCompare(b.date_start));
+  const sessions = await raceSessions(season);
 
   const kept = new Map(existing?.races.map((race) => [race.round, race]) ?? []);
   const races: RacePace[] = [];
@@ -244,7 +184,7 @@ async function main() {
       continue;
     }
     const round = Number(race.round);
-    if (Date.parse(session.date_start) > Date.now() - SETTLE_MS) {
+    if (!hasSettled(session)) {
       console.log(`skip   R${round} ${race.raceName}: not run yet, or still running`);
       continue;
     }
@@ -263,7 +203,7 @@ async function main() {
       console.log(`skip   R${round} ${race.raceName}: OpenF1 has no laps yet`);
       continue;
     }
-    const code = await driverCodes(session);
+    const code = await driverCodes(session.session_key);
     const pit = (await get<OpenF1Pit[]>(`${OPENF1}/pit?session_key=${session.session_key}`)) ?? [];
     const pitLaps = new Set(pit.map((stop) => `${stop.driver_number}:${stop.lap_number}`));
     const teams = teamPace(laps.map(toLap), pitLaps, seatOf(code, race.round, seats));
@@ -290,7 +230,7 @@ async function main() {
   if (newest && latestFastest?.round !== newest.round) {
     const laps = (await get<OpenF1Lap[]>(`${OPENF1}/laps?session_key=${newest.session.session_key}`)) ?? [];
     const stints = (await get<OpenF1Stint[]>(`${OPENF1}/stints?session_key=${newest.session.session_key}`)) ?? [];
-    const code = await driverCodes(newest.session);
+    const code = await driverCodes(newest.session.session_key);
     latestFastest = fastestLap(
       laps,
       stints,

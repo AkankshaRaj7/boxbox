@@ -8,6 +8,7 @@ import { NewsMentions } from "@/components/f1/NewsMentions";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { TeamHero } from "@/components/f1/TeamHero";
 import { teamStyle } from "@/lib/color";
+import { listRaces } from "@/lib/race-data";
 import { CAR_ART } from "@/lib/car-art";
 import { driverPhoto } from "@/lib/driver-photos";
 import { helmetDesign } from "@/lib/helmet-designs";
@@ -92,6 +93,8 @@ export default async function TeamPage({ params }: PageProps<"/teams/[id]">) {
   const standing = standings?.constructors.findIndex((c) => c.id === id) ?? -1;
   const roster = teamRoster(season, id);
   const weekends = teamWeekends(season, id);
+  // Only rounds we hold a race record for; the rest stay plain text.
+  const raceRounds = new Set((await listRaces()).map((race) => race.round));
   const latestRound = weekends.at(-1)!.round;
   const bio = (driverId: string) => season.drivers.find((d) => d.id === driverId);
   const code = (driverId: string) => bio(driverId)?.code ?? driverId;
@@ -223,7 +226,15 @@ export default async function TeamPage({ params }: PageProps<"/teams/[id]">) {
                 <tbody className="divide-y divide-line">
                   {weekends.map((w) => (
                     <tr key={w.round} className="hover:bg-kerb">
-                      <td className="px-3 py-2 font-mono text-fg-dim">R{w.round}</td>
+                      <td className="px-3 py-2 font-mono text-fg-dim">
+                        {raceRounds.has(w.round) ? (
+                          <Link href={`/races/${w.round}`} className="hover:text-fg hover:underline">
+                            R{w.round}
+                          </Link>
+                        ) : (
+                          `R${w.round}`
+                        )}
+                      </td>
                       <td className="px-3 py-2">{w.event.replace(/ Grand Prix$/, "")}</td>
                       <td className="px-3 py-2">
                         <span className="flex flex-wrap gap-x-4 gap-y-1 font-mono tabular-nums">

@@ -42,6 +42,7 @@ npm run typecheck   # next typegen + tsc --noEmit
 npm run lint
 npm test            # vitest (lib/**/*.test.ts)
 npm run data:pace   # refresh data/pace.json from OpenF1 (--all to rebuild)
+npm run data:race   # refresh data/races/<season>-<round>.json (--all to rebuild)
 ```
 
 `npm run build` shares `.next/` with the dev server — stop dev first.
@@ -73,9 +74,13 @@ npm run data:pace   # refresh data/pace.json from OpenF1 (--all to rebuild)
 - `lib/` — pure logic with colocated `*.test.ts`.
 - `lib/sample-data.ts` — **fictional** data, now used only by `/design`. No
   page on the site reads it; keep it that way.
-- `data/` — committed, generated data the site reads directly: `circuits.json`
-  and `pace.json`. Refreshed by `npm run data:*` and by GitHub Actions, never
-  fetched at request time.
+- `data/` — committed, generated data the site reads directly: `circuits.json`,
+  `pace.json` and one file per race in `races/`. Refreshed by `npm run data:*`
+  and by GitHub Actions, never fetched at request time.
+- Race pages must follow the editorial rules in [docs/plan.md](docs/plan.md)
+  §9.4: never the words "mistake", "error" or "failed" for anything inferred,
+  the FIA's judgements quoted verbatim and attributed, every time figure stating
+  how it was derived, and no team radio.
 
 ## Next.js 16
 

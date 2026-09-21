@@ -17,6 +17,7 @@ import type { Story } from "@/lib/news-model";
 import type { RaceWeekend } from "@/lib/schedule";
 import type { Standings } from "@/lib/standings";
 import { teamInfo } from "@/lib/teams";
+import { capitalise, count, ordinal, surname } from "@/lib/words";
 
 /** Points for winning a Grand Prix under the 2026 rules. */
 export const RACE_WIN_POINTS = 25;
@@ -33,28 +34,6 @@ export type BriefingFacts = {
   stories: Story[];
 };
 
-const WORDS = [
-  "no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
-  "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty",
-];
-
-/** Small counts read better as words; points and gaps stay as numerals. */
-function count(n: number): string {
-  return WORDS[n] ?? String(n);
-}
-
-/** For a count that opens a sentence. */
-function capitalise(value: string): string {
-  return value.charAt(0).toUpperCase() + value.slice(1);
-}
-
-/**
- * The name to call a driver by. F1 uses surnames, and every surname on the
- * current grid is the last word of the full name.
- */
-function surname(fullName: string): string {
-  return fullName.trim().split(/\s+/).at(-1) ?? fullName;
-}
 
 const teamName = (constructorId: string, fallback = constructorId) => teamInfo(constructorId, fallback).name;
 
@@ -158,12 +137,6 @@ const breakingNews: Line = ({ stories }) => {
     ? "One story is breaking across the wire right now."
     : `${capitalise(count(breaking))} stories are breaking across the wire right now.`;
 };
-
-const ORDINALS = ["", "first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth", "eleventh"];
-
-function ordinal(n: number): string {
-  return ORDINALS[n] ?? `P${n}`;
-}
 
 /** Highest interest first; the panel takes the first `BRIEFING_LINES` that fire. */
 const LINES: Line[] = [titleDecided, titleRace, paceAgainstPoints, constructors, paceLeader, climber, breakingNews];
