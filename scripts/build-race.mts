@@ -96,9 +96,10 @@ async function constructorOrder(season: string, round: string): Promise<string[]
 }
 
 /**
- * Points per round per driver and per team, aggregated from every race record.
+ * A season summary: points per round per driver and per team, plus one line per
+ * race saying who won it.
  *
- * /championship revalidates on live standings, so it cannot read the race files
+ * /championship and /races both revalidate, so neither can read the race files
  * at request time the way the prerendered race pages do. This one small
  * committed file is imported like data/pace.json instead.
  */
@@ -109,6 +110,18 @@ async function writeScoring(season: string) {
   );
   const scoring = {
     season,
+    races: rounds
+      .map((race) => {
+        const winner = race.results.find((row) => row.position === 1);
+        return {
+          round: race.round,
+          event: race.event,
+          circuitId: race.circuitId,
+          date: race.date,
+          winner: winner ? { code: winner.driverCode, constructorId: winner.constructorId } : null,
+        };
+      })
+      .sort((a, b) => a.round - b.round),
     drivers: rounds
       .map((race) => ({ round: race.round, entries: race.results.map((r) => ({ key: r.driverCode, points: r.points })) }))
       .sort((a, b) => a.round - b.round),
@@ -119,8 +132,8 @@ async function writeScoring(season: string) {
       }))
       .sort((a, b) => a.round - b.round),
   };
-  await writeFile(new URL("../scoring.json", OUT_DIR), `${JSON.stringify(scoring, null, 1)}\n`);
-  console.log(`wrote scoring.json for ${rounds.length} rounds`);
+  await writeFile(new URL("../season.json", OUT_DIR), `${JSON.stringify(scoring, null, 1)}\n`);
+  console.log(`wrote season.json for ${rounds.length} rounds`);
 }
 
 async function main() {

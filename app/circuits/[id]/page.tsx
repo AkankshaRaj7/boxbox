@@ -236,7 +236,7 @@ export default async function CircuitPage({ params }: { params: Promise<{ id: st
             against an official 20, because the tight castle section falls between samples. The same sampling made
             straights unreliable: Baku&apos;s measured 1,068 m against a real 2,200 m. Neither is published. Layout and
             length from{" "}
-            <a href="https://github.com/bacinger/f1-circuits" className="underline hover:text-fg">
+            <a href="https://github.com/bacinger/f1-circuits" target="_blank" rel="noopener noreferrer" className="underline hover:text-fg">
               f1-circuits
             </a>{" "}
             (MIT); winners from Jolpica-F1, {count(winners.length)} {winners.length === 1 ? "race" : "races"} deep.

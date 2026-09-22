@@ -215,6 +215,13 @@ export default async function PaddockPage() {
 
   return (
     <main id="paddock" className="mx-auto w-full max-w-7xl scroll-mt-20 px-4 pt-4 md:px-6">
+      {/*
+        The Paddock shows no page title by design — the wordmark in the header
+        carries it. Every other page has a visible h1, so this one is here for
+        screen readers and search engines, which otherwise met a page whose
+        highest heading was an h2.
+      */}
+      <h1 className="sr-only">The Paddock — F1 standings, the next session, and what matters today</h1>
       <div className="grid gap-4 lg:grid-cols-12">
         <NextSessionCountdown
           className="lg:col-span-4"

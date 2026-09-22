@@ -223,7 +223,7 @@ export default async function ChampionshipPage() {
             <p>
               A dead heat on points is settled by countback — most wins, then most seconds, and so on — which this
               arithmetic does not attempt. Points from{" "}
-              <a href="https://github.com/jolpica/jolpica-f1" className="underline hover:text-fg">
+              <a href="https://github.com/jolpica/jolpica-f1" target="_blank" rel="noopener noreferrer" className="underline hover:text-fg">
                 Jolpica-F1
               </a>
               , scored 25-18-15-12-10-8-6-4-2-1 in a Grand Prix and 8-7-6-5-4-3-2-1 in a sprint.

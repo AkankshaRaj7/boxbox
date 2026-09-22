@@ -93,7 +93,7 @@ export default function PeckingOrderPage() {
             </p>
             <p>
               Lap times from{" "}
-              <a href="https://openf1.org" className="underline hover:text-fg">
+              <a href="https://openf1.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-fg">
                 OpenF1
               </a>
               , rounds and entries from Jolpica-F1.

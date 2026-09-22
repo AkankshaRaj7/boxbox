@@ -1,5 +1,147 @@
 {
  "season": "2026",
+ "races": [
+  {
+   "round": 1,
+   "event": "Australian Grand Prix",
+   "circuitId": "albert_park",
+   "date": "2026-03-08",
+   "winner": {
+    "code": "RUS",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 2,
+   "event": "Chinese Grand Prix",
+   "circuitId": "shanghai",
+   "date": "2026-03-15",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 3,
+   "event": "Japanese Grand Prix",
+   "circuitId": "suzuka",
+   "date": "2026-03-29",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 4,
+   "event": "Miami Grand Prix",
+   "circuitId": "miami",
+   "date": "2026-05-03",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 5,
+   "event": "Canadian Grand Prix",
+   "circuitId": "villeneuve",
+   "date": "2026-05-24",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 6,
+   "event": "Monaco Grand Prix",
+   "circuitId": "monaco",
+   "date": "2026-06-07",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 7,
+   "event": "Barcelona Grand Prix",
+   "circuitId": "catalunya",
+   "date": "2026-06-14",
+   "winner": {
+    "code": "HAM",
+    "constructorId": "ferrari"
+   }
+  },
+  {
+   "round": 8,
+   "event": "Austrian Grand Prix",
+   "circuitId": "red_bull_ring",
+   "date": "2026-06-28",
+   "winner": {
+    "code": "RUS",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 9,
+   "event": "British Grand Prix",
+   "circuitId": "silverstone",
+   "date": "2026-07-05",
+   "winner": {
+    "code": "LEC",
+    "constructorId": "ferrari"
+   }
+  },
+  {
+   "round": 10,
+   "event": "Belgian Grand Prix",
+   "circuitId": "spa",
+   "date": "2026-07-19",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 11,
+   "event": "Hungarian Grand Prix",
+   "circuitId": "hungaroring",
+   "date": "2026-07-26",
+   "winner": {
+    "code": "NOR",
+    "constructorId": "mclaren"
+   }
+  },
+  {
+   "round": 12,
+   "event": "Dutch Grand Prix",
+   "circuitId": "zandvoort",
+   "date": "2026-08-23",
+   "winner": {
+    "code": "NOR",
+    "constructorId": "mclaren"
+   }
+  },
+  {
+   "round": 13,
+   "event": "Italian Grand Prix",
+   "circuitId": "monza",
+   "date": "2026-09-06",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  },
+  {
+   "round": 14,
+   "event": "Spanish Grand Prix",
+   "circuitId": "madring",
+   "date": "2026-09-13",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
+  }
+ ],
  "drivers": [
   {
    "round": 1,

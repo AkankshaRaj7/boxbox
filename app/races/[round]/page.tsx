@@ -82,7 +82,7 @@ function Verdict({ race }: { race: RaceRecord }) {
           A pit stop is measured against the cars running at the same moment, not against the driver&apos;s own pace —
           under a safety car every lap is slower, so anything else would blame the neutralisation on the stop. In this
           race a green-flag stop cost {race.greenPitLoss.toFixed(1)} seconds. Lap data from{" "}
-          <a href="https://openf1.org" className="underline hover:text-fg">
+          <a href="https://openf1.org" target="_blank" rel="noopener noreferrer" className="underline hover:text-fg">
             OpenF1
           </a>
           ; classification from Jolpica-F1.

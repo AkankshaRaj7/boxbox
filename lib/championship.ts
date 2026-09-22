@@ -9,7 +9,7 @@
  * swing a chaser needs per round, what they have actually managed lately, and
  * one concrete finishing scenario.
  */
-import scoringData from "@/data/scoring.json";
+import seasonData from "@/data/season.json";
 import type { RaceWeekend } from "@/lib/schedule";
 import type { StandingRow } from "@/lib/standings";
 
@@ -194,13 +194,23 @@ export function scoringHistory(rounds: ScoredRound[]): ScoringHistory {
   return history;
 }
 
+/** One race, as the season index needs it. */
+export type SeasonRace = {
+  round: number;
+  event: string;
+  circuitId: string;
+  date: string;
+  winner: { code: string; constructorId: string } | null;
+};
+
 /**
- * The committed scoring aggregate. Imported rather than read from disk because
- * /championship revalidates on live standings and must not touch the
- * filesystem at request time.
+ * The committed season aggregate. Imported rather than read from disk because
+ * the pages that use it revalidate and must not touch the filesystem at
+ * request time.
  */
-export const SCORING = scoringData as {
+export const SCORING = seasonData as {
   season: string;
+  races: SeasonRace[];
   drivers: ScoredRound[];
   teams: ScoredRound[];
 };
