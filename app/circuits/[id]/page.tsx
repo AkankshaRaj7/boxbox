@@ -16,6 +16,17 @@ import { count, plural } from "@/lib/words";
 /** The calendar and a circuit's honours roll change at most once a weekend. */
 export const revalidate = 86400;
 
+/**
+ * Prerender every circuit on this season's calendar. Without this the route is
+ * server-rendered on demand, so each of the 23 costs a render and a Jolpica
+ * call per visit. Circuits off the calendar — there are 40 in the data — still
+ * render on request, since `dynamicParams` stays at its default.
+ */
+export async function generateStaticParams() {
+  const calendar = await fetchCalendar().catch(() => [] as RaceWeekend[]);
+  return [...new Set(calendar.map((weekend) => weekend.circuitId))].map((id) => ({ id }));
+}
+
 const DAY = new Intl.DateTimeFormat("en-GB", { day: "numeric", month: "long", timeZone: "UTC" });
 
 /**
