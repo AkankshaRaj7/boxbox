@@ -1,4 +1,4 @@
-import { Flag, Gauge, Radio, Timer, type LucideIcon } from "lucide-react";
+import { Flag, Gauge, Radio, Timer, Trophy, type LucideIcon } from "lucide-react";
 import type { NavTarget } from "@/lib/nav";
 
 export type NavItem = NavTarget & { label: string; icon: LucideIcon };
@@ -17,6 +17,7 @@ export type NavItem = NavTarget & { label: string; icon: LucideIcon };
 export const NAV_ITEMS: NavItem[] = [
   { label: "Paddock", href: "/", section: "#paddock", icon: Gauge },
   { label: "Races", href: "/races", icon: Flag },
+  { label: "Title", href: "/championship", icon: Trophy },
   { label: "News", href: "/news", icon: Radio },
   { label: "Pace", href: "/pecking-order", icon: Timer },
 ];

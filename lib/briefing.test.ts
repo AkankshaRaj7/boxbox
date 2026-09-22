@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { briefing, pointsRemaining, type BriefingFacts } from "./briefing";
+import { briefing, type BriefingFacts } from "./briefing";
 import type { RankedTeam } from "./pace";
 import type { Story } from "./news-model";
 import type { RaceWeekend, SessionKind } from "./schedule";
@@ -54,16 +54,6 @@ const FACTS: BriefingFacts = {
   pecking: [ranked("mercedes", 1, 0.14), ranked("ferrari", 2, 0.37), ranked("audi", 5, 1.81, 1), ranked("rb", 6, 1.85, -1)],
   stories: [],
 };
-
-describe("pointsRemaining", () => {
-  it("counts a win a round, plus the sprints still to come", () => {
-    expect(pointsRemaining(CALENDAR, 14)).toEqual({ rounds: 9, sprints: 1, points: 9 * 25 + 8 });
-  });
-
-  it("has nothing left after the last round", () => {
-    expect(pointsRemaining(CALENDAR, 23)).toEqual({ rounds: 0, sprints: 0, points: 0 });
-  });
-});
 
 describe("briefing", () => {
   it("opens with the title race, measured against what is still available", () => {

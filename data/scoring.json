@@ -1,0 +1,2611 @@
+{
+ "season": "2026",
+ "drivers": [
+  {
+   "round": 1,
+   "entries": [
+    {
+     "key": "RUS",
+     "points": 25
+    },
+    {
+     "key": "ANT",
+     "points": 18
+    },
+    {
+     "key": "LEC",
+     "points": 15
+    },
+    {
+     "key": "HAM",
+     "points": 12
+    },
+    {
+     "key": "NOR",
+     "points": 10
+    },
+    {
+     "key": "VER",
+     "points": 8
+    },
+    {
+     "key": "BEA",
+     "points": 6
+    },
+    {
+     "key": "LIN",
+     "points": 4
+    },
+    {
+     "key": "BOR",
+     "points": 2
+    },
+    {
+     "key": "GAS",
+     "points": 1
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "LAW",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "HAD",
+     "points": 0
+    },
+    {
+     "key": "PIA",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "RUS",
+     "points": 18
+    },
+    {
+     "key": "HAM",
+     "points": 15
+    },
+    {
+     "key": "LEC",
+     "points": 12
+    },
+    {
+     "key": "BEA",
+     "points": 10
+    },
+    {
+     "key": "GAS",
+     "points": 8
+    },
+    {
+     "key": "LAW",
+     "points": 6
+    },
+    {
+     "key": "HAD",
+     "points": 4
+    },
+    {
+     "key": "SAI",
+     "points": 2
+    },
+    {
+     "key": "COL",
+     "points": 1
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "VER",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "PIA",
+     "points": 0
+    },
+    {
+     "key": "NOR",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "PIA",
+     "points": 18
+    },
+    {
+     "key": "LEC",
+     "points": 15
+    },
+    {
+     "key": "RUS",
+     "points": 12
+    },
+    {
+     "key": "NOR",
+     "points": 10
+    },
+    {
+     "key": "HAM",
+     "points": 8
+    },
+    {
+     "key": "GAS",
+     "points": 6
+    },
+    {
+     "key": "VER",
+     "points": 4
+    },
+    {
+     "key": "LAW",
+     "points": 2
+    },
+    {
+     "key": "OCO",
+     "points": 1
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "HAD",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "NOR",
+     "points": 18
+    },
+    {
+     "key": "PIA",
+     "points": 15
+    },
+    {
+     "key": "RUS",
+     "points": 12
+    },
+    {
+     "key": "VER",
+     "points": 10
+    },
+    {
+     "key": "HAM",
+     "points": 8
+    },
+    {
+     "key": "COL",
+     "points": 6
+    },
+    {
+     "key": "LEC",
+     "points": 4
+    },
+    {
+     "key": "SAI",
+     "points": 2
+    },
+    {
+     "key": "ALB",
+     "points": 1
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "LAW",
+     "points": 0
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "HAD",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "HAM",
+     "points": 18
+    },
+    {
+     "key": "VER",
+     "points": 15
+    },
+    {
+     "key": "LEC",
+     "points": 12
+    },
+    {
+     "key": "HAD",
+     "points": 10
+    },
+    {
+     "key": "COL",
+     "points": 8
+    },
+    {
+     "key": "LAW",
+     "points": 6
+    },
+    {
+     "key": "GAS",
+     "points": 4
+    },
+    {
+     "key": "SAI",
+     "points": 2
+    },
+    {
+     "key": "BEA",
+     "points": 1
+    },
+    {
+     "key": "PIA",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "NOR",
+     "points": 0
+    },
+    {
+     "key": "RUS",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "HAM",
+     "points": 18
+    },
+    {
+     "key": "HAD",
+     "points": 15
+    },
+    {
+     "key": "PIA",
+     "points": 12
+    },
+    {
+     "key": "LAW",
+     "points": 10
+    },
+    {
+     "key": "LIN",
+     "points": 8
+    },
+    {
+     "key": "GAS",
+     "points": 6
+    },
+    {
+     "key": "ALB",
+     "points": 4
+    },
+    {
+     "key": "OCO",
+     "points": 2
+    },
+    {
+     "key": "ALO",
+     "points": 1
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "RUS",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "LEC",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "NOR",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "VER",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "entries": [
+    {
+     "key": "HAM",
+     "points": 25
+    },
+    {
+     "key": "RUS",
+     "points": 18
+    },
+    {
+     "key": "NOR",
+     "points": 15
+    },
+    {
+     "key": "VER",
+     "points": 12
+    },
+    {
+     "key": "PIA",
+     "points": 10
+    },
+    {
+     "key": "HAD",
+     "points": 8
+    },
+    {
+     "key": "GAS",
+     "points": 6
+    },
+    {
+     "key": "LAW",
+     "points": 4
+    },
+    {
+     "key": "LIN",
+     "points": 2
+    },
+    {
+     "key": "COL",
+     "points": 1
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "LEC",
+     "points": 0
+    },
+    {
+     "key": "ANT",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "entries": [
+    {
+     "key": "RUS",
+     "points": 25
+    },
+    {
+     "key": "VER",
+     "points": 18
+    },
+    {
+     "key": "ANT",
+     "points": 15
+    },
+    {
+     "key": "PIA",
+     "points": 12
+    },
+    {
+     "key": "HAM",
+     "points": 10
+    },
+    {
+     "key": "HAD",
+     "points": 8
+    },
+    {
+     "key": "NOR",
+     "points": 6
+    },
+    {
+     "key": "LEC",
+     "points": 4
+    },
+    {
+     "key": "LAW",
+     "points": 2
+    },
+    {
+     "key": "LIN",
+     "points": 1
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "entries": [
+    {
+     "key": "LEC",
+     "points": 25
+    },
+    {
+     "key": "RUS",
+     "points": 18
+    },
+    {
+     "key": "HAM",
+     "points": 15
+    },
+    {
+     "key": "NOR",
+     "points": 12
+    },
+    {
+     "key": "HAD",
+     "points": 10
+    },
+    {
+     "key": "LAW",
+     "points": 8
+    },
+    {
+     "key": "LIN",
+     "points": 6
+    },
+    {
+     "key": "BOR",
+     "points": 4
+    },
+    {
+     "key": "COL",
+     "points": 2
+    },
+    {
+     "key": "GAS",
+     "points": 1
+    },
+    {
+     "key": "PIA",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "ANT",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "VER",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "LEC",
+     "points": 18
+    },
+    {
+     "key": "VER",
+     "points": 15
+    },
+    {
+     "key": "HAM",
+     "points": 12
+    },
+    {
+     "key": "PIA",
+     "points": 10
+    },
+    {
+     "key": "HAD",
+     "points": 8
+    },
+    {
+     "key": "NOR",
+     "points": 6
+    },
+    {
+     "key": "BOR",
+     "points": 4
+    },
+    {
+     "key": "LIN",
+     "points": 2
+    },
+    {
+     "key": "COL",
+     "points": 1
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "LAW",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "RUS",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "entries": [
+    {
+     "key": "NOR",
+     "points": 25
+    },
+    {
+     "key": "VER",
+     "points": 18
+    },
+    {
+     "key": "ANT",
+     "points": 15
+    },
+    {
+     "key": "LEC",
+     "points": 12
+    },
+    {
+     "key": "HAM",
+     "points": 10
+    },
+    {
+     "key": "HAD",
+     "points": 8
+    },
+    {
+     "key": "RUS",
+     "points": 6
+    },
+    {
+     "key": "LAW",
+     "points": 4
+    },
+    {
+     "key": "HUL",
+     "points": 2
+    },
+    {
+     "key": "LIN",
+     "points": 1
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "PIA",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "entries": [
+    {
+     "key": "NOR",
+     "points": 25
+    },
+    {
+     "key": "ANT",
+     "points": 18
+    },
+    {
+     "key": "RUS",
+     "points": 15
+    },
+    {
+     "key": "HAM",
+     "points": 12
+    },
+    {
+     "key": "LEC",
+     "points": 10
+    },
+    {
+     "key": "PIA",
+     "points": 8
+    },
+    {
+     "key": "LAW",
+     "points": 6
+    },
+    {
+     "key": "HUL",
+     "points": 4
+    },
+    {
+     "key": "ALO",
+     "points": 2
+    },
+    {
+     "key": "GAS",
+     "points": 1
+    },
+    {
+     "key": "TSU",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "VER",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "RUS",
+     "points": 18
+    },
+    {
+     "key": "VER",
+     "points": 15
+    },
+    {
+     "key": "NOR",
+     "points": 12
+    },
+    {
+     "key": "PIA",
+     "points": 10
+    },
+    {
+     "key": "HAM",
+     "points": 8
+    },
+    {
+     "key": "GAS",
+     "points": 6
+    },
+    {
+     "key": "LIN",
+     "points": 4
+    },
+    {
+     "key": "COL",
+     "points": 2
+    },
+    {
+     "key": "TSU",
+     "points": 1
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "LAW",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "LEC",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "VER",
+     "points": 18
+    },
+    {
+     "key": "NOR",
+     "points": 15
+    },
+    {
+     "key": "LEC",
+     "points": 12
+    },
+    {
+     "key": "RUS",
+     "points": 10
+    },
+    {
+     "key": "LAW",
+     "points": 8
+    },
+    {
+     "key": "COL",
+     "points": 6
+    },
+    {
+     "key": "PIA",
+     "points": 4
+    },
+    {
+     "key": "LIN",
+     "points": 2
+    },
+    {
+     "key": "HUL",
+     "points": 1
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "TSU",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "HAM",
+     "points": 0
+    }
+   ]
+  }
+ ],
+ "teams": [
+  {
+   "round": 1,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "ferrari",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "haas",
+     "points": 6
+    },
+    {
+     "key": "rb",
+     "points": 4
+    },
+    {
+     "key": "audi",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 2,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "ferrari",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "haas",
+     "points": 10
+    },
+    {
+     "key": "alpine",
+     "points": 8
+    },
+    {
+     "key": "rb",
+     "points": 6
+    },
+    {
+     "key": "red_bull",
+     "points": 4
+    },
+    {
+     "key": "williams",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 3,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "mclaren",
+     "points": 18
+    },
+    {
+     "key": "ferrari",
+     "points": 15
+    },
+    {
+     "key": "mercedes",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "ferrari",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "red_bull",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "haas",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 4,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "mclaren",
+     "points": 18
+    },
+    {
+     "key": "mclaren",
+     "points": 15
+    },
+    {
+     "key": "mercedes",
+     "points": 12
+    },
+    {
+     "key": "red_bull",
+     "points": 10
+    },
+    {
+     "key": "ferrari",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "ferrari",
+     "points": 4
+    },
+    {
+     "key": "williams",
+     "points": 2
+    },
+    {
+     "key": "williams",
+     "points": 1
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 5,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "ferrari",
+     "points": 18
+    },
+    {
+     "key": "red_bull",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "red_bull",
+     "points": 10
+    },
+    {
+     "key": "alpine",
+     "points": 8
+    },
+    {
+     "key": "rb",
+     "points": 6
+    },
+    {
+     "key": "alpine",
+     "points": 4
+    },
+    {
+     "key": "williams",
+     "points": 2
+    },
+    {
+     "key": "haas",
+     "points": 1
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 6,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "ferrari",
+     "points": 18
+    },
+    {
+     "key": "red_bull",
+     "points": 15
+    },
+    {
+     "key": "mclaren",
+     "points": 12
+    },
+    {
+     "key": "rb",
+     "points": 10
+    },
+    {
+     "key": "rb",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "williams",
+     "points": 4
+    },
+    {
+     "key": "haas",
+     "points": 2
+    },
+    {
+     "key": "aston_martin",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "ferrari",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 7,
+   "entries": [
+    {
+     "key": "ferrari",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "mclaren",
+     "points": 15
+    },
+    {
+     "key": "red_bull",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "rb",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "ferrari",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 8,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "red_bull",
+     "points": 18
+    },
+    {
+     "key": "mercedes",
+     "points": 15
+    },
+    {
+     "key": "mclaren",
+     "points": 12
+    },
+    {
+     "key": "ferrari",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "mclaren",
+     "points": 6
+    },
+    {
+     "key": "ferrari",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "rb",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 9,
+   "entries": [
+    {
+     "key": "ferrari",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "ferrari",
+     "points": 15
+    },
+    {
+     "key": "mclaren",
+     "points": 12
+    },
+    {
+     "key": "red_bull",
+     "points": 10
+    },
+    {
+     "key": "rb",
+     "points": 8
+    },
+    {
+     "key": "rb",
+     "points": 6
+    },
+    {
+     "key": "audi",
+     "points": 4
+    },
+    {
+     "key": "alpine",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 10,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "ferrari",
+     "points": 18
+    },
+    {
+     "key": "red_bull",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "mclaren",
+     "points": 6
+    },
+    {
+     "key": "audi",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 11,
+   "entries": [
+    {
+     "key": "mclaren",
+     "points": 25
+    },
+    {
+     "key": "red_bull",
+     "points": 18
+    },
+    {
+     "key": "mercedes",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "ferrari",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "mercedes",
+     "points": 6
+    },
+    {
+     "key": "rb",
+     "points": 4
+    },
+    {
+     "key": "audi",
+     "points": 2
+    },
+    {
+     "key": "rb",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "mclaren",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 12,
+   "entries": [
+    {
+     "key": "mclaren",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "mercedes",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "ferrari",
+     "points": 10
+    },
+    {
+     "key": "mclaren",
+     "points": 8
+    },
+    {
+     "key": "red_bull",
+     "points": 6
+    },
+    {
+     "key": "audi",
+     "points": 4
+    },
+    {
+     "key": "aston_martin",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 13,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "red_bull",
+     "points": 15
+    },
+    {
+     "key": "mclaren",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "ferrari",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "rb",
+     "points": 4
+    },
+    {
+     "key": "alpine",
+     "points": 2
+    },
+    {
+     "key": "rb",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "red_bull",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "ferrari",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 14,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "red_bull",
+     "points": 18
+    },
+    {
+     "key": "mclaren",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "mercedes",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "alpine",
+     "points": 6
+    },
+    {
+     "key": "mclaren",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "audi",
+     "points": 1
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "ferrari",
+     "points": 0
+    }
+   ]
+  }
+ ]
+}

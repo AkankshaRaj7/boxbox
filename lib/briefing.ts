@@ -12,6 +12,7 @@
  *   the rest of the page can't show — the championship arithmetic, pace read
  *   against points — outranks anything already visible on another card.
  */
+import { pointsRemaining } from "@/lib/championship";
 import type { RankedTeam } from "@/lib/pace";
 import type { Story } from "@/lib/news-model";
 import type { RaceWeekend } from "@/lib/schedule";
@@ -19,10 +20,6 @@ import type { Standings } from "@/lib/standings";
 import { teamInfo } from "@/lib/teams";
 import { capitalise, count, ordinal, surname } from "@/lib/words";
 
-/** Points for winning a Grand Prix under the 2026 rules. */
-export const RACE_WIN_POINTS = 25;
-/** Points for winning a sprint. */
-export const SPRINT_WIN_POINTS = 8;
 /** How many lines the panel shows at most. */
 export const BRIEFING_LINES = 4;
 
@@ -36,13 +33,6 @@ export type BriefingFacts = {
 
 
 const teamName = (constructorId: string, fallback = constructorId) => teamInfo(constructorId, fallback).name;
-
-/** Rounds still to come, and the most points one driver could still score. */
-export function pointsRemaining(calendar: RaceWeekend[], afterRound: number) {
-  const left = calendar.filter((weekend) => weekend.round > afterRound);
-  const sprints = left.filter((weekend) => weekend.sessions.some((session) => session.kind === "sprint")).length;
-  return { rounds: left.length, sprints, points: left.length * RACE_WIN_POINTS + sprints * SPRINT_WIN_POINTS };
-}
 
 type Line = (facts: BriefingFacts) => string | null;
 

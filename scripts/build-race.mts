@@ -9,7 +9,7 @@
  * Rounds come from Jolpica's calendar, not OpenF1's, for the reason in
  * docs/plan.md and lib/pace.ts: the two disagree about the 2026 season.
  */
-import { mkdir, readdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, readdir, writeFile } from "node:fs/promises";
 import {
   greenPitLoss,
   indexLaps,
@@ -93,6 +93,34 @@ async function constructorOrder(season: string, round: string): Promise<string[]
   const body = await get<StandingsResponse>(`${JOLPICA}/${season}/${round}/constructorstandings/?limit=50`);
   const list = body?.MRData.StandingsTable.StandingsLists[0]?.ConstructorStandings ?? [];
   return list.map((row) => row.Constructor.constructorId);
+}
+
+/**
+ * Points per round per driver and per team, aggregated from every race record.
+ *
+ * /championship revalidates on live standings, so it cannot read the race files
+ * at request time the way the prerendered race pages do. This one small
+ * committed file is imported like data/pace.json instead.
+ */
+async function writeScoring(season: string) {
+  const files = (await readdir(OUT_DIR)).filter((file) => file.startsWith(`${season}-`)).sort();
+  const rounds = await Promise.all(
+    files.map(async (file) => JSON.parse(await readFile(new URL(file, OUT_DIR), "utf8")) as RaceRecord),
+  );
+  const scoring = {
+    season,
+    drivers: rounds
+      .map((race) => ({ round: race.round, entries: race.results.map((r) => ({ key: r.driverCode, points: r.points })) }))
+      .sort((a, b) => a.round - b.round),
+    teams: rounds
+      .map((race) => ({
+        round: race.round,
+        entries: race.results.map((r) => ({ key: r.constructorId, points: r.points })),
+      }))
+      .sort((a, b) => a.round - b.round),
+  };
+  await writeFile(new URL("../scoring.json", OUT_DIR), `${JSON.stringify(scoring, null, 1)}\n`);
+  console.log(`wrote scoring.json for ${rounds.length} rounds`);
 }
 
 async function main() {
@@ -236,6 +264,7 @@ async function main() {
       `built  R${round} ${race.raceName}: ${periods.length} neutralisations, ${pit.length} stops, ${notes.length} notes`,
     );
   }
+  await writeScoring(season);
   console.log(`\n${built === 0 ? "nothing new" : `wrote ${built} race${built === 1 ? "" : "s"}`}`);
 }
 

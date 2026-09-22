@@ -2,6 +2,7 @@ import { NextSessionCountdown } from "@/components/f1/NextSessionCountdown";
 import { Panel, SectionHeader } from "@/components/f1/Panel";
 import { FastestLapCard } from "@/components/f1/FastestLapCard";
 import { PeckingOrderTable } from "@/components/f1/PeckingOrderTable";
+import { TitleRaceBar } from "@/components/f1/TitleRaceBar";
 import { StoryCard } from "@/components/f1/StoryCard";
 import { StandingsPanel } from "@/components/f1/StandingsPanel";
 import { TrackOutline } from "@/components/f1/TrackOutline";
@@ -156,7 +157,7 @@ async function Briefing({
   );
 }
 
-async function Championship() {
+async function Championship({ calendar }: { calendar: RaceWeekend[] }) {
   let standings: Standings | null = null;
   try {
     standings = await fetchStandings();
@@ -188,6 +189,7 @@ async function Championship() {
           </p>
         )}
       </Panel>
+      <TitleRaceBar standings={standings} calendar={calendar} />
       <p className="mt-2 text-xs text-fg-dim">Data: Jolpica-F1, refreshed hourly.</p>
     </section>
   );
@@ -216,7 +218,7 @@ export default async function PaddockPage() {
       </div>
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-6">
-        <Championship />
+        <Championship calendar={schedule?.calendar ?? []} />
 
         <section id="news" aria-labelledby="news-title" className="scroll-mt-20 lg:col-span-5">
           <SectionHeader
