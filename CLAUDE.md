@@ -75,8 +75,10 @@ npm run data:race   # refresh data/races/<season>-<round>.json (--all to rebuild
 - `lib/sample-data.ts` — **fictional** data, now used only by `/design`. No
   page on the site reads it; keep it that way.
 - `data/` — committed, generated data the site reads directly: `circuits.json`,
-  `pace.json` and one file per race in `races/`. Refreshed by `npm run data:*`
-  and by GitHub Actions, never fetched at request time.
+  `pace.json`, one file per race in `races/`, and `season.json` (the aggregate
+  the revalidating pages import, since they cannot read the race files the
+  prerendered ones do). Refreshed by `npm run data:*` and by GitHub Actions,
+  never fetched at request time.
 - Race pages must follow the editorial rules in [docs/plan.md](docs/plan.md)
   §9.4: never the words "mistake", "error" or "failed" for anything inferred,
   the FIA's judgements quoted verbatim and attributed, every time figure stating

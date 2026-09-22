@@ -3,54 +3,92 @@
 Read this first in a new session, then [plan.md](plan.md) for the full roadmap
 and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
-_Last updated: 2026-09-23 — Phase 2 stages 2a, 2b and 2c are done and pushed: race verdict pages, the championship scenarios page and circuit pages. Next: 2d, the `/races` index. Vercel deploy still not done._
+_Last updated: 2026-09-23 — Phase 2 is complete (race verdict pages, championship scenarios, circuit pages, season index), the site is crawlable and shareable, and the production build is green. The only thing left is the Vercel deploy, which is blocked on the owner's decisions._
 
 ## Start here (next session)
 
-- **`main` is clean and pushed**, level with `origin/main`. The last commit is
-  `ba9fe13`. The owner reviews before pushing — ask before running `git push`.
-- **Next task: stage 2d**, the `/races` season index. It is the smallest piece
-  of Phase 2 on purpose; [plan.md §9.8](plan.md) says why. After that, deploy to
-  Vercel Hobby, which is still outstanding from Phase 1.
-- Before coding: start the dev server with the Browser pane's `boxbox` config
-  (port 4747), then confirm `npm test` (298), `npm run typecheck` and
-  `npm run lint` pass. If port 4747 is already held, it is almost certainly this
-  project's own server from another chat — attach with the `boxbox-attach`
-  config rather than starting a second one, and do **not** set `autoPort`, which
-  would let Next pick a port inside tutorAI's ranges.
-- **The scheduled Action has never actually run.** `.github/workflows/pace-data.yml`
-  now runs `data:pace` and `data:race` and commits `data/pace.json`,
-  `data/races/*.json` and `data/scoring.json`. Its first real exercise will be
-  after Azerbaijan unless someone dispatches it manually. A manual run today is
-  the safe way to test it: the data is current, so it should find nothing, write
-  nothing and commit nothing.
-- Working with the owner: finish and verify a change, then **ask before
-  committing and pushing**; for look/sound/feel decisions, offer options with a
-  recommendation. They hold the site to a real-F1 standard of quality, and have
-  sent several rounds of work back — check renders yourself before showing them,
-  and read generated prose before shipping it.
-- **Not in the repo, and gone when this session's scratchpad is deleted:**
-  - The owner's driver photos live in `~/Desktop/f1 drivers/` (22 files, not
-    Tsunoda); the cut-outs in `public/drivers/*.webp` are git-ignored. If that
-    folder is empty, driver pages simply fall back to helmets. To rebuild it,
-    recreate the Python 3.13 venv with `rembg[cpu]`, `opencv-python-headless`,
-    Pillow and `vtracer`, then redo `cutout_drivers.py` from its description in
-    "Driver photos" below.
-  - `render_car.py` / `render_helmets.py` (component SVG → PNG) and the
-    reference photos under `refs/`: recipes are in "Owner feedback round 2".
-  - The original 40 s car recording
-    (`~/Downloads/freesound_community-f1-car-passing-66782.mp3`, needed only to
-    re-cut the intro sound).
-- This file is long; "Decisions made so far" is the reference for *why* things
-  are built the way they are. Skim it before changing standings, calendar,
-  circuits, news, pace, race pages or the intro.
+### Check, don't assume
+
+The claims in this section used to be answers; they are commands now, because
+answers about live state go stale and get repeated. A previous session wrote
+"the scheduled Action has never run" into this file and then repeated it for
+four days — it had in fact been running green every morning. **Anything about
+CI, ports, deploys or an external API is perishable: run the check rather than
+trusting a note.** Facts about our own code and decisions, in "Decisions made
+so far", do not rot the same way.
+
+```bash
+git status -sb                                   # where main sits vs origin
+npm test && npm run typecheck && npm run lint    # all three must pass
+gh run list --workflow=pace-data.yml --limit 5   # the daily data job
+gh run view --log                                # why, if one failed
+```
+
+- **The dev server runs on 4747.** Start it with the Browser pane's `boxbox`
+  config. If the port is held it is almost certainly this project's own server
+  from another chat — check with `curl -s localhost:4747 | grep -o '<title>[^<]*'`
+  and attach using `boxbox-attach` rather than starting a second one. Do **not**
+  set `autoPort`: it would let Next pick a port inside tutorAI's ranges.
+- **`npm run build` shares `.next/` with the dev server.** Stop dev first, and
+  restart it afterwards.
+
+### Where the project is
+
+Phase 0, Phase 1 and Phase 2 are all complete. The site has nine route types and
+no fictional data outside the dev-only `/design`. The production build is green
+and every route is prerendered — there are no server-rendered-on-demand routes.
+
+**The only thing left is the deploy**, and it is blocked on two decisions that
+are the owner's, not ours:
+
+1. **Driver photos.** `public/drivers/*.webp` is git-ignored, so a deployed site
+   falls back to helmets. The note below says to swap them for licensed images
+   before deploying. Ask; do not decide this.
+2. **The Vercel account.** The owner creates it. Never add a payment method.
+
+When the deploy does happen, two consequences are already baked in and worth
+saying out loud first: the data Action pushes to `main`, so every refresh will
+trigger a redeploy (which is wanted — race pages are prerendered and need a
+rebuild to show new data); and `NEXT_PUBLIC_SITE_URL` wants setting, or metadata
+falls back to the domain Vercel generates.
+
+### Working with the owner
+
+- Finish and verify a change, then **ask before committing and pushing**.
+- For look, sound or feel decisions, **offer options with a recommendation**
+  rather than picking.
+- They hold the site to a real-F1 standard and have sent several rounds of work
+  back. **Check renders yourself before showing them**, and **read generated
+  prose before shipping it** — every stage of Phase 2 had a sentence that was
+  true but read wrong, and no test caught any of them.
+- They are a good reviewer: the missing `/championship` door, the unreadable
+  first strategy chart and the invisible tyre swatches were all their catches.
+
+### Not in the repo, and gone when this session's scratchpad is deleted
+
+- The owner's driver photos live in `~/Desktop/f1 drivers/` (22 files, not
+  Tsunoda); the cut-outs in `public/drivers/*.webp` are git-ignored. If that
+  folder is empty, driver pages simply fall back to helmets. To rebuild it,
+  recreate the Python 3.13 venv with `rembg[cpu]`, `opencv-python-headless`,
+  Pillow and `vtracer`, then redo `cutout_drivers.py` from its description in
+  "Driver photos" below.
+- `render_car.py` / `render_helmets.py` (component SVG → PNG) and the reference
+  photos under `refs/`: recipes are in "Owner feedback round 2".
+- The original 40 s car recording
+  (`~/Downloads/freesound_community-f1-car-passing-66782.mp3`, needed only to
+  re-cut the intro sound).
+
+This file is long; "Decisions made so far" is the reference for *why* things are
+built the way they are. Skim it before changing standings, calendar, circuits,
+news, pace, race pages, the championship maths or the intro.
 
 ## Status
 
-**Phase 0 and Phase 1 are done; Phase 2 is three stages in (2a, 2b, 2c).**
-Beyond the Paddock there are now race verdict pages (`/races/14`), championship
-scenarios (`/championship`) and circuit pages (`/circuits/monaco`). The one
-thing still outstanding from Phase 1 is the Vercel deploy.
+**Phase 0, Phase 1 and Phase 2 are all done.** Beyond the Paddock there are
+race verdict pages (`/races/14`), championship scenarios (`/championship`),
+circuit pages (`/circuits/monaco`) and a season index (`/races`). The
+production build is green, every route is prerendered, and `robots.txt`,
+`sitemap.xml` and a social card are in place. Only the Vercel deploy is left.
 
 **Phase 1 recap:** the home
 page shows real 2026 standings, a real next-session countdown and the real
@@ -127,13 +165,20 @@ gives it accounts.
   (`npm run data:race`) and `data/races/<season>-<round>.json`.
 - **Championship (2b):** `app/championship/page.tsx`, `lib/championship.ts`
   (points remaining, contenders, `winScenario`, `earliestClinch`,
-  `scoringHistory`), `components/f1/TitleRaceBar.tsx` and `data/scoring.json`.
+  `scoringHistory`), `components/f1/TitleRaceBar.tsx` and `data/season.json`.
 - **Circuits (2c):** `app/circuits/[id]/page.tsx`, `lib/track.ts`
   (`degreesPerKm`, `trackCharacter`) and `fetchCircuitWinners` in
   `lib/jolpica.ts`.
 - **Shared:** `lib/words.ts` (number and name wording shared by the Briefing and
   the race verdict) and `scripts/sources.mts` (fetching and rate-limit handling
   shared by both build scripts).
+- **Season index (2d):** `app/races/page.tsx`, reading `data/season.json` —
+  the aggregate `build-race` emits, holding points per round per driver and per
+  team plus one line per race saying who won it. It is also the only place the
+  circuit pages can be browsed from.
+- **Deploy readiness:** `app/robots.ts`, `app/sitemap.ts` (76 URLs, `/design`
+  excluded), `app/opengraph-image.tsx` and `lib/site.ts` (`SITE_URL` from
+  `NEXT_PUBLIC_SITE_URL`, then Vercel's injected domain, then localhost).
 - **Nav** is Paddock · Races · Title · News · Pace. Silly Season left the bar —
   it was empty every day we measured — and stays a Paddock section.
 - **Driver and team pages:** `app/drivers/[code]/page.tsx` and
@@ -628,7 +673,7 @@ gives it accounts.
     last sprint** — the leader gains 33 there, not 25. Verify by hand before
     "fixing" it.
   - The page revalidates on live standings, so it **must not read the race files**
-    the prerendered race pages read. `build-race` emits `data/scoring.json` for
+    the prerendered race pages read. `build-race` emits `data/season.json` for
     it to import instead.
 - **Circuits (Phase 2c, 2026-09-23):**
   - **No corner counts, and no longest straight.** The outline samples a lap
@@ -648,6 +693,29 @@ gives it accounts.
     scaling by value put nine of 23 circuits in one band and left "Twisty"
     unused, with Hungaroring reading "Mixed" at 417°/km.
 
+- **Deploy readiness (2026-09-23):**
+  - `/circuits/[id]` needs `generateStaticParams` or it is server-rendered on
+    demand — 23 circuits, each costing a render and a Jolpica call per visit.
+    Circuits off the calendar still render on request, which is why
+    `dynamicParams` keeps its default.
+  - `SITE_URL` reads `NEXT_PUBLIC_SITE_URL`, then `VERCEL_PROJECT_PRODUCTION_URL`,
+    then localhost, so a local build still produces valid absolute URLs instead
+    of failing on a relative one.
+  - The social card uses **`skewX(-12deg)`**, the site's own `slant` utility,
+    not italics. `fontStyle: "italic"` silently renders upright there: the image
+    renderer cannot read the stylesheet or reach Titillium. Only looking at the
+    rendered PNG showed it.
+  - `/design` is excluded from the sitemap and disallowed in robots, on top of
+    already returning 404 in production.
+- **The Paddock's `h1` is `sr-only`.** The page shows no visible title by
+  design — the wordmark carries it — but it had no `h1` at all, so screen
+  readers and search engines met a page whose highest heading was an `h2`.
+  Don't "fix" it by adding a visible heading.
+- **External links use `target="_blank" rel="noopener noreferrer"`**, the
+  convention the news wire set. Four credit links added in Phase 2 were missing
+  it. When auditing this, read the whole tag: a line-based grep reports a false
+  positive on `app/page.tsx`, which has the attributes on the following line.
+
 ## Next steps — Phase 1 (MVP)
 
 1. ~~Real standings~~ — done.
@@ -666,7 +734,8 @@ gives it accounts.
 5. ~~Replace the remaining sample data~~ — done: nav and routes, the pace
    pipeline, the pecking order, the fastest lap, Silly Season and the Briefing.
    `lib/sample-data.ts` is now `/design` only.
-6. **Deploy to Vercel Hobby.** Before deploying, note:
+6. **Deploy to Vercel Hobby — still outstanding, and the only thing left.**
+   Before deploying, note:
    - Driver photos are git-ignored, so deployed driver pages show helmets.
    - `.github/workflows/pace-data.yml` pushes to `main`; make sure Vercel
      redeploying on every such commit is what you want.
@@ -688,7 +757,7 @@ rules there are the point, not decoration.
 | 2a | `/races/[round]` — the verdict and its evidence | **done** (`2edb06a`) |
 | 2b | `/championship` — who can still win | **done** (`a84dd13`) |
 | 2c | `/circuits/[id]` — the lap, and its winners | **done** (`ba9fe13`) |
-| 2d | `/races` season index | **next** |
+| 2d | `/races` season index | **done** (`6e248a3`) |
 
 - **The premise:** Phase 1 made everything real, but real is not distinctive —
   older sites carry the same standings and news. The hook is a *verdict*, not
