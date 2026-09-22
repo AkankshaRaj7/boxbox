@@ -3,32 +3,32 @@
 Read this first in a new session, then [plan.md](plan.md) for the full roadmap
 and [../CLAUDE.md](../CLAUDE.md) for the rules.
 
-_Last updated: 2026-09-16 — the Paddock now carries no invented data at all. Real race pace, fastest lap, driver-market stories and a generated Briefing replaced the last sample blocks, and the nav points at real pages. Next: deploy to Vercel Hobby._
+_Last updated: 2026-09-23 — Phase 2 stages 2a, 2b and 2c are done and pushed: race verdict pages, the championship scenarios page and circuit pages. Next: 2d, the `/races` index. Vercel deploy still not done._
 
 ## Start here (next session)
 
-- **`main` is clean but NOT pushed — it is 7 commits ahead of `origin/main`.**
-  The owner reviews before pushing; ask them before running `git push`.
-  The seven, oldest first:
-  | Commit | What it did |
-  |---|---|
-  | `bff65ec` | Nav points at real pages; predictions game removed |
-  | `500b913` | Pace pipeline: `data/pace.json` from OpenF1 laps |
-  | `d1973d1` | Real pecking order on `/pecking-order` and the Paddock |
-  | `a14f9f3` | Real fastest lap, sectors and tyre |
-  | `bb58350` | Silly Season shows real transfer stories |
-  | `4bd6b25` | The Briefing is generated; sample-data notice removed |
-  | `8967d5b` | Daily pace-refresh Action; docs brought up to date |
-- **Next task: deploy to Vercel Hobby.** Supabase is deliberately *not* next —
-  see "Why there is still no Supabase" below.
+- **`main` is clean and pushed**, level with `origin/main`. The last commit is
+  `ba9fe13`. The owner reviews before pushing — ask before running `git push`.
+- **Next task: stage 2d**, the `/races` season index. It is the smallest piece
+  of Phase 2 on purpose; [plan.md §9.8](plan.md) says why. After that, deploy to
+  Vercel Hobby, which is still outstanding from Phase 1.
 - Before coding: start the dev server with the Browser pane's `boxbox` config
-  (port 4747), then confirm `npm test` (226), `npm run typecheck` and
-  `npm run lint` pass. If another chat's BOXBOX server already holds 4747, use
-  the `boxbox-attach` config, which attaches the pane to it instead.
+  (port 4747), then confirm `npm test` (298), `npm run typecheck` and
+  `npm run lint` pass. If port 4747 is already held, it is almost certainly this
+  project's own server from another chat — attach with the `boxbox-attach`
+  config rather than starting a second one, and do **not** set `autoPort`, which
+  would let Next pick a port inside tutorAI's ranges.
+- **The scheduled Action has never actually run.** `.github/workflows/pace-data.yml`
+  now runs `data:pace` and `data:race` and commits `data/pace.json`,
+  `data/races/*.json` and `data/scoring.json`. Its first real exercise will be
+  after Azerbaijan unless someone dispatches it manually. A manual run today is
+  the safe way to test it: the data is current, so it should find nothing, write
+  nothing and commit nothing.
 - Working with the owner: finish and verify a change, then **ask before
   committing and pushing**; for look/sound/feel decisions, offer options with a
   recommendation. They hold the site to a real-F1 standard of quality, and have
-  sent several rounds of art back for rework — check renders yourself first.
+  sent several rounds of work back — check renders yourself before showing them,
+  and read generated prose before shipping it.
 - **Not in the repo, and gone when this session's scratchpad is deleted:**
   - The owner's driver photos live in `~/Desktop/f1 drivers/` (22 files, not
     Tsunoda); the cut-outs in `public/drivers/*.webp` are git-ignored. If that
@@ -43,11 +43,16 @@ _Last updated: 2026-09-16 — the Paddock now carries no invented data at all. R
     re-cut the intro sound).
 - This file is long; "Decisions made so far" is the reference for *why* things
   are built the way they are. Skim it before changing standings, calendar,
-  circuits, news, pace or the intro.
+  circuits, news, pace, race pages or the intro.
 
 ## Status
 
-**Phase 0 (setup + design system) is done. Phase 1 is under way:** the home
+**Phase 0 and Phase 1 are done; Phase 2 is three stages in (2a, 2b, 2c).**
+Beyond the Paddock there are now race verdict pages (`/races/14`), championship
+scenarios (`/championship`) and circuit pages (`/circuits/monaco`). The one
+thing still outstanding from Phase 1 is the Vercel deploy.
+
+**Phase 1 recap:** the home
 page shows real 2026 standings, a real next-session countdown and the real
 upcoming circuit from Jolpica-F1, plus real headlines from six RSS feeds; the
 full wire lives at `/news`. Every current driver and team has a page
@@ -61,7 +66,7 @@ gives it accounts.
 
 | Check | Result |
 |---|---|
-| `npm test` | 226 tests pass (adds nav active state, the pace statistics and a guard over the committed `data/pace.json`, lap-time formatting, transfer filtering and the Briefing's lines) |
+| `npm test` | 298 tests pass (adds neutralisation parsing, pit-loss measurement, the race verdict's editorial guards, incident grouping, championship arithmetic and circuit geometry) |
 | `npm run typecheck` | Clean |
 | `npm run lint` | Clean |
 | Browser (2026-09-16, real data) | Paddock: Briefing reads "Antonelli leads Russell by 81 points, with 233 still on the table over nine rounds" / "Mercedes lead the constructors' by 145 from Ferrari" / "Mercedes have the quickest car of the last five races, 0.23% clear of Ferrari" / "Audi are the biggest climbers in the pecking order, up a place to fifth" — all four checked against the raw numbers. Fastest lap card: RUS 1:35.587 lap 49, hard tyre 20 laps old, S1 purple / S2 green / S3 yellow, each verified against the session's own sector bests. Silly Season shows its quiet-market state (0 of 72 wire stories are transfers). `/pecking-order` lists all 11 teams (Mercedes +0.14% → Cadillac +4.73%) with a 14-round trend chart whose McLaren line breaks at R2. Nav: `/news` highlights News, `/pecking-order` highlights Pace, `/#market` moves the marker. No overflow at 375px or 1280px on `/`, `/news`, `/pecking-order`; bottom nav is 4 equal columns; team names render in full in both the compact preview and the full table. Empty states rendered and checked for the pecking order, Silly Season and the Briefing. Six routes return 200, `/drivers/xyz` 404s, and a clean dev server logs no errors. |
@@ -114,6 +119,23 @@ gives it accounts.
   `components/f1/HeaderNav.tsx`.
 - **New components:** `PeckingOrderTable` (with a `compact` mode for narrow
   columns) and `FastestLapCard`.
+- **Race pages (2a):** `app/races/[round]/page.tsx` and `app/races/page.tsx`
+  (redirects to the newest race until 2d builds the index); `lib/race.ts`
+  (neutralisation parsing, `pitLoss`, `greenPitLoss`, `raceVerdict`, `byTeam`),
+  `lib/incidents.ts` (race control reduced to incidents), `lib/race-data.ts`,
+  `components/f1/StrategyChart.tsx`, `scripts/build-race.mts`
+  (`npm run data:race`) and `data/races/<season>-<round>.json`.
+- **Championship (2b):** `app/championship/page.tsx`, `lib/championship.ts`
+  (points remaining, contenders, `winScenario`, `earliestClinch`,
+  `scoringHistory`), `components/f1/TitleRaceBar.tsx` and `data/scoring.json`.
+- **Circuits (2c):** `app/circuits/[id]/page.tsx`, `lib/track.ts`
+  (`degreesPerKm`, `trackCharacter`) and `fetchCircuitWinners` in
+  `lib/jolpica.ts`.
+- **Shared:** `lib/words.ts` (number and name wording shared by the Briefing and
+  the race verdict) and `scripts/sources.mts` (fetching and rate-limit handling
+  shared by both build scripts).
+- **Nav** is Paddock · Races · Title · News · Pace. Silly Season left the bar —
+  it was empty every day we measured — and stays a Paddock section.
 - **Driver and team pages:** `app/drivers/[code]/page.tsx` and
   `app/teams/[id]/page.tsx`; `lib/season.ts` (season model and pure stats:
   `driverStats`, `recentForm`, `teamSpells`, `headToHead`,
@@ -559,6 +581,73 @@ gives it accounts.
   now uses — covers anything a job computes and the site only reads, with no
   account and no free-tier project to keep awake. Deploy first.
 
+- **Race pages (Phase 2a, 2026-09-21):**
+  - **A pit stop is measured against the cars running on the same laps**, never
+    against the driver's own pace. Under a safety car every lap time is slower,
+    so a green-flag baseline charges the neutralisation to the stop and reports
+    that a VSC stop costs *thirty seconds more* than staying out — the exact
+    opposite of the truth. That inversion is pinned by a test in
+    `lib/race.test.ts`; do not "simplify" it away.
+  - A stop counts as green only when **neither** its in-lap nor its out-lap was
+    neutralised, and `greenPitLoss` returns null below `MIN_PLAUSIBLE_LOSS`
+    (10 s). Australia measures at 0.1 s, which cannot happen, so the page
+    reports the observation and omits the number.
+  - **`stop_duration` is null throughout the 2026 OpenF1 data.** `pit_duration`
+    is the whole pit lane, entry to exit (~31 s), not the ~2 s stationary time
+    fans quote. The field is named `pitLaneSeconds` and the page says pit lane.
+    Do not relabel it.
+  - **Jolpica pages by row, not by race.** One round's results split across
+    pages, so fragments must be merged by round; keeping the last one leaves a
+    round with eight drivers in no order. `parseSeasonResults` already did this
+    correctly and the race script reimplemented it naively — check there first.
+  - Race control joins into incidents on the **timestamp in brackets** that every
+    message about one event carries, falling back to driver + offence when the
+    timestamp is missing. The Spanish GP goes from 81 messages to 9 incidents.
+    Deleted lap times are a quarter of all messages and are counted, not listed.
+  - The verdict **stays silent where the arithmetic and the result disagree**: a
+    driver who "lost 42 seconds" and won anyway gets no line, and red-flagged
+    races are excluded from that line entirely because lap times either side of
+    a stoppage are not comparable. See plan.md §9.4.
+  - Drivers are grouped by team, teams in **championship order after that round**
+    (baked into each record), not by a hand-ranked popularity list. The
+    classification stays in finishing order, which is its content — the owner
+    considered a team-grouped toggle and declined it.
+- **Championship (Phase 2b, 2026-09-23):**
+  - **No win probability, deliberately.** Any percentage would come from a model
+    that cannot be validated against the remaining races. The page shows the
+    swing a chaser needs per round against what they have actually managed over
+    the last five, which is checkable arithmetic.
+  - `winScenario` is **drivers only**. A constructors' round is two cars against
+    two, so the one-car framing gave "McLaren must win every round with Mercedes
+    no better than 9th", which is wrong. `contenders` returns a null scenario
+    for teams, with a test asserting it.
+  - `pointsRemaining` lives in `lib/championship.ts` and knows a constructor
+    scores with both cars: 402 points to a team against 233 to a driver after
+    round 14. It was moved out of `lib/briefing.ts` so the two cannot drift.
+  - `earliestClinch` reads 17, not 18, because **Singapore carries the season's
+    last sprint** — the leader gains 33 there, not 25. Verify by hand before
+    "fixing" it.
+  - The page revalidates on live standings, so it **must not read the race files**
+    the prerendered race pages read. `build-race` emits `data/scoring.json` for
+    it to import instead.
+- **Circuits (Phase 2c, 2026-09-23):**
+  - **No corner counts, and no longest straight.** The outline samples a lap
+    every 40–50 m. Corner detection matched Monaco's 19 exactly and Suzuka
+    within one but gave **Baku 11 against an official 20**; longest straight
+    measured 1,068 m at Baku against a real ~2,200 m. Both were built, checked
+    and thrown away. The page explains this to the reader.
+  - What is published is **degrees of turning per kilometre** — an integral of
+    curvature, so it gives the same answer from 60 points or 600. Monaco 693,
+    Monza 200. A test asserts the sampling invariance.
+  - **JavaScript's `%` is a remainder, not a modulo.** The usual
+    `(a + PI) % (2 * PI) - PI` angle wrap returns a value outside −π…π whenever
+    `a + PI` is negative, overstating that turn: Monaco read 797°/km instead of
+    693, and it would have shipped wrong on all 23 circuit pages. `wrap()` in
+    `lib/track.ts` handles it, pinned by a test against the known figure.
+  - Bands are spaced **by rank, not by value**. Monaco is so far clear that
+    scaling by value put nine of 23 circuits in one band and left "Twisty"
+    unused, with Hungaroring reading "Mixed" at 417°/km.
+
 ## Next steps — Phase 1 (MVP)
 
 1. ~~Real standings~~ — done.
@@ -588,17 +677,22 @@ gives it accounts.
    "Why there is still no Supabase". The owner creates the free accounts
    themselves; never add a payment method.
 
-## Next phase — Phase 2, "win Sunday night"
+## Phase 2 — "win Sunday night"
 
 Planned with the owner on 2026-09-18 and **written up in full in
-[plan.md §9](plan.md)**. Read that before starting; the summary here is only
-enough to know what it is and what was decided.
+[plan.md §9](plan.md)**. Read §9.4 before touching any race page: the editorial
+rules there are the point, not decoration.
+
+| Stage | What | State |
+|---|---|---|
+| 2a | `/races/[round]` — the verdict and its evidence | **done** (`2edb06a`) |
+| 2b | `/championship` — who can still win | **done** (`a84dd13`) |
+| 2c | `/circuits/[id]` — the lap, and its winners | **done** (`ba9fe13`) |
+| 2d | `/races` season index | **next** |
 
 - **The premise:** Phase 1 made everything real, but real is not distinctive —
   older sites carry the same standings and news. The hook is a *verdict*, not
   more data: what actually decided the race, with the arithmetic shown.
-- **First deliverable is `/races/[round]` (stage 2a)**, then `/championship`
-  (2b), `/circuits/[id]` (2c), a `/races` index (2d).
 - **Decisions the owner made, so don't reopen them:**
   - Sunday night first — the post-race verdict page before the track preview.
   - The Paddock links to **the last completed race**, not the current weekend.
@@ -606,31 +700,24 @@ enough to know what it is and what was decided.
     the page states how it is derived.
   - **The word "mistake" is banned**, along with "error" and "failed", for
     anything inferred. Observation plus arithmetic; the FIA may make claims, we
-    may not. See plan.md §9.4 — those rules are the point, not decoration.
+    may not.
   - **Team radio is cut** on copyright grounds, not deferred.
-  - Market leaves the nav (it is empty most days); nav becomes
-    Paddock · Races · News · Pace.
+  - Market left the nav (empty most days); nav is Paddock · Races · Title ·
+    News · Pace.
+  - The classification stays in **finishing order**; a team-grouped toggle was
+    offered and declined.
+  - Teams are ordered by **championship position**, never by a hand-ranked
+    popularity list.
+- **2d is deliberately small.** It is navigation, not a destination — the plan
+  says so. A table of every driver's practice, qualifying and race pace was
+  considered and cut as the least differentiated thing on the original list.
 - **No new data sources, no accounts, no database, no cost.** A reduced per-race
-  record measures 13.8 KB, so a season is ~330 KB of committed JSON — one file
-  per race, beside `data/pace.json`.
-- **Phase 3 is explicitly out of scope.** It is where the project stops being
-  free in the way that matters: sign-in means personal data, a privacy policy, a
-  deletion path, moderation, and the first data that cannot be rebuilt from an
-  API. Most of Phase 3 (puzzle, share cards, even predictions scored locally)
-  needs no accounts; only leagues and cross-device history do.
-
-Small follow-ups, none urgent:
-
-- `components/f1/SeatBoard.tsx` imports the `SeatStatus` *type* from
-  `lib/sample-data.ts`. Nothing on the live site renders SeatBoard, so no page
-  carries sample data, but the type belongs in `lib/` proper — tidy it when
-  Silly Season gets its Phase 2 work.
-- `classify` files "Honda replaces its F1 engine development chief" as technical
-  and "F1 announces 2027 calendar" as race-reports. Both are defensible, neither
-  is a transfer misfire, so they were left alone.
-
-Phase 2 candidates: the rumor admin flow behind Silly Season, a `/races/[slug]`
-hub, and a championship calculator built on `pointsRemaining` in `lib/briefing.ts`.
+  record measures ~14 KB; the season is ~380 KB of committed JSON.
+- **Phase 3 is out of scope.** It is where the project stops being free in the
+  way that matters: sign-in means personal data, a privacy policy, a deletion
+  path, moderation, and the first data that cannot be rebuilt from an API. Most
+  of Phase 3 (puzzle, share cards, even predictions scored locally) needs no
+  accounts; only leagues and cross-device history do.
 
 ## Gotchas
 
@@ -643,6 +730,15 @@ hub, and a championship calculator built on `pointsRemaining` in `lib/briefing.t
   reuse it rather than starting another (Browser pane: `boxbox-attach`).
 - The Browser pane's `zoom` action isn't supported; to inspect an SVG closely,
   enlarge it temporarily with `javascript_tool` and take a screenshot.
+- **Read generated prose before shipping it.** Every stage of Phase 2 had a
+  sentence that was true but read wrong: "worth roughly 18 seconds more" meant
+  the opposite of the saving it described, "nine rounds left · nine still in it"
+  reads like a bug, and a line reporting a 42-second loss for a driver who won
+  anyway implied a cause the result contradicted. Tests caught none of these.
+- **Check a derived number against an independent implementation.** The Monaco
+  modulo bug and the inverted pit-loss measurement were both found by comparing
+  against a Python prototype, not by a test — the tests were written afterwards
+  to pin the answers.
 - **Screenshots are unreliable while the Browser pane is hidden** — scrolling
   doesn't repaint, so you get a blank image. Read the DOM with `javascript_tool`
   or `read_page` instead, and don't trust digits read off a scaled screenshot
