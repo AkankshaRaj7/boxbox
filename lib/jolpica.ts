@@ -70,7 +70,7 @@ export type JolpicaRace = SessionTime & {
   };
 } & Partial<Record<(typeof SESSION_FIELDS)[number][0], SessionTime>>;
 
-type ResultsRace = { season: string; Results: { Driver: JolpicaDriver }[] };
+type ResultsRace = { season: string; Results: { Driver: JolpicaDriver; Constructor: JolpicaConstructor }[] };
 
 export type RaceTableResponse<Race = JolpicaRace> = {
   MRData: { total?: string; RaceTable: { season?: string; Races: Race[] } };
@@ -187,6 +187,23 @@ export function parseLastWinner(res: RaceTableResponse<ResultsRace>): { code: st
   const race = res.MRData.RaceTable.Races.at(-1);
   const winner = race?.Results[0]?.Driver;
   return race && winner ? { code: driverCode(winner), season: race.season } : null;
+}
+
+/** One past winner at a circuit. */
+export type CircuitWinner = { season: string; code: string; constructorId: string };
+
+/**
+ * Every winner a circuit has had, oldest first. One request covers the whole
+ * history — Monza returns 76 — so this is cheap for real sample size, unlike
+ * anything derived from the single 2026 race we hold per track.
+ */
+export function parseCircuitWinners(res: RaceTableResponse<ResultsRace>): CircuitWinner[] {
+  return res.MRData.RaceTable.Races.flatMap((race) => {
+    const result = race.Results[0];
+    return result
+      ? [{ season: race.season, code: driverCode(result.Driver), constructorId: result.Constructor.constructorId }]
+      : [];
+  });
 }
 
 function toClassification(round: number, row: ClassificationRow): Classification {
@@ -353,6 +370,17 @@ export async function fetchSeasonResults(): Promise<SeasonResults> {
  */
 export async function fetchLastWinner(circuitId: string) {
   return parseLastWinner(
+    await getJolpica<RaceTableResponse<ResultsRace>>(`/circuits/${encodeURIComponent(circuitId)}/results/1/?limit=100`),
+  );
+}
+
+/**
+ * Every winner at a circuit, oldest first.
+ *
+ * @throws if Jolpica is unreachable.
+ */
+export async function fetchCircuitWinners(circuitId: string): Promise<CircuitWinner[]> {
+  return parseCircuitWinners(
     await getJolpica<RaceTableResponse<ResultsRace>>(`/circuits/${encodeURIComponent(circuitId)}/results/1/?limit=100`),
   );
 }

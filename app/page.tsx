@@ -59,7 +59,17 @@ function CircuitCard({ schedule, className }: { schedule: Schedule; className: s
 
   return (
     <Panel className={`p-4 ${className}`} aria-labelledby="circuit-title">
-      <SectionHeader id="circuit-title" title="Circuit" />
+      <SectionHeader
+        id="circuit-title"
+        title="Circuit"
+        action={
+          weekend && (
+            <Link href={`/circuits/${weekend.circuitId}`} className="text-xs font-bold uppercase text-fg-dim hover:text-fg">
+              The lap →
+            </Link>
+          )
+        }
+      />
       {weekend ? (
         <>
           <p className="font-bold leading-snug">{weekend.circuitName}</p>

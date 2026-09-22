@@ -3,6 +3,7 @@ import {
   parseCalendar,
   parseConstructorStandings,
   parseDriverStandings,
+  parseCircuitWinners,
   parseLastWinner,
   parseRound,
   parseSeasonResults,
@@ -195,7 +196,14 @@ describe("parseLastWinner", () => {
     familyName,
   });
   const results = (...races: [string, ReturnType<typeof driver>][]): Parameters<typeof parseLastWinner>[0] => ({
-    MRData: { RaceTable: { Races: races.map(([season, d]) => ({ season, Results: [{ Driver: d }] })) } },
+    MRData: {
+      RaceTable: {
+        Races: races.map(([season, d]) => ({
+          season,
+          Results: [{ Driver: d, Constructor: { constructorId: "mercedes", name: "Mercedes" } }],
+        })),
+      },
+    },
   });
 
   it("returns the most recent winner", () => {
@@ -295,5 +303,34 @@ describe("parseSeasonResults", () => {
     expect(season.season).toBe("2026");
     expect(season.sprints).toMatchObject([{ round: 2, driverId: "antonelli", points: 25 }]);
     expect(season.qualifying).toEqual([{ round: 2, driverId: "antonelli", constructorId: "mercedes", position: 1 }]);
+  });
+});
+
+describe("parseCircuitWinners", () => {
+  const race = (season: string, code: string, constructorId: string) => ({
+    season,
+    Results: [
+      {
+        Driver: { driverId: code.toLowerCase(), code, givenName: "X", familyName: code },
+        Constructor: { constructorId, name: constructorId },
+      },
+    ],
+  });
+
+  it("returns every winner the circuit has had, oldest first", () => {
+    expect(
+      parseCircuitWinners({
+        MRData: { RaceTable: { Races: [race("2024", "LEC", "ferrari"), race("2025", "VER", "red_bull")] } },
+      }),
+    ).toEqual([
+      { season: "2024", code: "LEC", constructorId: "ferrari" },
+      { season: "2025", code: "VER", constructorId: "red_bull" },
+    ]);
+  });
+
+  it("skips a race with no classified result", () => {
+    expect(
+      parseCircuitWinners({ MRData: { RaceTable: { Races: [{ season: "1950", Results: [] }] } } }),
+    ).toEqual([]);
   });
 });
