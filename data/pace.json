@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-09-27T11:08:53.252Z",
+ "generatedAt": "2026-10-05T13:13:43.621Z",
  "races": [
   {
    "round": 1,
@@ -284,30 +284,49 @@
     "cadillac": 109.71,
     "aston_martin": 112.144
    }
+  },
+  {
+   "round": 16,
+   "event": "Bahrain Grand Prix in Malaysia",
+   "circuitId": "sepang",
+   "date": "2026-10-04",
+   "teams": {
+    "red_bull": 101.185,
+    "ferrari": 101.858,
+    "mercedes": 101.576,
+    "mclaren": 102.908,
+    "audi": 103.673,
+    "rb": 103.239,
+    "aston_martin": 103.229,
+    "williams": 103.762,
+    "alpine": 103.161,
+    "haas": 103.109,
+    "cadillac": 105.173
+   }
   }
  ],
  "fastestLap": {
-  "round": 15,
-  "event": "Azerbaijan Grand Prix",
-  "driverCode": "RUS",
-  "constructorId": "mercedes",
-  "lapNumber": 49,
-  "seconds": 104.916,
+  "round": 16,
+  "event": "Bahrain Grand Prix in Malaysia",
+  "driverCode": "VER",
+  "constructorId": "red_bull",
+  "lapNumber": 55,
+  "seconds": 98.22,
   "sectors": [
    {
-    "seconds": 37.056,
+    "seconds": 25.516,
+    "kind": "slower"
+   },
+   {
+    "seconds": 32.883,
     "kind": "fastest"
    },
    {
-    "seconds": 42.656,
-    "kind": "slower"
-   },
-   {
-    "seconds": 25.204,
-    "kind": "slower"
+    "seconds": 39.821,
+    "kind": "fastest"
    }
   ],
   "compound": "soft",
-  "tyreAgeLaps": 12
+  "tyreAgeLaps": 45
  }
 }

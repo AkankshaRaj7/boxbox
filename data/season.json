@@ -150,6 +150,16 @@
     "code": "RUS",
     "constructorId": "mercedes"
    }
+  },
+  {
+   "round": 16,
+   "event": "Bahrain Grand Prix in Malaysia",
+   "circuitId": "sepang",
+   "date": "2026-10-04",
+   "winner": {
+    "code": "VER",
+    "constructorId": "red_bull"
+   }
   }
  ],
  "drivers": [
@@ -1547,6 +1557,99 @@
      "points": 0
     }
    ]
+  },
+  {
+   "round": 16,
+   "entries": [
+    {
+     "key": "VER",
+     "points": 25
+    },
+    {
+     "key": "ANT",
+     "points": 18
+    },
+    {
+     "key": "HAM",
+     "points": 15
+    },
+    {
+     "key": "LEC",
+     "points": 12
+    },
+    {
+     "key": "HAD",
+     "points": 10
+    },
+    {
+     "key": "PIA",
+     "points": 8
+    },
+    {
+     "key": "LAW",
+     "points": 6
+    },
+    {
+     "key": "ALO",
+     "points": 4
+    },
+    {
+     "key": "NOR",
+     "points": 2
+    },
+    {
+     "key": "LIN",
+     "points": 1
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "GAS",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "RUS",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    }
+   ]
   }
  ],
  "teams": [
@@ -2941,6 +3044,99 @@
     },
     {
      "key": "aston_martin",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 16,
+   "entries": [
+    {
+     "key": "red_bull",
+     "points": 25
+    },
+    {
+     "key": "mercedes",
+     "points": 18
+    },
+    {
+     "key": "ferrari",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "red_bull",
+     "points": 10
+    },
+    {
+     "key": "mclaren",
+     "points": 8
+    },
+    {
+     "key": "rb",
+     "points": 6
+    },
+    {
+     "key": "aston_martin",
+     "points": 4
+    },
+    {
+     "key": "mclaren",
+     "points": 2
+    },
+    {
+     "key": "rb",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "mercedes",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
      "points": 0
     }
    ]
