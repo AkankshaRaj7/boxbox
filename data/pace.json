@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-10-05T13:13:43.621Z",
+ "generatedAt": "2026-10-12T14:04:25.189Z",
  "races": [
   {
    "round": 1,
@@ -303,30 +303,49 @@
     "haas": 103.109,
     "cadillac": 105.173
    }
+  },
+  {
+   "round": 17,
+   "event": "Singapore Grand Prix",
+   "circuitId": "marina_bay",
+   "date": "2026-10-11",
+   "teams": {
+    "red_bull": 97.3,
+    "ferrari": 97.229,
+    "mercedes": 97.522,
+    "mclaren": 97.879,
+    "rb": 98.579,
+    "audi": 98.677,
+    "alpine": 99.171,
+    "williams": 99.778,
+    "haas": 99.128,
+    "cadillac": 100.641,
+    "aston_martin": 100.032
+   }
   }
  ],
  "fastestLap": {
-  "round": 16,
-  "event": "Bahrain Grand Prix in Malaysia",
-  "driverCode": "VER",
-  "constructorId": "red_bull",
-  "lapNumber": 55,
-  "seconds": 98.22,
+  "round": 17,
+  "event": "Singapore Grand Prix",
+  "driverCode": "LEC",
+  "constructorId": "ferrari",
+  "lapNumber": 41,
+  "seconds": 95.202,
   "sectors": [
    {
-    "seconds": 25.516,
+    "seconds": 28.307,
     "kind": "slower"
    },
    {
-    "seconds": 32.883,
+    "seconds": 40.048,
     "kind": "fastest"
    },
    {
-    "seconds": 39.821,
-    "kind": "fastest"
+    "seconds": 26.847,
+    "kind": "slower"
    }
   ],
   "compound": "soft",
-  "tyreAgeLaps": 45
+  "tyreAgeLaps": 4
  }
 }
