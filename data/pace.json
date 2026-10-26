@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-10-12T14:04:25.189Z",
+ "generatedAt": "2026-10-26T12:01:29.059Z",
  "races": [
   {
    "round": 1,
@@ -322,30 +322,49 @@
     "cadillac": 100.641,
     "aston_martin": 100.032
    }
+  },
+  {
+   "round": 18,
+   "event": "United States Grand Prix",
+   "circuitId": "americas",
+   "date": "2026-10-25",
+   "teams": {
+    "mercedes": 100.062,
+    "red_bull": 100.322,
+    "ferrari": 100.391,
+    "mclaren": 100.309,
+    "rb": 101.41,
+    "alpine": 101.343,
+    "haas": 102.327,
+    "williams": 102.429,
+    "audi": 102.08,
+    "aston_martin": 102.39,
+    "cadillac": 103.93
+   }
   }
  ],
  "fastestLap": {
-  "round": 17,
-  "event": "Singapore Grand Prix",
+  "round": 18,
+  "event": "United States Grand Prix",
   "driverCode": "LEC",
   "constructorId": "ferrari",
-  "lapNumber": 41,
-  "seconds": 95.202,
+  "lapNumber": 42,
+  "seconds": 97.976,
   "sectors": [
    {
-    "seconds": 28.307,
+    "seconds": 26.289,
     "kind": "slower"
    },
    {
-    "seconds": 40.048,
+    "seconds": 38.906,
     "kind": "fastest"
    },
    {
-    "seconds": 26.847,
-    "kind": "slower"
+    "seconds": 32.781,
+    "kind": "fastest"
    }
   ],
-  "compound": "soft",
-  "tyreAgeLaps": 4
+  "compound": "hard",
+  "tyreAgeLaps": 2
  }
 }

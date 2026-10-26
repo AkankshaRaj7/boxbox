@@ -1,0 +1,1315 @@
+{
+ "season": "2026",
+ "round": 18,
+ "event": "United States Grand Prix",
+ "circuitId": "americas",
+ "date": "2026-10-25",
+ "generatedAt": "2026-10-26T12:01:39.339Z",
+ "neutralisations": [
+  {
+   "kind": "vsc",
+   "fromLap": 2,
+   "toLap": 2
+  },
+  {
+   "kind": "vsc",
+   "fromLap": 51,
+   "toLap": 53
+  }
+ ],
+ "redFlags": 0,
+ "control": [
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 13"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 12"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": null,
+   "message": "SESSION STARTED"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": null,
+   "message": "RACE START"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 2"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 1"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 10"
+  },
+  {
+   "lap": 1,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 12"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 10"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": null,
+   "message": "VSC DEPLOYED"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": null,
+   "message": "VSC ENDING"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 10"
+  },
+  {
+   "lap": 2,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 12"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 13"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 12"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 11"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 10"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 3,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 11"
+  },
+  {
+   "lap": 4,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 13"
+  },
+  {
+   "lap": 4,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 11"
+  },
+  {
+   "lap": 4,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "TURN 13 INCIDENT INVOLVING CAR 63 (RUS) NOTED - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:04:59)"
+  },
+  {
+   "lap": 4,
+   "driverCode": "BOR",
+   "flag": null,
+   "message": "CAR 5 (BOR) TIME 1:53.937 DELETED - TRACK LIMITS AT TURN 11 LAP 2 15:06:41"
+  },
+  {
+   "lap": 5,
+   "driverCode": "ALO",
+   "flag": null,
+   "message": "CAR 14 (ALO) TIME 1:53.570 DELETED - TRACK LIMITS AT TURN 12 LAP 2 15:06:58"
+  },
+  {
+   "lap": 5,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "FIA STEWARDS: TURN 13 INCIDENT INVOLVING CAR 63 (RUS) UNDER INVESTIGATION - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:04:59)"
+  },
+  {
+   "lap": 6,
+   "driverCode": "BOR",
+   "flag": null,
+   "message": "TURN 11 INCIDENT INVOLVING CAR 5 (BOR) NOTED - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:06:39)"
+  },
+  {
+   "lap": 7,
+   "driverCode": "LIN",
+   "flag": null,
+   "message": "INCIDENT INVOLVING CARS 41 (LIN) AND 55 (SAI) NOTED (15:03:49)"
+  },
+  {
+   "lap": 8,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "TURN 13 INCIDENT INVOLVING CARS 87 (BEA) AND 10 (GAS) NOTED - CAUSING A COLLISION (15:06:57)"
+  },
+  {
+   "lap": 8,
+   "driverCode": "PIA",
+   "flag": null,
+   "message": "CAR 81 (PIA) TIME 1:42.300 DELETED - TRACK LIMITS AT TURN 12 LAP 7 15:15:17"
+  },
+  {
+   "lap": 9,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "FIA STEWARDS: 5 SECOND TIME PENALTY FOR CAR 63 (RUS) - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:04:59)"
+  },
+  {
+   "lap": 10,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "CAR 87 (BEA) TIME 1:42.992 DELETED - TRACK LIMITS AT TURN 9 LAP 7 15:14:55"
+  },
+  {
+   "lap": 10,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 2"
+  },
+  {
+   "lap": 10,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 3"
+  },
+  {
+   "lap": 11,
+   "driverCode": "BOR",
+   "flag": null,
+   "message": "FIA STEWARDS: TURN 11 INCIDENT INVOLVING CAR 5 (BOR) UNDER INVESTIGATION - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:06:39)"
+  },
+  {
+   "lap": 12,
+   "driverCode": "NOR",
+   "flag": null,
+   "message": "CAR 1 (NOR) TIME 1:41.931 DELETED - TRACK LIMITS AT TURN 12 LAP 10 15:20:22"
+  },
+  {
+   "lap": 13,
+   "driverCode": "BOR",
+   "flag": null,
+   "message": "FIA STEWARDS: TURN 11 INCIDENT INVOLVING CAR 5 (BOR) NO FURTHER ACTION - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:06:39)"
+  },
+  {
+   "lap": 14,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "CAR 87 (BEA) TIME 1:46.078 DELETED - TRACK LIMITS AT TURN 12 LAP 12 15:24:06"
+  },
+  {
+   "lap": 15,
+   "driverCode": "LIN",
+   "flag": null,
+   "message": "FIA STEWARDS: INCIDENT INVOLVING CARS 41 (LIN) AND 55 (SAI) REVIEWED NO FURTHER INVESTIGATION (15:03:49)"
+  },
+  {
+   "lap": 15,
+   "driverCode": "HAM",
+   "flag": null,
+   "message": "CAR 44 (HAM) LAP DELETED - TRACK LIMITS AT TURN 9 LAP 14 15:26:32 (PIT)"
+  },
+  {
+   "lap": 17,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "FIA STEWARDS: TURN 13 INCIDENT INVOLVING CARS 87 (BEA) AND 10 (GAS) UNDER INVESTIGATION - CAUSING A COLLISION (15:06:57)"
+  },
+  {
+   "lap": 18,
+   "driverCode": "HUL",
+   "flag": null,
+   "message": "CAR 27 (HUL) TIME 1:43.727 DELETED - TRACK LIMITS AT TURN 19 LAP 16 15:31:28"
+  },
+  {
+   "lap": 19,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "FIA STEWARDS: 10 SECOND TIME PENALTY FOR CAR 87 (BEA) - CAUSING A COLLISION (15:06:57)"
+  },
+  {
+   "lap": 20,
+   "driverCode": "ALB",
+   "flag": null,
+   "message": "CAR 23 (ALB) TIME 1:42.242 DELETED - TRACK LIMITS AT TURN 12 LAP 18 15:34:57"
+  },
+  {
+   "lap": 24,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "FIA STEWARDS: PENALTY SERVED - 5 SECOND TIME PENALTY FOR CAR 63 (RUS) - LEAVING THE TRACK AND GAINING AN ADVANTAGE (15:04:59)"
+  },
+  {
+   "lap": 25,
+   "driverCode": "BEA",
+   "flag": null,
+   "message": "FIA STEWARDS: PENALTY SERVED - 10 SECOND TIME PENALTY FOR CAR 87 (BEA) - CAUSING A COLLISION (15:06:57)"
+  },
+  {
+   "lap": 25,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 3"
+  },
+  {
+   "lap": 25,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 2"
+  },
+  {
+   "lap": 27,
+   "driverCode": "COL",
+   "flag": null,
+   "message": "TURN 1 INCIDENT INVOLVING CARS 43 (COL) AND 41 (LIN) NOTED (15:45:42)"
+  },
+  {
+   "lap": 29,
+   "driverCode": "PIA",
+   "flag": null,
+   "message": "CAR 81 (PIA) TIME 1:42.880 DELETED - TRACK LIMITS AT TURN 2 LAP 26 15:47:01"
+  },
+  {
+   "lap": 29,
+   "driverCode": "LEC",
+   "flag": null,
+   "message": "CAR 16 (LEC) TIME 1:41.346 DELETED - TRACK LIMITS AT TURN 12 LAP 26 15:47:25"
+  },
+  {
+   "lap": 29,
+   "driverCode": "COL",
+   "flag": null,
+   "message": "CAR 43 (COL) TIME 1:44.549 DELETED - TRACK LIMITS AT TURN 12 LAP 27 15:50:16"
+  },
+  {
+   "lap": 30,
+   "driverCode": "COL",
+   "flag": null,
+   "message": "FIA STEWARDS: TURN 1 INCIDENT INVOLVING CARS 43 (COL) AND 41 (LIN) REVIEWED NO FURTHER INVESTIGATION (15:45:42)"
+  },
+  {
+   "lap": 30,
+   "driverCode": "HAD",
+   "flag": null,
+   "message": "CAR 6 (HAD) TIME 1:41.374 DELETED - TRACK LIMITS AT TURN 12 LAP 28 15:51:11"
+  },
+  {
+   "lap": 32,
+   "driverCode": "COL",
+   "flag": null,
+   "message": "CAR 43 (COL) LAP DELETED - TRACK LIMITS AT TURN 11 LAP 30 15:55:10 (PIT)"
+  },
+  {
+   "lap": 35,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 12"
+  },
+  {
+   "lap": 35,
+   "driverCode": null,
+   "flag": null,
+   "message": "TRACK SURFACE SLIPPERY IN TRACK SECTOR 11"
+  },
+  {
+   "lap": 36,
+   "driverCode": "ANT",
+   "flag": null,
+   "message": "CAR 12 (ANT) TIME 1:40.062 DELETED - TRACK LIMITS AT TURN 12 LAP 35 16:02:27"
+  },
+  {
+   "lap": 38,
+   "driverCode": "HUL",
+   "flag": null,
+   "message": "CAR 27 (HUL) TIME 1:41.669 DELETED - TRACK LIMITS AT TURN 9 LAP 33 15:59:50"
+  },
+  {
+   "lap": 49,
+   "driverCode": "SAI",
+   "flag": null,
+   "message": "CAR 55 (SAI) TIME 1:41.423 DELETED - TRACK LIMITS AT TURN 12 LAP 47 16:24:55"
+  },
+  {
+   "lap": 51,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 6"
+  },
+  {
+   "lap": 51,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 5"
+  },
+  {
+   "lap": 51,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "CAR 63 (RUS) TIME 1:40.967 DELETED - TRACK LIMITS AT TURN 12 LAP 49 16:26:31"
+  },
+  {
+   "lap": 51,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 51,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 8"
+  },
+  {
+   "lap": 51,
+   "driverCode": null,
+   "flag": null,
+   "message": "VSC DEPLOYED"
+  },
+  {
+   "lap": 52,
+   "driverCode": null,
+   "flag": "DOUBLE YELLOW",
+   "message": "DOUBLE YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 52,
+   "driverCode": "SAI",
+   "flag": null,
+   "message": "CAR 55 (SAI) TIME 1:41.983 DELETED - TRACK LIMITS AT TURN 12 LAP 48 16:26:36"
+  },
+  {
+   "lap": 52,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "CAR 63 (RUS) TIME 1:40.614 DELETED - TRACK LIMITS AT TURN 12 LAP 50 16:28:12"
+  },
+  {
+   "lap": 52,
+   "driverCode": "ALB",
+   "flag": null,
+   "message": "CAR 23 (ALB) TIME 1:43.985 DELETED - TRACK LIMITS AT TURN 20 LAP 49 16:28:52"
+  },
+  {
+   "lap": 53,
+   "driverCode": null,
+   "flag": null,
+   "message": "VSC ENDING"
+  },
+  {
+   "lap": 53,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 9"
+  },
+  {
+   "lap": 53,
+   "driverCode": null,
+   "flag": "YELLOW",
+   "message": "YELLOW IN TRACK SECTOR 8"
+  },
+  {
+   "lap": 54,
+   "driverCode": "STR",
+   "flag": null,
+   "message": "CAR 18 (STR) TIME 1:41.101 DELETED - TRACK LIMITS AT TURN 9 LAP 49 16:27:39"
+  },
+  {
+   "lap": 55,
+   "driverCode": "ALO",
+   "flag": null,
+   "message": "CAR 14 (ALO) TIME 1:41.669 DELETED - TRACK LIMITS AT TURN 15 LAP 47 16:25:07"
+  },
+  {
+   "lap": 55,
+   "driverCode": "HAD",
+   "flag": null,
+   "message": "CAR 6 (HAD) TIME 1:40.824 DELETED - TRACK LIMITS AT TURN 12 LAP 54 16:35:45"
+  },
+  {
+   "lap": 55,
+   "driverCode": "PIA",
+   "flag": null,
+   "message": "CAR 81 (PIA) TIME 1:41.297 DELETED - TRACK LIMITS AT TURN 12 LAP 54 16:36:01"
+  },
+  {
+   "lap": 56,
+   "driverCode": null,
+   "flag": null,
+   "message": "SESSION FINISHED"
+  },
+  {
+   "lap": 56,
+   "driverCode": null,
+   "flag": "CHEQUERED",
+   "message": "CHEQUERED FLAG"
+  },
+  {
+   "lap": 56,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "CAR 63 (RUS) TIME 1:41.072 DELETED - TRACK LIMITS AT TURN 12 LAP 54 16:36:02"
+  },
+  {
+   "lap": 56,
+   "driverCode": "RUS",
+   "flag": null,
+   "message": "CAR 63 (RUS) TIME 1:41.167 DELETED - TRACK LIMITS AT TURN 12 LAP 55 16:37:43"
+  },
+  {
+   "lap": 56,
+   "driverCode": "RUS",
+   "flag": "BLACK AND WHITE",
+   "message": "BLACK AND WHITE FLAG FOR CAR 63 (RUS) - TRACK LIMITS"
+  },
+  {
+   "lap": 56,
+   "driverCode": "ALO",
+   "flag": null,
+   "message": "CAR 14 (ALO) TIME 1:40.943 DELETED - TRACK LIMITS AT TURN 11 LAP 54 16:37:26"
+  }
+ ],
+ "pit": [
+  {
+   "driverCode": "VER",
+   "lap": 13,
+   "pitLaneSeconds": 23.9,
+   "lossSeconds": 15.6,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "BEA",
+   "lap": 13,
+   "pitLaneSeconds": 24.2,
+   "lossSeconds": 22.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "HAM",
+   "lap": 14,
+   "pitLaneSeconds": 24.1,
+   "lossSeconds": 16.5,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "LEC",
+   "lap": 15,
+   "pitLaneSeconds": 24,
+   "lossSeconds": 16.3,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "PIA",
+   "lap": 15,
+   "pitLaneSeconds": 23.4,
+   "lossSeconds": 18.6,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "STR",
+   "lap": 15,
+   "pitLaneSeconds": 24.3,
+   "lossSeconds": 20.7,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "NOR",
+   "lap": 16,
+   "pitLaneSeconds": 25.7,
+   "lossSeconds": 19.3,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "ALB",
+   "lap": 16,
+   "pitLaneSeconds": 24.4,
+   "lossSeconds": 21.1,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "SAI",
+   "lap": 17,
+   "pitLaneSeconds": 33.6,
+   "lossSeconds": 31.5,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "LIN",
+   "lap": 18,
+   "pitLaneSeconds": 23.7,
+   "lossSeconds": 20.7,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "OCO",
+   "lap": 21,
+   "pitLaneSeconds": 24.9,
+   "lossSeconds": 23.1,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "RUS",
+   "lap": 22,
+   "pitLaneSeconds": 29.7,
+   "lossSeconds": 24.6,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "BEA",
+   "lap": 22,
+   "pitLaneSeconds": 34.7,
+   "lossSeconds": 37.1,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "PER",
+   "lap": 23,
+   "pitLaneSeconds": 25.1,
+   "lossSeconds": 24.2,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "ANT",
+   "lap": 24,
+   "pitLaneSeconds": 23.5,
+   "lossSeconds": 17.5,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "GAS",
+   "lap": 24,
+   "pitLaneSeconds": 26.9,
+   "lossSeconds": 24.3,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "HAD",
+   "lap": 25,
+   "pitLaneSeconds": 24,
+   "lossSeconds": 22.2,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "LAW",
+   "lap": 25,
+   "pitLaneSeconds": 24.2,
+   "lossSeconds": 20.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "BOR",
+   "lap": 26,
+   "pitLaneSeconds": 24,
+   "lossSeconds": 22.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "ALO",
+   "lap": 28,
+   "pitLaneSeconds": 24.2,
+   "lossSeconds": 22.6,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "HUL",
+   "lap": 29,
+   "pitLaneSeconds": 23.9,
+   "lossSeconds": 22.3,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "BOT",
+   "lap": 29,
+   "pitLaneSeconds": 24.2,
+   "lossSeconds": 26.7,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "COL",
+   "lap": 30,
+   "pitLaneSeconds": 25.3,
+   "lossSeconds": 28.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "VER",
+   "lap": 31,
+   "pitLaneSeconds": 25.3,
+   "lossSeconds": 19.2,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "ALB",
+   "lap": 31,
+   "pitLaneSeconds": 23.6,
+   "lossSeconds": 23.7,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "HAM",
+   "lap": 38,
+   "pitLaneSeconds": 23.9,
+   "lossSeconds": 19.3,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "LEC",
+   "lap": 39,
+   "pitLaneSeconds": 24.2,
+   "lossSeconds": 18.2,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "SAI",
+   "lap": 38,
+   "pitLaneSeconds": 24.3,
+   "lossSeconds": 25.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "LIN",
+   "lap": 40,
+   "pitLaneSeconds": 24.5,
+   "lossSeconds": 22.2,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "STR",
+   "lap": 41,
+   "pitLaneSeconds": 23.8,
+   "lossSeconds": 22.7,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "ALO",
+   "lap": 42,
+   "pitLaneSeconds": 40.4,
+   "lossSeconds": 51.4,
+   "underNeutralisation": false
+  },
+  {
+   "driverCode": "BOR",
+   "lap": 50,
+   "pitLaneSeconds": 23.9,
+   "lossSeconds": 23.7,
+   "underNeutralisation": true
+  }
+ ],
+ "stints": [
+  {
+   "driverCode": "STR",
+   "compound": "medium",
+   "fromLap": 1,
+   "toLap": 1
+  },
+  {
+   "driverCode": "VER",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 13
+  },
+  {
+   "driverCode": "BEA",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 13
+  },
+  {
+   "driverCode": "HAM",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 14
+  },
+  {
+   "driverCode": "LEC",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 15
+  },
+  {
+   "driverCode": "PIA",
+   "compound": "medium",
+   "fromLap": 1,
+   "toLap": 15
+  },
+  {
+   "driverCode": "NOR",
+   "compound": "medium",
+   "fromLap": 1,
+   "toLap": 16
+  },
+  {
+   "driverCode": "ALB",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 16
+  },
+  {
+   "driverCode": "SAI",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 17
+  },
+  {
+   "driverCode": "LIN",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 18
+  },
+  {
+   "driverCode": "OCO",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 21
+  },
+  {
+   "driverCode": "RUS",
+   "compound": "medium",
+   "fromLap": 1,
+   "toLap": 22
+  },
+  {
+   "driverCode": "BEA",
+   "compound": "hard",
+   "fromLap": 14,
+   "toLap": 22
+  },
+  {
+   "driverCode": "PER",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 23
+  },
+  {
+   "driverCode": "ANT",
+   "compound": "medium",
+   "fromLap": 1,
+   "toLap": 24
+  },
+  {
+   "driverCode": "GAS",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 24
+  },
+  {
+   "driverCode": "HAD",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 25
+  },
+  {
+   "driverCode": "BEA",
+   "compound": "medium",
+   "fromLap": 23,
+   "toLap": 24
+  },
+  {
+   "driverCode": "LAW",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 25
+  },
+  {
+   "driverCode": "BOR",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 26
+  },
+  {
+   "driverCode": "ALO",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 28
+  },
+  {
+   "driverCode": "HUL",
+   "compound": "soft",
+   "fromLap": 1,
+   "toLap": 29
+  },
+  {
+   "driverCode": "BOT",
+   "compound": "hard",
+   "fromLap": 1,
+   "toLap": 29
+  },
+  {
+   "driverCode": "COL",
+   "compound": "hard",
+   "fromLap": 1,
+   "toLap": 30
+  },
+  {
+   "driverCode": "VER",
+   "compound": "soft",
+   "fromLap": 14,
+   "toLap": 31
+  },
+  {
+   "driverCode": "ALB",
+   "compound": "soft",
+   "fromLap": 17,
+   "toLap": 31
+  },
+  {
+   "driverCode": "COL",
+   "compound": "soft",
+   "fromLap": 31,
+   "toLap": 35
+  },
+  {
+   "driverCode": "HAM",
+   "compound": "medium",
+   "fromLap": 15,
+   "toLap": 38
+  },
+  {
+   "driverCode": "LEC",
+   "compound": "medium",
+   "fromLap": 16,
+   "toLap": 39
+  },
+  {
+   "driverCode": "SAI",
+   "compound": "hard",
+   "fromLap": 18,
+   "toLap": 38
+  },
+  {
+   "driverCode": "LIN",
+   "compound": "medium",
+   "fromLap": 19,
+   "toLap": 40
+  },
+  {
+   "driverCode": "STR",
+   "compound": "soft",
+   "fromLap": 2,
+   "toLap": 41
+  },
+  {
+   "driverCode": "ALO",
+   "compound": "medium",
+   "fromLap": 29,
+   "toLap": 42
+  },
+  {
+   "driverCode": "BOT",
+   "compound": "soft",
+   "fromLap": 30,
+   "toLap": 48
+  },
+  {
+   "driverCode": "BOR",
+   "compound": "hard",
+   "fromLap": 27,
+   "toLap": 50
+  },
+  {
+   "driverCode": "ANT",
+   "compound": "hard",
+   "fromLap": 25,
+   "toLap": 56
+  },
+  {
+   "driverCode": "LIN",
+   "compound": "soft",
+   "fromLap": 41,
+   "toLap": 55
+  },
+  {
+   "driverCode": "LEC",
+   "compound": "hard",
+   "fromLap": 40,
+   "toLap": 56
+  },
+  {
+   "driverCode": "BOR",
+   "compound": "soft",
+   "fromLap": 51,
+   "toLap": 55
+  },
+  {
+   "driverCode": "VER",
+   "compound": "medium",
+   "fromLap": 32,
+   "toLap": 56
+  },
+  {
+   "driverCode": "HAM",
+   "compound": "hard",
+   "fromLap": 39,
+   "toLap": 56
+  },
+  {
+   "driverCode": "OCO",
+   "compound": "hard",
+   "fromLap": 22,
+   "toLap": 55
+  },
+  {
+   "driverCode": "NOR",
+   "compound": "hard",
+   "fromLap": 17,
+   "toLap": 56
+  },
+  {
+   "driverCode": "HAD",
+   "compound": "hard",
+   "fromLap": 26,
+   "toLap": 56
+  },
+  {
+   "driverCode": "STR",
+   "compound": "soft",
+   "fromLap": 42,
+   "toLap": 55
+  },
+  {
+   "driverCode": "PIA",
+   "compound": "hard",
+   "fromLap": 16,
+   "toLap": 56
+  },
+  {
+   "driverCode": "RUS",
+   "compound": "hard",
+   "fromLap": 23,
+   "toLap": 56
+  },
+  {
+   "driverCode": "ALO",
+   "compound": "soft",
+   "fromLap": 43,
+   "toLap": 55
+  },
+  {
+   "driverCode": "ALB",
+   "compound": "hard",
+   "fromLap": 32,
+   "toLap": 55
+  },
+  {
+   "driverCode": "SAI",
+   "compound": "soft",
+   "fromLap": 39,
+   "toLap": 55
+  },
+  {
+   "driverCode": "LAW",
+   "compound": "hard",
+   "fromLap": 26,
+   "toLap": 56
+  },
+  {
+   "driverCode": "PER",
+   "compound": "hard",
+   "fromLap": 24,
+   "toLap": 55
+  },
+  {
+   "driverCode": "GAS",
+   "compound": "hard",
+   "fromLap": 25,
+   "toLap": 56
+  },
+  {
+   "driverCode": "HUL",
+   "compound": "hard",
+   "fromLap": 30,
+   "toLap": 56
+  }
+ ],
+ "results": [
+  {
+   "position": 1,
+   "positionText": "1",
+   "driverCode": "ANT",
+   "driverName": "Andrea Kimi Antonelli",
+   "constructorId": "mercedes",
+   "grid": 1,
+   "status": "Finished",
+   "points": 25
+  },
+  {
+   "position": 2,
+   "positionText": "2",
+   "driverCode": "LEC",
+   "driverName": "Charles Leclerc",
+   "constructorId": "ferrari",
+   "grid": 4,
+   "status": "Finished",
+   "points": 18
+  },
+  {
+   "position": 3,
+   "positionText": "3",
+   "driverCode": "VER",
+   "driverName": "Max Verstappen",
+   "constructorId": "red_bull",
+   "grid": 2,
+   "status": "Finished",
+   "points": 15
+  },
+  {
+   "position": 4,
+   "positionText": "4",
+   "driverCode": "HAM",
+   "driverName": "Lewis Hamilton",
+   "constructorId": "ferrari",
+   "grid": 5,
+   "status": "Finished",
+   "points": 12
+  },
+  {
+   "position": 5,
+   "positionText": "5",
+   "driverCode": "NOR",
+   "driverName": "Lando Norris",
+   "constructorId": "mclaren",
+   "grid": 8,
+   "status": "Finished",
+   "points": 10
+  },
+  {
+   "position": 6,
+   "positionText": "6",
+   "driverCode": "HAD",
+   "driverName": "Isack Hadjar",
+   "constructorId": "red_bull",
+   "grid": 3,
+   "status": "Finished",
+   "points": 8
+  },
+  {
+   "position": 7,
+   "positionText": "7",
+   "driverCode": "PIA",
+   "driverName": "Oscar Piastri",
+   "constructorId": "mclaren",
+   "grid": 7,
+   "status": "Finished",
+   "points": 6
+  },
+  {
+   "position": 8,
+   "positionText": "8",
+   "driverCode": "RUS",
+   "driverName": "George Russell",
+   "constructorId": "mercedes",
+   "grid": 6,
+   "status": "Finished",
+   "points": 4
+  },
+  {
+   "position": 9,
+   "positionText": "9",
+   "driverCode": "LAW",
+   "driverName": "Liam Lawson",
+   "constructorId": "rb",
+   "grid": 9,
+   "status": "Finished",
+   "points": 2
+  },
+  {
+   "position": 10,
+   "positionText": "10",
+   "driverCode": "GAS",
+   "driverName": "Pierre Gasly",
+   "constructorId": "alpine",
+   "grid": 10,
+   "status": "Finished",
+   "points": 1
+  },
+  {
+   "position": 11,
+   "positionText": "11",
+   "driverCode": "HUL",
+   "driverName": "Nico Hülkenberg",
+   "constructorId": "audi",
+   "grid": 11,
+   "status": "Finished",
+   "points": 0
+  },
+  {
+   "position": 12,
+   "positionText": "12",
+   "driverCode": "LIN",
+   "driverName": "Arvid Lindblad",
+   "constructorId": "rb",
+   "grid": 14,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 13,
+   "positionText": "13",
+   "driverCode": "BOR",
+   "driverName": "Gabriel Bortoleto",
+   "constructorId": "audi",
+   "grid": 21,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 14,
+   "positionText": "14",
+   "driverCode": "OCO",
+   "driverName": "Esteban Ocon",
+   "constructorId": "haas",
+   "grid": 15,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 15,
+   "positionText": "15",
+   "driverCode": "STR",
+   "driverName": "Lance Stroll",
+   "constructorId": "aston_martin",
+   "grid": 22,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 16,
+   "positionText": "16",
+   "driverCode": "ALO",
+   "driverName": "Fernando Alonso",
+   "constructorId": "aston_martin",
+   "grid": 12,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 17,
+   "positionText": "17",
+   "driverCode": "ALB",
+   "driverName": "Alexander Albon",
+   "constructorId": "williams",
+   "grid": 17,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 18,
+   "positionText": "18",
+   "driverCode": "SAI",
+   "driverName": "Carlos Sainz",
+   "constructorId": "williams",
+   "grid": 16,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 19,
+   "positionText": "19",
+   "driverCode": "PER",
+   "driverName": "Sergio Pérez",
+   "constructorId": "cadillac",
+   "grid": 18,
+   "status": "Lapped",
+   "points": 0
+  },
+  {
+   "position": 20,
+   "positionText": "R",
+   "driverCode": "BOT",
+   "driverName": "Valtteri Bottas",
+   "constructorId": "cadillac",
+   "grid": 19,
+   "status": "Retired",
+   "points": 0
+  },
+  {
+   "position": 21,
+   "positionText": "R",
+   "driverCode": "COL",
+   "driverName": "Franco Colapinto",
+   "constructorId": "alpine",
+   "grid": 20,
+   "status": "Retired",
+   "points": 0
+  },
+  {
+   "position": 22,
+   "positionText": "R",
+   "driverCode": "BEA",
+   "driverName": "Oliver Bearman",
+   "constructorId": "haas",
+   "grid": 13,
+   "status": "Retired",
+   "points": 0
+  }
+ ],
+ "greenPitLoss": 22.3,
+ "constructorOrder": [
+  "mercedes",
+  "ferrari",
+  "red_bull",
+  "mclaren",
+  "rb",
+  "alpine",
+  "haas",
+  "audi",
+  "williams",
+  "aston_martin",
+  "cadillac"
+ ]
+}

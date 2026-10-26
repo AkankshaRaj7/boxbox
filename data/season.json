@@ -170,6 +170,16 @@
     "code": "VER",
     "constructorId": "red_bull"
    }
+  },
+  {
+   "round": 18,
+   "event": "United States Grand Prix",
+   "circuitId": "americas",
+   "date": "2026-10-25",
+   "winner": {
+    "code": "ANT",
+    "constructorId": "mercedes"
+   }
   }
  ],
  "drivers": [
@@ -1753,6 +1763,99 @@
      "points": 0
     }
    ]
+  },
+  {
+   "round": 18,
+   "entries": [
+    {
+     "key": "ANT",
+     "points": 25
+    },
+    {
+     "key": "LEC",
+     "points": 18
+    },
+    {
+     "key": "VER",
+     "points": 15
+    },
+    {
+     "key": "HAM",
+     "points": 12
+    },
+    {
+     "key": "NOR",
+     "points": 10
+    },
+    {
+     "key": "HAD",
+     "points": 8
+    },
+    {
+     "key": "PIA",
+     "points": 6
+    },
+    {
+     "key": "RUS",
+     "points": 4
+    },
+    {
+     "key": "LAW",
+     "points": 2
+    },
+    {
+     "key": "GAS",
+     "points": 1
+    },
+    {
+     "key": "HUL",
+     "points": 0
+    },
+    {
+     "key": "LIN",
+     "points": 0
+    },
+    {
+     "key": "BOR",
+     "points": 0
+    },
+    {
+     "key": "OCO",
+     "points": 0
+    },
+    {
+     "key": "STR",
+     "points": 0
+    },
+    {
+     "key": "ALO",
+     "points": 0
+    },
+    {
+     "key": "ALB",
+     "points": 0
+    },
+    {
+     "key": "SAI",
+     "points": 0
+    },
+    {
+     "key": "PER",
+     "points": 0
+    },
+    {
+     "key": "BOT",
+     "points": 0
+    },
+    {
+     "key": "COL",
+     "points": 0
+    },
+    {
+     "key": "BEA",
+     "points": 0
+    }
+   ]
   }
  ],
  "teams": [
@@ -3333,6 +3436,99 @@
     },
     {
      "key": "audi",
+     "points": 0
+    }
+   ]
+  },
+  {
+   "round": 18,
+   "entries": [
+    {
+     "key": "mercedes",
+     "points": 25
+    },
+    {
+     "key": "ferrari",
+     "points": 18
+    },
+    {
+     "key": "red_bull",
+     "points": 15
+    },
+    {
+     "key": "ferrari",
+     "points": 12
+    },
+    {
+     "key": "mclaren",
+     "points": 10
+    },
+    {
+     "key": "red_bull",
+     "points": 8
+    },
+    {
+     "key": "mclaren",
+     "points": 6
+    },
+    {
+     "key": "mercedes",
+     "points": 4
+    },
+    {
+     "key": "rb",
+     "points": 2
+    },
+    {
+     "key": "alpine",
+     "points": 1
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "rb",
+     "points": 0
+    },
+    {
+     "key": "audi",
+     "points": 0
+    },
+    {
+     "key": "haas",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "aston_martin",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "williams",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "cadillac",
+     "points": 0
+    },
+    {
+     "key": "alpine",
+     "points": 0
+    },
+    {
+     "key": "haas",
      "points": 0
     }
    ]
