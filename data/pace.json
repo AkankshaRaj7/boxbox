@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-10-26T12:01:29.059Z",
+ "generatedAt": "2026-11-02T14:25:52.294Z",
  "races": [
   {
    "round": 1,
@@ -341,30 +341,48 @@
     "aston_martin": 102.39,
     "cadillac": 103.93
    }
+  },
+  {
+   "round": 19,
+   "event": "Mexico City Grand Prix",
+   "circuitId": "rodriguez",
+   "date": "2026-11-01",
+   "teams": {
+    "ferrari": 80.929,
+    "red_bull": 80.893,
+    "mercedes": 81.271,
+    "rb": 82.023,
+    "alpine": 82.189,
+    "mclaren": 81.44,
+    "audi": 82.519,
+    "haas": 82.636,
+    "cadillac": 82.969,
+    "williams": 82.675
+   }
   }
  ],
  "fastestLap": {
-  "round": 18,
-  "event": "United States Grand Prix",
-  "driverCode": "LEC",
+  "round": 19,
+  "event": "Mexico City Grand Prix",
+  "driverCode": "HAM",
   "constructorId": "ferrari",
-  "lapNumber": 42,
-  "seconds": 97.976,
+  "lapNumber": 50,
+  "seconds": 79.268,
   "sectors": [
    {
-    "seconds": 26.289,
+    "seconds": 27.364,
     "kind": "slower"
    },
    {
-    "seconds": 38.906,
-    "kind": "fastest"
+    "seconds": 31.612,
+    "kind": "pb"
    },
    {
-    "seconds": 32.781,
-    "kind": "fastest"
+    "seconds": 20.292,
+    "kind": "slower"
    }
   ],
-  "compound": "hard",
-  "tyreAgeLaps": 2
+  "compound": "soft",
+  "tyreAgeLaps": 7
  }
 }
