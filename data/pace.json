@@ -1,6 +1,6 @@
 {
  "season": "2026",
- "generatedAt": "2026-11-02T14:25:52.294Z",
+ "generatedAt": "2026-11-09T14:52:22.553Z",
  "races": [
   {
    "round": 1,
@@ -359,30 +359,49 @@
     "cadillac": 82.969,
     "williams": 82.675
    }
+  },
+  {
+   "round": 20,
+   "event": "Brazilian Grand Prix",
+   "circuitId": "interlagos",
+   "date": "2026-11-08",
+   "teams": {
+    "mercedes": 74.996,
+    "rb": 75.88,
+    "mclaren": 75.019,
+    "red_bull": 75.161,
+    "audi": 75.923,
+    "williams": 76.767,
+    "ferrari": 75.122,
+    "haas": 77.002,
+    "aston_martin": 76.463,
+    "alpine": 76.46,
+    "cadillac": 77.995
+   }
   }
  ],
  "fastestLap": {
-  "round": 19,
-  "event": "Mexico City Grand Prix",
-  "driverCode": "HAM",
-  "constructorId": "ferrari",
-  "lapNumber": 50,
-  "seconds": 79.268,
+  "round": 20,
+  "event": "Brazilian Grand Prix",
+  "driverCode": "ANT",
+  "constructorId": "mercedes",
+  "lapNumber": 55,
+  "seconds": 72.689,
   "sectors": [
    {
-    "seconds": 27.364,
+    "seconds": 19.004,
     "kind": "slower"
    },
    {
-    "seconds": 31.612,
+    "seconds": 37.342,
+    "kind": "fastest"
+   },
+   {
+    "seconds": 16.343,
     "kind": "pb"
-   },
-   {
-    "seconds": 20.292,
-    "kind": "slower"
    }
   ],
   "compound": "soft",
-  "tyreAgeLaps": 7
+  "tyreAgeLaps": 1
  }
 }
